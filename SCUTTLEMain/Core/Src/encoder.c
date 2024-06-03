@@ -25,29 +25,26 @@ void read_encoder(encoder_t *encoder_value, TIM_HandleTypeDef *htim) {
 	}
 	else
 	{
-	  if(temp_counter == encoder_value ->last_counter_value)
+	  if(temp_counter == encoder_value ->last_counter_value) //if counter is unchanged, set velocity to 0
 	  {
 	    encoder_value ->velocity = 0;
 	  }
-	  else if(temp_counter > encoder_value ->last_counter_value)
+	  else if(temp_counter > encoder_value ->last_counter_value) //if counter is larger than last
 	  {
-	    if (__HAL_TIM_IS_TIM_COUNTING_DOWN(htim))
+	    if (__HAL_TIM_IS_TIM_COUNTING_DOWN(htim)) //account for scenario in which count is decreasing
 	    {
-	      encoder_value ->velocity = -encoder_value ->last_counter_value -
-		(__HAL_TIM_GET_AUTORELOAD(htim)-temp_counter);
+	      encoder_value ->velocity =  -(__HAL_TIM_GET_AUTORELOAD(htim)-temp_counter) - (encoder_value ->last_counter_value); //uses actual difference based on AR value
 	    }
-	    else
+	    else //if counting up
 	    {
-	      encoder_value ->velocity = temp_counter -
-	           encoder_value ->last_counter_value;
+	      encoder_value ->velocity = temp_counter - encoder_value ->last_counter_value; //gives
 	    }
 	  }
 	  else
 	  {
 	    if (__HAL_TIM_IS_TIM_COUNTING_DOWN(htim))
 	    {
-		encoder_value ->velocity = temp_counter -
-	            encoder_value ->last_counter_value;
+		encoder_value ->velocity = temp_counter - encoder_value ->last_counter_value;
 	    }
 	    else
 	    {
