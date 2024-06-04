@@ -21,7 +21,7 @@ typedef struct{
 }encoder_t; //encoder instance
 
 // Function prototypes for encoder
-void read_encoder(encoder_instance *encoder_value, TIM_HandleTypeDef *htim);
+void read_encoder(encoder_t *encoder_value, TIM_HandleTypeDef *htim);
 
 
 #endif /* INC_ENCODER_H_ */
