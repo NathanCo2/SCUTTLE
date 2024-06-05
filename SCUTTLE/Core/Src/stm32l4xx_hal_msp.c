@@ -568,9 +568,8 @@ void HAL_TIM_IC_MspInit(TIM_HandleTypeDef* htim_ic)
     __HAL_RCC_GPIOB_CLK_ENABLE();
     /**TIM15 GPIO Configuration
     PB14     ------> TIM15_CH1
-    PB15     ------> TIM15_CH2
     */
-    GPIO_InitStruct.Pin = GPIO_PIN_14|GPIO_PIN_15;
+    GPIO_InitStruct.Pin = GPIO_PIN_14;
     GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
@@ -783,9 +782,8 @@ void HAL_TIM_IC_MspDeInit(TIM_HandleTypeDef* htim_ic)
 
     /**TIM15 GPIO Configuration
     PB14     ------> TIM15_CH1
-    PB15     ------> TIM15_CH2
     */
-    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_14|GPIO_PIN_15);
+    HAL_GPIO_DeInit(GPIOB, GPIO_PIN_14);
 
     /* TIM15 interrupt DeInit */
   /* USER CODE BEGIN TIM15:TIM1_BRK_TIM15_IRQn disable */

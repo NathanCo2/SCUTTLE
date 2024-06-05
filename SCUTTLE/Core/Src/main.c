@@ -7,6 +7,7 @@
 /* USER CODE BEGIN Includes */
 #include "task1.h"
 #include "task2.h"
+#include "motor.h"
 
 /* USER CODE END Includes */
 
@@ -141,9 +142,20 @@ int main(void)
    uint8_t BatKill = 0; //If Kill is 1 then turn everything off
    uint8_t RadKill = 0; //Radio Kill switch
 
+   // Start Timer 1 channels 3 and 4
+   int32_t duty = -50;
+   HAL_GPIO_WritePin(GPIOB, GPIO_PIN_2, GPIO_PIN_SET);
+   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
+   HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
 
+   // Setup motor2 with TIM1 Channel 3 and 4
+   volatile uint32_t *pCCR3 = &(htim1.Instance->CCR3);
+   volatile uint32_t *pCCR4 = &(htim1.Instance->CCR4);
+   uint32_t Tim2Period = (htim1.Instance->ARR);
+   motor_t motor2 = {pCCR3, pCCR4, Tim2Period, duty};
 
-
+   HAL_Delay(1000);
+   set_duty(&motor2, duty);
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -955,11 +967,6 @@ static void MX_TIM15_Init(void)
   sConfigIC.ICPrescaler = TIM_ICPSC_DIV1;
   sConfigIC.ICFilter = 0;
   if (HAL_TIM_IC_ConfigChannel(&htim15, &sConfigIC, TIM_CHANNEL_1) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sConfigIC.ICPolarity = TIM_INPUTCHANNELPOLARITY_RISING;
-  if (HAL_TIM_IC_ConfigChannel(&htim15, &sConfigIC, TIM_CHANNEL_2) != HAL_OK)
   {
     Error_Handler();
   }
