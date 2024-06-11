@@ -1596,7 +1596,7 @@ Discarded input sections
  .bss.Delay_MD  0x00000000        0x2 ./Core/Src/task4.o
  .bss.i         0x00000000        0x4 ./Core/Src/task4.o
  .text.task4_run
-                0x00000000      0x2b8 ./Core/Src/task4.o
+                0x00000000      0x2bc ./Core/Src/task4.o
  .debug_info    0x00000000      0xd27 ./Core/Src/task4.o
  .debug_abbrev  0x00000000      0x1e9 ./Core/Src/task4.o
  .debug_aranges
@@ -1670,7 +1670,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x35 ./Core/Src/task4.o
  .debug_macro   0x00000000       0x16 ./Core/Src/task4.o
  .debug_macro   0x00000000       0x29 ./Core/Src/task4.o
- .debug_line    0x00000000      0xa7e ./Core/Src/task4.o
+ .debug_line    0x00000000      0xa81 ./Core/Src/task4.o
  .debug_str     0x00000000    0xf2e28 ./Core/Src/task4.o
  .comment       0x00000000       0x44 ./Core/Src/task4.o
  .debug_frame   0x00000000       0x38 ./Core/Src/task4.o

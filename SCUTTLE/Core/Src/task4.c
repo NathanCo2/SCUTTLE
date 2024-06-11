@@ -115,6 +115,7 @@ void task4_run(uint8_t* State, uint8_t* MDON, uint32_t* sumval,TIM_HandleTypeDef
 						HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);
 					}
 				}
+				*State = 1; //Always return to State 1
 
 			}
 
