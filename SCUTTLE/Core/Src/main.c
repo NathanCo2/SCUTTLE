@@ -44,11 +44,8 @@ TIM_HandleTypeDef htim2;
 TIM_HandleTypeDef htim3;
 TIM_HandleTypeDef htim4;
 TIM_HandleTypeDef htim5;
-TIM_HandleTypeDef htim6;
-TIM_HandleTypeDef htim7;
 TIM_HandleTypeDef htim8;
 TIM_HandleTypeDef htim15;
-TIM_HandleTypeDef htim17;
 
 UART_HandleTypeDef huart3;
 
@@ -72,9 +69,6 @@ static void MX_TIM5_Init(void);
 static void MX_I2C2_Init(void);
 static void MX_TIM8_Init(void);
 static void MX_TIM15_Init(void);
-static void MX_TIM17_Init(void);
-static void MX_TIM7_Init(void);
-static void MX_TIM6_Init(void);
 /* USER CODE BEGIN PFP */
 /* USER CODE END PFP */
 
@@ -170,16 +164,12 @@ int main(void)
   MX_I2C2_Init();
   MX_TIM8_Init();
   MX_TIM15_Init();
-  MX_TIM17_Init();
-  MX_TIM7_Init();
-  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
 
   //Put timers in correct mode
   ;
-//  HAL_TIM_Base_Start_IT(&htim6);
-  HAL_TIM_Base_Start_IT(&htim7);
-  HAL_TIM_Base_Start_IT(&htim17);
+
+
   HAL_TIM_IC_Start_IT(&htim15, TIM_CHANNEL_1);
   //Set ADC in correct mode
   HAL_ADC_Start(&hadc1);
@@ -998,82 +988,6 @@ static void MX_TIM5_Init(void)
 }
 
 /**
-  * @brief TIM6 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM6_Init(void)
-{
-
-  /* USER CODE BEGIN TIM6_Init 0 */
-
-  /* USER CODE END TIM6_Init 0 */
-
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-
-  /* USER CODE BEGIN TIM6_Init 1 */
-
-  /* USER CODE END TIM6_Init 1 */
-  htim6.Instance = TIM6;
-  htim6.Init.Prescaler = 0;
-  htim6.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim6.Init.Period = 79;
-  htim6.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim6) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim6, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM6_Init 2 */
-
-  /* USER CODE END TIM6_Init 2 */
-
-}
-
-/**
-  * @brief TIM7 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM7_Init(void)
-{
-
-  /* USER CODE BEGIN TIM7_Init 0 */
-
-  /* USER CODE END TIM7_Init 0 */
-
-  TIM_MasterConfigTypeDef sMasterConfig = {0};
-
-  /* USER CODE BEGIN TIM7_Init 1 */
-
-  /* USER CODE END TIM7_Init 1 */
-  htim7.Instance = TIM7;
-  htim7.Init.Prescaler = 0;
-  htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim7.Init.Period = 79;
-  htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  sMasterConfig.MasterOutputTrigger = TIM_TRGO_RESET;
-  sMasterConfig.MasterSlaveMode = TIM_MASTERSLAVEMODE_DISABLE;
-  if (HAL_TIMEx_MasterConfigSynchronization(&htim7, &sMasterConfig) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM7_Init 2 */
-
-  /* USER CODE END TIM7_Init 2 */
-
-}
-
-/**
   * @brief TIM8 Initialization Function
   * @param None
   * @retval None
@@ -1205,38 +1119,6 @@ static void MX_TIM15_Init(void)
 }
 
 /**
-  * @brief TIM17 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_TIM17_Init(void)
-{
-
-  /* USER CODE BEGIN TIM17_Init 0 */
-
-  /* USER CODE END TIM17_Init 0 */
-
-  /* USER CODE BEGIN TIM17_Init 1 */
-
-  /* USER CODE END TIM17_Init 1 */
-  htim17.Instance = TIM17;
-  htim17.Init.Prescaler = 7999;
-  htim17.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim17.Init.Period = 65535;
-  htim17.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
-  htim17.Init.RepetitionCounter = 0;
-  htim17.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
-  if (HAL_TIM_Base_Init(&htim17) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN TIM17_Init 2 */
-
-  /* USER CODE END TIM17_Init 2 */
-
-}
-
-/**
   * @brief USART3 Initialization Function
   * @param None
   * @retval None
@@ -1323,137 +1205,6 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
-
-//Metal Detector Interrupt Functions
-//void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-//
-//	if (MDON ==1){
-//		// Check which version of the timer triggered this callback
-//		//Turn on metal detector BJT
-//		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
-//
-//		if (htim == &htim6 ){
-//			switch(TIM6_Stage){
-//
-//			case 0:
-//				TIM7->CR1 &= ~TIM_CR1_CEN; //Disable timer 7
-//				//Read Potentiometer to find delay
-//				if (HAL_ADC_PollForConversion(&hadc3, 10000) == HAL_OK){
-//					Delay_MD = HAL_ADC_GetValue(&hadc3);
-//					HAL_ADC_Start(&hadc3);
-//					}
-//				//If we cant read yet, repeat this step
-//				else{
-//					TIM6_Stage = 0;
-//					//Probably want some sort of error message here
-//					break;
-//				}
-//
-//
-//				//Use this delay to Set Timer 7 delay
-//
-//				TIM7->PSC = (impuls+Delay_MD);
-//				TIM7->CR1 |= TIM_CR1_CEN; //Re-Enable
-//
-//				//Go to next statge
-//				TIM6_Stage = 1;
-//
-//				//Finally, set metal detector ON
-//				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
-//
-//				break;
-//
-//			//The next cases are identical, so allow to fall through
-//			case 1:
-//			case 2:
-//			case 3:
-//			case 4:
-//			case 5:
-//			case 6:
-//			case 7:
-//			case 8:
-//			case 9:
-//				//Set Pin low and go to next stage
-//				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);
-//				TIM6_Stage = TIM6_Stage + 1;
-//			case 10:
-//				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);
-//				TIM6_Stage = 0; //Go back to beginning
-//				break;
-//
-//
-//
-//			}
-//
-//
-//		}
-//		if (htim == &htim7){
-//			switch(TIM7_Stage){
-//
-//			//The next cases are identical
-//			case 1:
-//			case 2:
-//			case 3:
-//			case 4:
-//			case 5:
-//			case 6:
-//			case 7:
-//			case 8:
-//			case 9:
-//				val[TIM7_Stage-1] = HAL_ADC_GetValue(&hadc1);
-//				HAL_ADC_Start(&hadc1);
-//				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
-//				TIM7_Stage = TIM7_Stage + 1;
-//				break;
-//			case 10:
-//				val[TIM7_Stage-1] = HAL_ADC_GetValue(&hadc1);
-//				//Sum all values the boring way
-//				sumval = val[0]+val[1]+val[2]+val[3]+val[4]+val[5]+val[6]+val[7]+val[8]+val[9];
-//				sumval = sumval/5;
-//
-//				base = HAL_ADC_GetValue(&hadc2);
-//				HAL_ADC_Start(&hadc2);
-//				if (sumval > base){
-//					//If we detect metal, act accordingly
-//					Metal_Found = 1;
-//					Countdown_Start = 1;
-//					Countdown_Time = __HAL_TIM_GET_COUNTER(&htim17);//Find EndTime using HAL
-//					//Turn on Buzzer
-//					HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
-//				}
-//				else{
-//					if (Countdown_Start == 1){
-//						//If in count-down phase, check how much time has passed
-//						//Currently 3 seconds -> 3000ms
-//						if (GETDELTA(htim17, Countdown_Start, 80000)>3000){
-//
-//							//If count-down finished, turn off buzzer and say metal not detected
-//							HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);
-//							Metal_Found = 0;
-//							Countdown_Start = 0;
-//
-//						}
-//					}
-//					else{
-//						//Otherwise, make sure buzzer is off
-//						HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);
-//					}
-//				}
-//				//Always return to start
-//				TIM7_Stage = 1;
-//				break;
-//			}
-//
-//		}
-//
-//	}
-//	else{
-//		sumval = 0;
-//		//Turn off metal detector module
-//		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
-//	}
-//}
-
 
 
 //Callback function for receiving SPI data. Called when receive is done
