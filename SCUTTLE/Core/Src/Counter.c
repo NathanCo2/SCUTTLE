@@ -12,19 +12,9 @@ uint16_t ElapsedTime;
 float T_ms;
 uint16_t EndTime;
 
-float GETDELTA(TIM_HandleTypeDef Timer,uint16_t StartTime, uint32_t Speed_hz){
+void Delay_us(TIM_HandleTypeDef Timer,uint16_t us){
 
-	EndTime = __HAL_TIM_GET_COUNTER(&Timer);//Find EndTime using HAL
-	// Calculate the elapsed time
-	if (EndTime >= StartTime) {
-	   ElapsedTime = EndTime - StartTime;
-	}
-	else {
-	    // Handle timer overflow
-	    ElapsedTime = (0xFFFFFFFF - StartTime) + EndTime + 1;
-	    }
-
-	T_ms = ElapsedTime/Speed_hz*1000; //Find time in Ms
-	return T_ms;
+	__HAL_TIM_SET_COUNTER(&Timer,0);  // set the counter value a 0
+	while (__HAL_TIM_GET_COUNTER(&Timer) < us);  // wait for the counter to reach the us input in the parameter
 
 }

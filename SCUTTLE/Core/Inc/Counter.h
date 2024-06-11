@@ -12,6 +12,6 @@
 #include "stm32l4xx_hal.h"
 
 
-float GETDELTA(TIM_HandleTypeDef Timer, uint16_t StartTime, uint32_t Speed_hz);
+void Delay_us(TIM_HandleTypeDef Timer, uint16_t us);
 
 #endif /* SRC_COUNTER_H_ */

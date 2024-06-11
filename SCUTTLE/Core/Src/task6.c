@@ -6,6 +6,8 @@
  */
 #include "task6.h"
 #include <stdlib.h>
+#include "motorcontrol.h"
+#include "encoder.h"
 
 //Task 6 state machine: Drive Motors
 void task6_run(uint8_t* State, uint8_t* DriveON_MD,uint8_t* DriveON_Rad,uint8_t* Follow, float* Distance_Target, float* Angle_Target){
@@ -16,6 +18,18 @@ void task6_run(uint8_t* State, uint8_t* DriveON_MD,uint8_t* DriveON_Rad,uint8_t*
 			case 0:
 				//State 0: INIT
 
+				float Pgain_distance = 0.5; //how much to scale velocity based on distance away
+				//float angle_error; // updated by open mv H7 camera
+				float Pgain_angle = 0.5; //how much to scale skid steering based on angle error
+				float skid_modifier; // how much to scale motor setpoints to achieve angle turn
+
+				//Setup follow variables
+				//int32_t current_distance; //updated by open mv H7 camera
+				float distance_error;
+				float velocity_setpoint;
+				float optimal_distance; // desired follow distance
+
+
 				*State = 1;
 
 				break;
@@ -25,7 +39,7 @@ void task6_run(uint8_t* State, uint8_t* DriveON_MD,uint8_t* DriveON_Rad,uint8_t*
 				//State 1: Flag check
 				if (*DriveON_Rad == 1){
 					//If radio triggered, run rest of code
-					if (*DriveON_MD == 0){
+					if (*DriveON_MD == 1){
 						//If Metal Detected, Go to state 3
 						*State = 3;
 					}
@@ -52,6 +66,35 @@ void task6_run(uint8_t* State, uint8_t* DriveON_MD,uint8_t* DriveON_Rad,uint8_t*
 
 			case 2:
 				//State 2: Follow mode
+
+
+
+				distance_error = *Distance_Target - optimal_distance;
+				velocity_setpoint = distance_error*Pgain_distance;
+
+				skid_modifier = Pgain_angle*(*Angle_Target);
+
+
+				// Cap the skid modifier to avoid useless values
+				float max_skid_modifier = 1.0; // Adjust this value as needed
+
+				if (skid_modifier > max_skid_modifier) {
+				    skid_modifier = max_skid_modifier;
+				    } else if (skid_modifier < -max_skid_modifier) {
+				        skid_modifier = -max_skid_modifier;
+				    }
+
+
+				if (*Angle_Target < 0) {
+					// Turn left
+					motorcontrol1->velocity_setpoint = velocity_setpoint * (1 + skid_modifier);
+					motorcontrol2->velocity_setpoint = velocity_setpoint * (1 - skid_modifier);
+			        }
+				else {
+					// Turn right
+					motorcontrol1->velocity_setpoint = velocity_setpoint * (1 - skid_modifier);
+					motorcontrol2->velocity_setpoint = velocity_setpoint * (1 + skid_modifier);
+
 
 				break;
 
