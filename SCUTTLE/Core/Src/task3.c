@@ -10,11 +10,12 @@
 #include <stdlib.h>
 
 //Initialize in-task variables
-uint8_t Buffer[4]; //Buffer received via SPI
+uint8_t Buffer[5]; //Buffer received via SPI
 int16_t Distance_Int; //Distance received
 int16_t Angle_Int; //Angle received
 
 uint8_t Req = 0; //Requesting SPI
+uint8_t Dummy; //Dummy value used to debug
 
 //Task 3 state machine: OPENMV Camera
 void task3_run(uint8_t* State,float* Distance_Target,float* Angle_Target,uint8_t* SPI_Rec,
@@ -67,12 +68,18 @@ void task3_run(uint8_t* State,float* Distance_Target,float* Angle_Target,uint8_t
 			case 3:
 				//State 3: Process Data
 				//Convert buffer data to ints. First part of buffer should be distance, second part angle
-				Distance_Int = (int16_t)(Buffer[0] << 8 | Buffer[1]);
-			    Angle_Int = (int16_t)(Buffer[2] << 8 | Buffer[3]);
+				Dummy  = Buffer[0];
+				if (Dummy == 85){
+					//If we received usable data, then update setpoints
+					Distance_Int = (int16_t)(Buffer[1] << 8 | Buffer[2]);
+					Angle_Int = (int16_t)(Buffer[3] << 8 | Buffer[4]);
 
-				// Convert to float (assuming the data was sent as 16-bit floats)
-				*Distance_Target = (float)Distance_Int;
-				*Angle_Target = (float)Angle_Int;
+					// Convert to float (assuming the data was sent as 16-bit floats)
+					*Distance_Target = (float)Distance_Int;
+					*Angle_Target = (float)Angle_Int;
+				}
+
+
 
 				//Once data is fully processed, return to state 1 and reset recieve flag
 				*SPI_Rec = 0;
