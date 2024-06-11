@@ -46,6 +46,7 @@ TIM_HandleTypeDef htim4;
 TIM_HandleTypeDef htim5;
 TIM_HandleTypeDef htim8;
 TIM_HandleTypeDef htim15;
+TIM_HandleTypeDef htim17;
 
 UART_HandleTypeDef huart3;
 
@@ -69,6 +70,7 @@ static void MX_TIM5_Init(void);
 static void MX_I2C2_Init(void);
 static void MX_TIM8_Init(void);
 static void MX_TIM15_Init(void);
+static void MX_TIM17_Init(void);
 /* USER CODE BEGIN PFP */
 /* USER CODE END PFP */
 
@@ -83,10 +85,7 @@ int IC_Val2 = 0;
 int Difference = 0;
 int Is_First_Captured = 0;
 
-uint16_t base = 0; //Base value for MD ADC
 
-uint8_t Countdown_Start = 0; //Signifies time before next metal detected.
-uint16_t Countdown_Time;
 
 uint32_t sumval = 0; //Metal Detector Value
 
@@ -95,18 +94,8 @@ uint32_t sumval = 0; //Metal Detector Value
 uint8_t SPI_Rec = 0;
 
 
-//Create variables for metal detector timer interrupts
-uint8_t TIM6_Stage = 0;
-uint8_t TIM7_Stage = 1;
-
-//Finally, Set prescalars accordingly
-uint16_t impuls = 120; //Impulse microsecond delay, dont change in code
-uint16_t Delay_MD = 1200; //Start at 120 microsecond delay, change to ADC reading later
-
 uint8_t MDON = 0; //Metal Detector Flag
 
-//Metal detector calculations
-uint16_t val[9];
 
 uint8_t Metal_Found = 0; //Flag if metal is detected
 
@@ -164,6 +153,7 @@ int main(void)
   MX_I2C2_Init();
   MX_TIM8_Init();
   MX_TIM15_Init();
+  MX_TIM17_Init();
   /* USER CODE BEGIN 2 */
 
   //Put timers in correct mode
@@ -265,11 +255,6 @@ int main(void)
    float Angle_Target = 0;
 
 
-   //Set timer 6 PSC to impulse
-   TIM6->PSC = impuls;
-   //Set timer 7 PSC to impulse+Delay
-
-   TIM7->PSC = (impuls+Delay_MD);
 
 
   /* USER CODE END 2 */
@@ -315,7 +300,7 @@ int main(void)
 
 	  case 4: //State 4
 		  //State 4: Metal Detector
-	  	  //task4_run(&T4State);
+	  	  //task4_run(&T4State,&MDON,&sumval,htim17,&Metal_Found, hadc1, hadc2, hadc3);
 	  	  task = 5;
 	  	  break;
 
@@ -1115,6 +1100,38 @@ static void MX_TIM15_Init(void)
   /* USER CODE BEGIN TIM15_Init 2 */
 
   /* USER CODE END TIM15_Init 2 */
+
+}
+
+/**
+  * @brief TIM17 Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_TIM17_Init(void)
+{
+
+  /* USER CODE BEGIN TIM17_Init 0 */
+
+  /* USER CODE END TIM17_Init 0 */
+
+  /* USER CODE BEGIN TIM17_Init 1 */
+
+  /* USER CODE END TIM17_Init 1 */
+  htim17.Instance = TIM17;
+  htim17.Init.Prescaler = 79;
+  htim17.Init.CounterMode = TIM_COUNTERMODE_UP;
+  htim17.Init.Period = 65535;
+  htim17.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+  htim17.Init.RepetitionCounter = 0;
+  htim17.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim17) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN TIM17_Init 2 */
+
+  /* USER CODE END TIM17_Init 2 */
 
 }
 
