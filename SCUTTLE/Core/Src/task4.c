@@ -45,6 +45,7 @@ void task4_run(uint8_t* State, uint8_t* MDON, uint32_t* sumval,TIM_HandleTypeDef
 					//Turn off metal detector module
 					HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
 				}
+				break;
 
 			case 2:
 				//Read Potentiometer to find delay
@@ -116,6 +117,7 @@ void task4_run(uint8_t* State, uint8_t* MDON, uint32_t* sumval,TIM_HandleTypeDef
 					}
 				}
 				*State = 1; //Always return to State 1
+				break;
 
 			}
 

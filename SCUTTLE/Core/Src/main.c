@@ -236,7 +236,6 @@ int main(void)
 
   //Set motors, metal detector, and camera to ON by default. Will turn off if battery too low or killswitch active
    uint8_t DriveON_Rad = 1; //Radio Drive ON
-   uint8_t DriveON_MD = 1; //Metal Detector Drive ON
    uint8_t ArmON = 1;
 
    uint8_t OpenMV = 1; //Camera Update On
@@ -313,7 +312,7 @@ int main(void)
 	  case 6: //State 6
 		  //State 6:
 	  	  //Insert State 6 class here
-		  //task6_run(&T6State, &DriveON_MD, &DriveON_Rad, &Follow,&Distance_Target,&Angle_Target);
+		  //task6_run(&T6State, &Metal_Found, &DriveON_Rad, &Follow,&Distance_Target,&Angle_Target);
 	  	  task = 1; //Do not go back to init
 	  	  break;
 
