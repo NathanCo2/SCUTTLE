@@ -13,7 +13,9 @@
 #include "task6.h"
 
 #include "Counter.h"
-
+#include "motor.h"
+#include "encoder.h"
+#include "motorcontrol.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -107,12 +109,22 @@ uint8_t TIM7_Stage = 1;
 uint16_t impuls = 120; //Impulse microsecond delay, dont change in code
 uint16_t Delay_MD = 1200; //Start at 120 microsecond delay, change to ADC reading later
 
-uint8_t MDON = 1; //Metal Detector Flag
+uint8_t MDON = 0; //Metal Detector Flag
 
 //Metal detector calculations
 uint16_t val[9];
 
 uint8_t Metal_Found = 0; //Flag if metal is detected
+
+// Motor and encoder instances
+motor_t motor1;
+motor_t motor2;
+encoder_t encoder1;
+encoder_t encoder2;
+controller_t controller1;
+controller_t controller2;
+
+
 
 /* USER CODE END 0 */
 
@@ -165,7 +177,7 @@ int main(void)
 
   //Put timers in correct mode
   ;
-  HAL_TIM_Base_Start_IT(&htim6);
+//  HAL_TIM_Base_Start_IT(&htim6);
   HAL_TIM_Base_Start_IT(&htim7);
   HAL_TIM_Base_Start_IT(&htim17);
   HAL_TIM_IC_Start_IT(&htim15, TIM_CHANNEL_1);
@@ -176,6 +188,62 @@ int main(void)
   //hadc2.Init.EOCSelection = DISABLE; //Apparently important
   HAL_ADC_Start(&hadc3);
   //hadc3.Init.EOCSelection = DISABLE; //Apparently important
+
+
+	// Start PWM for motor 1 and motor 2 channels
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
+	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
+
+	// Assign motor 1 to Timer 1 channels 1 and 3
+	motor1.chA = &(htim1.Instance->CCR1);
+	motor1.chB = &(htim1.Instance->CCR3);
+	motor1.Period = __HAL_TIM_GET_AUTORELOAD(&htim1);
+
+	// Assign motor 2 to Timer 1 channels 2 and 4
+	motor2.chA = &(htim1.Instance->CCR2);
+	motor2.chB = &(htim1.Instance->CCR4);
+	motor2.Period = __HAL_TIM_GET_AUTORELOAD(&htim1);
+
+  	// Enable motors 1 (PB1) and 2 (PB2)
+  	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_12|GPIO_PIN_13, GPIO_PIN_SET);
+
+	//Set initial duty cycles
+	set_duty(&motor1, 0);
+	set_duty(&motor2, 0);
+
+	// Initialize encoders
+	int16_t mot1_velocity = 0;
+	int32_t mot1_position = 0;
+	uint32_t enc1_lastval = 0;
+	uint32_t last_tick1 = 0;
+	encoder1 = (encoder_t){&htim3, mot1_velocity, mot1_position, enc1_lastval, last_tick1};
+
+	int16_t mot2_velocity = 0;
+	int32_t mot2_position = 0;
+	uint32_t enc2_lastval = 0;
+	uint32_t last_tick2 = 0;
+	encoder2 = (encoder_t){&htim4, mot2_velocity, mot2_position, enc2_lastval, last_tick2};
+
+	// Start the encoders and enable interrupts
+	HAL_TIM_Encoder_Start_IT(&htim3, TIM_CHANNEL_ALL);
+	__HAL_TIM_SET_COUNTER(&htim3,0);
+	HAL_TIM_Encoder_Start_IT(&htim4, TIM_CHANNEL_ALL);
+	__HAL_TIM_SET_COUNTER(&htim4,0);
+
+	uint32_t previousMillis = 0;//for debug
+
+	//Set initial duty cycles
+	set_duty(&motor1, 40);
+	set_duty(&motor2, 40);
+
+
+	// Initialize controllers
+	float Pgain_velocity1 = 1;
+	int32_t velocity_setpoint = 500;
+	controller1 = (controller_t){Pgain_velocity1, velocity_setpoint};
+
 
 
   uint8_t task = 0; //State variable for main loop
@@ -231,39 +299,46 @@ int main(void)
 	  case 1: //State 1
 		  //State 1: Diagnostics
 		  //Check battery and shut off if necessary
-		  task1_run(&T1State, hadc2,&BatKill);
+		  //task1_run(&T1State, hadc2,&BatKill);
 		  task = 2;
 		  break;
 
 	  case 2: //State 2
 		  //State 2: Radio
 		  //Check killswitches and radio, act accordingly
-		  task2_run(&T2State,&BatKill,&RadKill,&usWidth,&DriveON_Rad,&ArmON,&MDON,&OpenMV);
+		  //task2_run(&T2State,&BatKill,&RadKill,&usWidth,&DriveON_Rad,&ArmON,&MDON,&OpenMV);
 	  	  task = 3;
 	  	  break;
 
 	  case 3: //State 3
 		  //State 3: OpenMV Camera
-	  	  task3_run(&T3State,&Distance_Target,&Angle_Target,&SPI_Rec,&Follow,&OpenMV, hspi3);
+	  	  //task3_run(&T3State,&Distance_Target,&Angle_Target,&SPI_Rec,&Follow,&OpenMV, hspi3);
+		  if (HAL_GetTick() - previousMillis >= 200) {
+		  	          previousMillis = HAL_GetTick();
+		  	          read_encoder(&encoder1);
+		  	          read_encoder(&encoder2);
+		  	    	  printf("Encoder1 position: %ld\n", encoder1.position);
+		  	    	  printf("Encoder1 Velocity: %d\n", encoder1.velocity);
+		  }
 		  task = 4;
 	  	  break;
 
 	  case 4: //State 4
 		  //State 4: Metal Detector
-	  	  task4_run(&T4State);
+	  	  //task4_run(&T4State);
 	  	  task = 5;
 	  	  break;
 
 	  case 5: //State 5
 		  //State 5: Arm Motor
-	  	  task5_run(&T5State,&ArmON,&Metal_Found,htim17,&sumval);
+	  	  //task5_run(&T5State,&ArmON,&Metal_Found,htim17,&sumval);
 	  	  task = 6;
 	  	  break;
 
 	  case 6: //State 6
 		  //State 6:
 	  	  //Insert State 6 class here
-		  task6_run(&T6State, &DriveON_MD, &DriveON_Rad, &Follow,&Distance_Target,&Angle_Target);
+		  //task6_run(&T6State, &DriveON_MD, &DriveON_Rad, &Follow,&Distance_Target,&Angle_Target);
 	  	  task = 1; //Do not go back to init
 	  	  break;
 
@@ -639,6 +714,7 @@ static void MX_TIM1_Init(void)
   /* USER CODE BEGIN TIM1_Init 0 */
   /* USER CODE END TIM1_Init 0 */
 
+  TIM_ClockConfigTypeDef sClockSourceConfig = {0};
   TIM_MasterConfigTypeDef sMasterConfig = {0};
   TIM_OC_InitTypeDef sConfigOC = {0};
   TIM_BreakDeadTimeConfigTypeDef sBreakDeadTimeConfig = {0};
@@ -652,6 +728,15 @@ static void MX_TIM1_Init(void)
   htim1.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim1.Init.RepetitionCounter = 0;
   htim1.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
+  if (HAL_TIM_Base_Init(&htim1) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  sClockSourceConfig.ClockSource = TIM_CLOCKSOURCE_INTERNAL;
+  if (HAL_TIM_ConfigClockSource(&htim1, &sClockSourceConfig) != HAL_OK)
+  {
+    Error_Handler();
+  }
   if (HAL_TIM_PWM_Init(&htim1) != HAL_OK)
   {
     Error_Handler();
@@ -674,19 +759,24 @@ static void MX_TIM1_Init(void)
   {
     Error_Handler();
   }
+  __HAL_TIM_DISABLE_OCxPRELOAD(&htim1, TIM_CHANNEL_1);
   if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_2) != HAL_OK)
   {
     Error_Handler();
   }
+  __HAL_TIM_DISABLE_OCxPRELOAD(&htim1, TIM_CHANNEL_2);
+  sConfigOC.Pulse = 29999;
   if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
   {
     Error_Handler();
   }
-  sConfigOC.Pulse = 29999;
+  __HAL_TIM_DISABLE_OCxPRELOAD(&htim1, TIM_CHANNEL_3);
+  sConfigOC.Pulse = 0;
   if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
   {
     Error_Handler();
   }
+  __HAL_TIM_DISABLE_OCxPRELOAD(&htim1, TIM_CHANNEL_4);
   sBreakDeadTimeConfig.OffStateRunMode = TIM_OSSR_DISABLE;
   sBreakDeadTimeConfig.OffStateIDLEMode = TIM_OSSI_DISABLE;
   sBreakDeadTimeConfig.LockLevel = TIM_LOCKLEVEL_OFF;
@@ -1005,7 +1095,7 @@ static void MX_TIM8_Init(void)
   htim8.Instance = TIM8;
   htim8.Init.Prescaler = 0;
   htim8.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim8.Init.Period = 65535;
+  htim8.Init.Period = 59999;
   htim8.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
   htim8.Init.RepetitionCounter = 0;
   htim8.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
@@ -1235,134 +1325,134 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 //Metal Detector Interrupt Functions
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
-
-	if (MDON ==1){
-		// Check which version of the timer triggered this callback
-		//Turn on metal detector BJT
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
-
-		if (htim == &htim6 ){
-			switch(TIM6_Stage){
-
-			case 0:
-				TIM7->CR1 &= ~TIM_CR1_CEN; //Disable timer 7
-				//Read Potentiometer to find delay
-				if (HAL_ADC_PollForConversion(&hadc3, 10000) == HAL_OK){
-					Delay_MD = HAL_ADC_GetValue(&hadc3);
-					HAL_ADC_Start(&hadc3);
-					}
-				//If we cant read yet, repeat this step
-				else{
-					TIM6_Stage = 0;
-					//Probably want some sort of error message here
-					break;
-				}
-
-
-				//Use this delay to Set Timer 7 delay
-
-				TIM7->PSC = (impuls+Delay_MD);
-				TIM7->CR1 |= TIM_CR1_CEN; //Re-Enable
-
-				//Go to next statge
-				TIM6_Stage = 1;
-
-				//Finally, set metal detector ON
-				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
-
-				break;
-
-			//The next cases are identical, so allow to fall through
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-			case 5:
-			case 6:
-			case 7:
-			case 8:
-			case 9:
-				//Set Pin low and go to next stage
-				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);
-				TIM6_Stage = TIM6_Stage + 1;
-			case 10:
-				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);
-				TIM6_Stage = 0; //Go back to beginning
-				break;
-
-
-
-			}
-
-
-		}
-		if (htim == &htim7){
-			switch(TIM7_Stage){
-
-			//The next cases are identical
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-			case 5:
-			case 6:
-			case 7:
-			case 8:
-			case 9:
-				val[TIM7_Stage-1] = HAL_ADC_GetValue(&hadc1);
-				HAL_ADC_Start(&hadc1);
-				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
-				TIM7_Stage = TIM7_Stage + 1;
-				break;
-			case 10:
-				val[TIM7_Stage-1] = HAL_ADC_GetValue(&hadc1);
-				//Sum all values the boring way
-				sumval = val[0]+val[1]+val[2]+val[3]+val[4]+val[5]+val[6]+val[7]+val[8]+val[9];
-				sumval = sumval/5;
-
-				base = HAL_ADC_GetValue(&hadc2);
-				HAL_ADC_Start(&hadc2);
-				if (sumval > base){
-					//If we detect metal, act accordingly
-					Metal_Found = 1;
-					Countdown_Start = 1;
-					Countdown_Time = __HAL_TIM_GET_COUNTER(&htim17);//Find EndTime using HAL
-					//Turn on Buzzer
-					HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
-				}
-				else{
-					if (Countdown_Start == 1){
-						//If in count-down phase, check how much time has passed
-						//Currently 3 seconds -> 3000ms
-						if (GETDELTA(htim17, Countdown_Start, 80000)>3000){
-
-							//If count-down finished, turn off buzzer and say metal not detected
-							HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);
-							Metal_Found = 0;
-							Countdown_Start = 0;
-
-						}
-					}
-					else{
-						//Otherwise, make sure buzzer is off
-						HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);
-					}
-				}
-				//Always return to start
-				TIM7_Stage = 1;
-				break;
-			}
-
-		}
-
-	}
-	else{
-		sumval = 0;
-		//Turn off metal detector module
-		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
-	}
-}
+//void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
+//
+//	if (MDON ==1){
+//		// Check which version of the timer triggered this callback
+//		//Turn on metal detector BJT
+//		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
+//
+//		if (htim == &htim6 ){
+//			switch(TIM6_Stage){
+//
+//			case 0:
+//				TIM7->CR1 &= ~TIM_CR1_CEN; //Disable timer 7
+//				//Read Potentiometer to find delay
+//				if (HAL_ADC_PollForConversion(&hadc3, 10000) == HAL_OK){
+//					Delay_MD = HAL_ADC_GetValue(&hadc3);
+//					HAL_ADC_Start(&hadc3);
+//					}
+//				//If we cant read yet, repeat this step
+//				else{
+//					TIM6_Stage = 0;
+//					//Probably want some sort of error message here
+//					break;
+//				}
+//
+//
+//				//Use this delay to Set Timer 7 delay
+//
+//				TIM7->PSC = (impuls+Delay_MD);
+//				TIM7->CR1 |= TIM_CR1_CEN; //Re-Enable
+//
+//				//Go to next statge
+//				TIM6_Stage = 1;
+//
+//				//Finally, set metal detector ON
+//				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
+//
+//				break;
+//
+//			//The next cases are identical, so allow to fall through
+//			case 1:
+//			case 2:
+//			case 3:
+//			case 4:
+//			case 5:
+//			case 6:
+//			case 7:
+//			case 8:
+//			case 9:
+//				//Set Pin low and go to next stage
+//				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);
+//				TIM6_Stage = TIM6_Stage + 1;
+//			case 10:
+//				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);
+//				TIM6_Stage = 0; //Go back to beginning
+//				break;
+//
+//
+//
+//			}
+//
+//
+//		}
+//		if (htim == &htim7){
+//			switch(TIM7_Stage){
+//
+//			//The next cases are identical
+//			case 1:
+//			case 2:
+//			case 3:
+//			case 4:
+//			case 5:
+//			case 6:
+//			case 7:
+//			case 8:
+//			case 9:
+//				val[TIM7_Stage-1] = HAL_ADC_GetValue(&hadc1);
+//				HAL_ADC_Start(&hadc1);
+//				HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
+//				TIM7_Stage = TIM7_Stage + 1;
+//				break;
+//			case 10:
+//				val[TIM7_Stage-1] = HAL_ADC_GetValue(&hadc1);
+//				//Sum all values the boring way
+//				sumval = val[0]+val[1]+val[2]+val[3]+val[4]+val[5]+val[6]+val[7]+val[8]+val[9];
+//				sumval = sumval/5;
+//
+//				base = HAL_ADC_GetValue(&hadc2);
+//				HAL_ADC_Start(&hadc2);
+//				if (sumval > base){
+//					//If we detect metal, act accordingly
+//					Metal_Found = 1;
+//					Countdown_Start = 1;
+//					Countdown_Time = __HAL_TIM_GET_COUNTER(&htim17);//Find EndTime using HAL
+//					//Turn on Buzzer
+//					HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET);
+//				}
+//				else{
+//					if (Countdown_Start == 1){
+//						//If in count-down phase, check how much time has passed
+//						//Currently 3 seconds -> 3000ms
+//						if (GETDELTA(htim17, Countdown_Start, 80000)>3000){
+//
+//							//If count-down finished, turn off buzzer and say metal not detected
+//							HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);
+//							Metal_Found = 0;
+//							Countdown_Start = 0;
+//
+//						}
+//					}
+//					else{
+//						//Otherwise, make sure buzzer is off
+//						HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_RESET);
+//					}
+//				}
+//				//Always return to start
+//				TIM7_Stage = 1;
+//				break;
+//			}
+//
+//		}
+//
+//	}
+//	else{
+//		sumval = 0;
+//		//Turn off metal detector module
+//		HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
+//	}
+//}
 
 
 
@@ -1409,6 +1499,14 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) //Function from https:/
 			Is_First_Captured = 0; // set it back to false
 		}
 	}
+}
+
+int _write(int file, char *ptr, int len)
+{
+    for (int DataIdx = 0; DataIdx < len; DataIdx++)
+        ITM_SendChar(*ptr++);
+
+    return len;
 }
 /* USER CODE END 4 */
 

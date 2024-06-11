@@ -1,4 +1,4 @@
-Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
+Core/Src/encoder.o: ../Core/Src/encoder.c ../Core/Inc/encoder.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h \
  ../Core/Inc/stm32l4xx_hal_conf.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h \
@@ -33,12 +33,8 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h \
  ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
- ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
- ../Core/Inc/task1.h ../Core/Inc/task2.h ../Core/Inc/task3.h \
- ../Core/Inc/task4.h ../Core/Inc/task5.h ../Core/Src/task6.h \
- ../Core/Inc/Counter.h ../Core/Inc/motor.h ../Core/Inc/encoder.h \
- ../Core/Inc/motorcontrol.h ../Core/Inc/motor.h ../Core/Inc/encoder.h
-../Core/Inc/main.h:
+ ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h
+../Core/Inc/encoder.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../Core/Inc/stm32l4xx_hal_conf.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_rcc.h:
@@ -74,15 +70,3 @@ Core/Src/main.o: ../Core/Src/main.c ../Core/Inc/main.h \
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_tim_ex.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h:
 ../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h:
-../Core/Inc/task1.h:
-../Core/Inc/task2.h:
-../Core/Inc/task3.h:
-../Core/Inc/task4.h:
-../Core/Inc/task5.h:
-../Core/Src/task6.h:
-../Core/Inc/Counter.h:
-../Core/Inc/motor.h:
-../Core/Inc/encoder.h:
-../Core/Inc/motorcontrol.h:
-../Core/Inc/motor.h:
-../Core/Inc/encoder.h:
