@@ -14,8 +14,10 @@
 /// @brief Controller object data structure.
 typedef struct{
 	float Pgain_velocity;
+	float Igain_velocity;
 	int32_t velocity_setpoint;
-	//int32_t last_error;
+	int32_t esum;
+
 }controller_t; //controller instance
 
 // Function prototypes

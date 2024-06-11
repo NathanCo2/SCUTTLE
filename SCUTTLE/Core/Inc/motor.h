@@ -21,7 +21,7 @@ typedef struct {
 } motor_t;
 
 // Function prototypes for motor control
-void set_duty(motor_t* p_mot, int32_t level);
+void set_duty(motor_t* p_mot, float level);
 
 
 #endif /* INC_MOTOR_H_ */

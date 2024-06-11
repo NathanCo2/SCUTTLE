@@ -22,9 +22,12 @@ void run_control(controller_t *controller, motor_t *motor, encoder_t *encoder) {
 	// Calculate the error
 	int32_t error = controller->velocity_setpoint - encoder->velocity;
 
+	// Integral term calculation
+	controller->esum += error;
+
 	// Calculate the duty cycle
-	int32_t duty = controller->Pgain_velocity * error;
-	printf("Duty sent: %ld\n", duty); //For debug
+	float duty = controller->Pgain_velocity * error + controller->Igain_velocity * controller->esum;
+	printf("Duty sent: %ld\n", (long)duty); // For debug
 
 	// Apply to the motor
 	set_duty(motor, duty);

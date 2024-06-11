@@ -197,13 +197,13 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
 
 	// Assign motor 1 to Timer 1 channels 1 and 3
-	motor1.chA = &(htim1.Instance->CCR1);
-	motor1.chB = &(htim1.Instance->CCR3);
+	motor1.chA = &(htim1.Instance->CCR2);
+	motor1.chB = &(htim1.Instance->CCR4);
 	motor1.Period = __HAL_TIM_GET_AUTORELOAD(&htim1);
 
 	// Assign motor 2 to Timer 1 channels 2 and 4
-	motor2.chA = &(htim1.Instance->CCR2);
-	motor2.chB = &(htim1.Instance->CCR4);
+	motor2.chA = &(htim1.Instance->CCR1);
+	motor2.chB = &(htim1.Instance->CCR3);
 	motor2.Period = __HAL_TIM_GET_AUTORELOAD(&htim1);
 
   	// Enable motors 1 (PB1) and 2 (PB2)
@@ -234,15 +234,17 @@ int main(void)
 
 	uint32_t previousMillis = 0;//for debug
 
-	//Set initial duty cycles
-	set_duty(&motor1, 40);
-	set_duty(&motor2, 40);
+	//Set test duty cycles
+	set_duty(&motor1, 0);
+	set_duty(&motor2, 0);
 
 
 	// Initialize controllers
-	float Pgain_velocity1 = 1;
-	int32_t velocity_setpoint = 500;
-	controller1 = (controller_t){Pgain_velocity1, velocity_setpoint};
+	float Pgain_velocity2 = 0.04;
+	float Igain_velocity2 = 0.01;
+	int32_t velocity_setpoint2 = 0;
+	int32_t esum2 = 0;
+	controller2 = (controller_t){Pgain_velocity2, Igain_velocity2, velocity_setpoint2, esum2};
 
 
 
@@ -313,12 +315,15 @@ int main(void)
 	  case 3: //State 3
 		  //State 3: OpenMV Camera
 	  	  //task3_run(&T3State,&Distance_Target,&Angle_Target,&SPI_Rec,&Follow,&OpenMV, hspi3);
-		  if (HAL_GetTick() - previousMillis >= 200) {
+		  if (HAL_GetTick() - previousMillis >= 100) {
 		  	          previousMillis = HAL_GetTick();
-		  	          read_encoder(&encoder1);
-		  	          read_encoder(&encoder2);
-		  	    	  printf("Encoder1 position: %ld\n", encoder1.position);
-		  	    	  printf("Encoder1 Velocity: %d\n", encoder1.velocity);
+		  	          run_control(&controller2, &motor2, &encoder2);
+//		  	          read_encoder(&encoder1);
+//		  	          read_encoder(&encoder2);
+//		  	    	  printf("Encoder1 position: %ld\n", encoder1.position);
+//		  	    	  printf("Encoder1 Velocity: %d\n", encoder1.velocity);
+		  	    	  printf("Encoder2 position: %ld\n", encoder2.position);
+		  	    	  printf("Encoder2 Velocity: %d\n", encoder2.velocity);
 		  }
 		  task = 4;
 	  	  break;

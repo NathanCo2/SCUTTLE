@@ -17,7 +17,7 @@
 void read_encoder(encoder_t *encoder) {
 
 	//initialize internal variables
-    uint32_t current_counter = -1*__HAL_TIM_GET_COUNTER(encoder->htim); //Inverted due to wiring
+    uint32_t current_counter = __HAL_TIM_GET_COUNTER(encoder->htim); //Inverted due to wiring
     int32_t velocity_change;
     float delta_t;
     float current_tick = HAL_GetTick();

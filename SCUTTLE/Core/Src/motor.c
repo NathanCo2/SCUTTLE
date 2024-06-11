@@ -16,7 +16,7 @@
  * @details This function constrains the level to the valid range and sets the
  * 			PWM duty cycle by updating the compare register pointer directly.
  */
-void set_duty(motor_t* p_mot, int32_t level) {
+void set_duty(motor_t* p_mot, float level) {
 	/// Constrain level to valid range
 	if (level > 100) level = 100;
     if (level < -100) level = -100;
