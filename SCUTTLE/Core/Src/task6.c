@@ -10,13 +10,61 @@
 #include "encoder.h"
 
 //Task 6 state machine: Drive Motors
-void task6_run(uint8_t* State, uint8_t* DriveON_MD,uint8_t* DriveON_Rad,uint8_t* Follow, float* Distance_Target, float* Angle_Target){
+void task6_run(uint8_t* State, uint8_t* DriveON_MD,uint8_t* DriveON_Rad,uint8_t* Follow, float* Distance_Target, float* Angle_Target, TIM_HandleTypeDef htim1,TIM_HandleTypeDef htim3,TIM_HandleTypeDef htim4){
 
 	while(1){
 			switch(*State){
 
 			case 0:
 				//State 0: INIT
+
+				uint32_t previousMillis = 0;//for debug
+
+				// Motor and encoder instances
+				motor_t motor1;
+				motor_t motor2;
+				encoder_t encoder1;
+				encoder_t encoder2;
+				controller_t controller1;
+				controller_t controller2;
+
+				// Assign motor 1 to Timer 1 channels 1 and 3
+				motor1.chA = &(htim1.Instance->CCR2);
+				motor1.chB = &(htim1.Instance->CCR4);
+				motor1.Period = __HAL_TIM_GET_AUTORELOAD(&htim1);
+
+				// Assign motor 2 to Timer 1 channels 2 and 4
+				motor2.chA = &(htim1.Instance->CCR1);
+				motor2.chB = &(htim1.Instance->CCR3);
+				motor2.Period = __HAL_TIM_GET_AUTORELOAD(&htim1);
+
+				//Set initial duty cycles
+				set_duty(&motor1, 0);
+				set_duty(&motor2, 0);
+
+				// Initialize encoders
+				int16_t mot1_velocity = 0;
+				int32_t mot1_position = 0;
+				uint32_t enc1_lastval = 0;
+				uint32_t last_tick1 = 0;
+				encoder1 = (encoder_t){&htim3, mot1_velocity, mot1_position, enc1_lastval, last_tick1};
+
+				int16_t mot2_velocity = 0;
+				int32_t mot2_position = 0;
+				uint32_t enc2_lastval = 0;
+				uint32_t last_tick2 = 0;
+				encoder2 = (encoder_t){&htim4, mot2_velocity, mot2_position, enc2_lastval, last_tick2};
+
+				//Set test duty cycles
+				set_duty(&motor1, 0);
+				set_duty(&motor2, 0);
+
+				// Initialize controllers
+				float Pgain_velocity2 = 0.04;
+				float Igain_velocity2 = 0.01;
+				int32_t velocity_setpoint2 = 0;
+				int32_t esum2 = 0;
+				controller2 = (controller_t){Pgain_velocity2, Igain_velocity2, velocity_setpoint2, esum2};
 
 				float Pgain_distance = 0.5; //how much to scale velocity based on distance away
 				//float angle_error; // updated by open mv H7 camera
@@ -87,13 +135,13 @@ void task6_run(uint8_t* State, uint8_t* DriveON_MD,uint8_t* DriveON_Rad,uint8_t*
 
 				if (*Angle_Target < 0) {
 					// Turn left
-					motorcontrol1->velocity_setpoint = velocity_setpoint * (1 + skid_modifier);
-					motorcontrol2->velocity_setpoint = velocity_setpoint * (1 - skid_modifier);
+//					motorcontrol1->velocity_setpoint = velocity_setpoint * (1 + skid_modifier);
+					controller2.velocity_setpoint = velocity_setpoint * (1 - skid_modifier);
 			        }
 				else {
 					// Turn right
-					motorcontrol1->velocity_setpoint = velocity_setpoint * (1 - skid_modifier);
-					motorcontrol2->velocity_setpoint = velocity_setpoint * (1 + skid_modifier);
+//					motorcontrol1->velocity_setpoint = velocity_setpoint * (1 - skid_modifier);
+					controller2.velocity_setpoint = velocity_setpoint * (1 + skid_modifier);
 
 
 				break;
@@ -117,7 +165,16 @@ void task6_run(uint8_t* State, uint8_t* DriveON_MD,uint8_t* DriveON_Rad,uint8_t*
 			case 4:
 				//State 4: DEBUG Testing, should be empty on final code
 				*State = 1; //Always return to State 1
-
+				if (HAL_GetTick() - previousMillis >= 100) {
+						  previousMillis = HAL_GetTick();
+						  run_control(&controller2, &motor2, &encoder2);
+	//		  	          read_encoder(&encoder1);
+	//		  	          read_encoder(&encoder2);
+	//		  	    	  printf("Encoder1 position: %ld\n", encoder1.position);
+	//		  	    	  printf("Encoder1 Velocity: %d\n", encoder1.velocity);
+						  printf("Encoder2 position: %ld\n", encoder2.position);
+						  printf("Encoder2 Velocity: %d\n", encoder2.velocity);
+				}
 				break;
 
 
@@ -125,4 +182,6 @@ void task6_run(uint8_t* State, uint8_t* DriveON_MD,uint8_t* DriveON_Rad,uint8_t*
 
 			}
 	}
+	}
 }
+

@@ -99,13 +99,7 @@ uint8_t MDON = 0; //Metal Detector Flag
 
 uint8_t Metal_Found = 0; //Flag if metal is detected
 
-// Motor and encoder instances
-motor_t motor1;
-motor_t motor2;
-encoder_t encoder1;
-encoder_t encoder2;
-controller_t controller1;
-controller_t controller2;
+
 
 
 
@@ -176,35 +170,8 @@ int main(void)
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
 	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
 
-	// Assign motor 1 to Timer 1 channels 1 and 3
-	motor1.chA = &(htim1.Instance->CCR2);
-	motor1.chB = &(htim1.Instance->CCR4);
-	motor1.Period = __HAL_TIM_GET_AUTORELOAD(&htim1);
-
-	// Assign motor 2 to Timer 1 channels 2 and 4
-	motor2.chA = &(htim1.Instance->CCR1);
-	motor2.chB = &(htim1.Instance->CCR3);
-	motor2.Period = __HAL_TIM_GET_AUTORELOAD(&htim1);
-
   	// Enable motors 1 (PB1) and 2 (PB2)
   	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_12|GPIO_PIN_13, GPIO_PIN_SET);
-
-	//Set initial duty cycles
-	set_duty(&motor1, 0);
-	set_duty(&motor2, 0);
-
-	// Initialize encoders
-	int16_t mot1_velocity = 0;
-	int32_t mot1_position = 0;
-	uint32_t enc1_lastval = 0;
-	uint32_t last_tick1 = 0;
-	encoder1 = (encoder_t){&htim3, mot1_velocity, mot1_position, enc1_lastval, last_tick1};
-
-	int16_t mot2_velocity = 0;
-	int32_t mot2_position = 0;
-	uint32_t enc2_lastval = 0;
-	uint32_t last_tick2 = 0;
-	encoder2 = (encoder_t){&htim4, mot2_velocity, mot2_position, enc2_lastval, last_tick2};
 
 	// Start the encoders and enable interrupts
 	HAL_TIM_Encoder_Start_IT(&htim3, TIM_CHANNEL_ALL);
@@ -212,19 +179,6 @@ int main(void)
 	HAL_TIM_Encoder_Start_IT(&htim4, TIM_CHANNEL_ALL);
 	__HAL_TIM_SET_COUNTER(&htim4,0);
 
-	uint32_t previousMillis = 0;//for debug
-
-	//Set test duty cycles
-	set_duty(&motor1, 0);
-	set_duty(&motor2, 0);
-
-
-	// Initialize controllers
-	float Pgain_velocity2 = 0.04;
-	float Igain_velocity2 = 0.01;
-	int32_t velocity_setpoint2 = 0;
-	int32_t esum2 = 0;
-	controller2 = (controller_t){Pgain_velocity2, Igain_velocity2, velocity_setpoint2, esum2};
 
 
 
@@ -243,7 +197,7 @@ int main(void)
    uint8_t OpenMV = 1; //Camera Update On
 
 
-   uint8_t Follow = 1; //Follow mode
+   uint8_t Follow = 0; //Follow mode
 
 
 
@@ -289,16 +243,6 @@ int main(void)
 	  case 3: //State 3
 		  //State 3: OpenMV Camera
 	  	  //task3_run(&T3State,&Distance_Target,&Angle_Target,&SPI_Rec,&Follow,&OpenMV, hspi3);
-		  if (HAL_GetTick() - previousMillis >= 100) {
-		  	          previousMillis = HAL_GetTick();
-		  	          run_control(&controller2, &motor2, &encoder2);
-//		  	          read_encoder(&encoder1);
-//		  	          read_encoder(&encoder2);
-//		  	    	  printf("Encoder1 position: %ld\n", encoder1.position);
-//		  	    	  printf("Encoder1 Velocity: %d\n", encoder1.velocity);
-		  	    	  printf("Encoder2 position: %ld\n", encoder2.position);
-		  	    	  printf("Encoder2 Velocity: %d\n", encoder2.velocity);
-		  }
 		  task = 4;
 	  	  break;
 
@@ -317,7 +261,7 @@ int main(void)
 	  case 6: //State 6
 		  //State 6:
 	  	  //Insert State 6 class here
-		  //task6_run(&T6State, &Metal_Found, &DriveON_Rad, &Follow,&Distance_Target,&Angle_Target);
+		  task6_run(&T6State, &Metal_Found, &DriveON_Rad, &Follow,&Distance_Target,&Angle_Target,htim1,htim3,htim4);
 	  	  task = 1; //Do not go back to init
 	  	  break;
 
