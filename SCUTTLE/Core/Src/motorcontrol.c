@@ -27,7 +27,7 @@ void run_control(controller_t *controller, motor_t *motor, encoder_t *encoder) {
 
 	// Calculate the duty cycle
 	float duty = controller->Pgain_velocity * error + controller->Igain_velocity * controller->esum;
-	printf("Duty sent: %ld\n", (long)duty); // For debug
+//	printf("Duty sent: %ld\n", (long)duty); // For debug
 
 	// Apply to the motor
 	set_duty(motor, duty);

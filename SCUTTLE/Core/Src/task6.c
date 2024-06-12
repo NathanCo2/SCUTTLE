@@ -60,24 +60,32 @@ void task6_run(uint8_t* State, uint8_t* DriveON_MD,uint8_t* DriveON_Rad,uint8_t*
 				set_duty(&motor2, 0);
 
 				// Initialize controllers
+				float Pgain_velocity1 = 0.04;
+				float Igain_velocity1 = 0.01;
+				int32_t velocity_setpoint1 = 0;
+				int32_t esum1 = 0;
+				controller1 = (controller_t){Pgain_velocity1, Igain_velocity1, velocity_setpoint1, esum1};
+
 				float Pgain_velocity2 = 0.04;
 				float Igain_velocity2 = 0.01;
 				int32_t velocity_setpoint2 = 0;
 				int32_t esum2 = 0;
 				controller2 = (controller_t){Pgain_velocity2, Igain_velocity2, velocity_setpoint2, esum2};
 
-				float Pgain_distance = 0.5; //how much to scale velocity based on distance away
+
+				float Pgain_distance = 500; //how much to scale velocity based on distance away
 				//float angle_error; // updated by open mv H7 camera
-				float Pgain_angle = 0.5; //how much to scale skid steering based on angle error
+				float Pgain_angle = 4000;//0.6; //how much to scale skid steering based on angle error
 				float skid_modifier; // how much to scale motor setpoints to achieve angle turn
 
 				//Setup follow variables
 				//int32_t current_distance; //updated by open mv H7 camera
-				float distance_error;
-				float velocity_setpoint;
-				float optimal_distance; // desired follow distance
+				float distance_error = 0;
+				float velocity_setpoint = 0;
+				float optimal_distance = -11; // desired follow distance
 
-
+				float max_skid_modifier = 1.0; // Adjust this value as needed
+				float max_velocity = 3000;
 				*State = 1;
 
 				break;
@@ -116,34 +124,54 @@ void task6_run(uint8_t* State, uint8_t* DriveON_MD,uint8_t* DriveON_Rad,uint8_t*
 				//State 2: Follow mode
 
 
+				if(*Distance_Target != 0){
+					distance_error = *Distance_Target - optimal_distance;
 
-				distance_error = *Distance_Target - optimal_distance;
-				velocity_setpoint = distance_error*Pgain_distance;
-
-				skid_modifier = Pgain_angle*(*Angle_Target);
+				velocity_setpoint = -distance_error*Pgain_distance;
+				if (velocity_setpoint > max_velocity) {
+					velocity_setpoint = max_velocity;
+					} else if (velocity_setpoint < -max_velocity) {
+						velocity_setpoint = -max_velocity;
+					}
+				skid_modifier = Pgain_angle*(*Angle_Target+0.09);
 
 
 				// Cap the skid modifier to avoid useless values
-				float max_skid_modifier = 1.0; // Adjust this value as needed
 
-				if (skid_modifier > max_skid_modifier) {
-				    skid_modifier = max_skid_modifier;
-				    } else if (skid_modifier < -max_skid_modifier) {
-				        skid_modifier = -max_skid_modifier;
-				    }
+//				if (skid_modifier > max_skid_modifier) {
+//				    skid_modifier = max_skid_modifier;
+//				    } else if (skid_modifier < -max_skid_modifier) {
+//				        skid_modifier = -max_skid_modifier;
+//				    }
+//
+//					// Turn
+//					controller1.velocity_setpoint = velocity_setpoint * (1 + skid_modifier);
+//					controller2.velocity_setpoint = velocity_setpoint * (1 - skid_modifier);
+
+				controller1.velocity_setpoint = velocity_setpoint  + skid_modifier;
+				controller2.velocity_setpoint = velocity_setpoint  - skid_modifier;
+				}
+				else{
+					controller1.velocity_setpoint = 0;
+					controller2.velocity_setpoint = 0;
+				}
 
 
-				if (*Angle_Target < 0) {
-					// Turn left
-//					motorcontrol1->velocity_setpoint = velocity_setpoint * (1 + skid_modifier);
-					controller2.velocity_setpoint = velocity_setpoint * (1 - skid_modifier);
-			        }
-				else {
-					// Turn right
-//					motorcontrol1->velocity_setpoint = velocity_setpoint * (1 - skid_modifier);
-					controller2.velocity_setpoint = velocity_setpoint * (1 + skid_modifier);
+
+				if (HAL_GetTick() - previousMillis >= 100) {
+					previousMillis = HAL_GetTick();
+
+			        // Print velocities
+//					printf("Angle: %ld\n", (int)Angle_Target);
+//			        printf("Velocity1: %ld\n", controller1.velocity_setpoint);
+//			        printf("Velocity2: %ld\n", controller2.velocity_setpoint);
+			        run_control(&controller1, &motor1, &encoder1);
+			        run_control(&controller2, &motor2, &encoder2);
+			    }
 
 
+
+				*State = 1; //Always return to State 1
 				break;
 
 
@@ -152,6 +180,11 @@ void task6_run(uint8_t* State, uint8_t* DriveON_MD,uint8_t* DriveON_Rad,uint8_t*
 				//State 3: Metal Detected Mode
 
 				//SET ALL MOTORS TO BRAKE MODE
+				controller1.velocity_setpoint = 0;
+				controller2.velocity_setpoint = 0;
+
+				run_control(&controller1, &motor1, &encoder1);
+				run_control(&controller2, &motor2, &encoder2);
 
 				//Could add additional drive forward and backward functionality here
 				//But for demo, we have simplified the design
@@ -167,13 +200,17 @@ void task6_run(uint8_t* State, uint8_t* DriveON_MD,uint8_t* DriveON_Rad,uint8_t*
 				*State = 1; //Always return to State 1
 				if (HAL_GetTick() - previousMillis >= 100) {
 						  previousMillis = HAL_GetTick();
-						  run_control(&controller2, &motor2, &encoder2);
+						  controller1.velocity_setpoint = 100000;
+						  run_control(&controller1, &motor1, &encoder1);
+//						  controller2.velocity_setpoint = 100000;
+//						  run_control(&controller2, &motor2, &encoder2);
+
 	//		  	          read_encoder(&encoder1);
 	//		  	          read_encoder(&encoder2);
-	//		  	    	  printf("Encoder1 position: %ld\n", encoder1.position);
-	//		  	    	  printf("Encoder1 Velocity: %d\n", encoder1.velocity);
-						  printf("Encoder2 position: %ld\n", encoder2.position);
-						  printf("Encoder2 Velocity: %d\n", encoder2.velocity);
+			  	    	  printf("Encoder1 position: %ld\n", encoder1.position);
+			  	    	  printf("Encoder1 Velocity: %d\n", encoder1.velocity);
+//						  printf("Encoder2 position: %ld\n", encoder2.position);
+//						  printf("Encoder2 Velocity: %d\n", encoder2.velocity);
 				}
 				break;
 
@@ -182,6 +219,6 @@ void task6_run(uint8_t* State, uint8_t* DriveON_MD,uint8_t* DriveON_Rad,uint8_t*
 
 			}
 	}
-	}
+
 }
 

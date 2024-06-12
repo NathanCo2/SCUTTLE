@@ -233,7 +233,7 @@ int main(void)
 	  case 2: //State 2
 		  //State 2: Radio
 		  //Check killswitches and radio, act accordingly
-		  //task2_run(&T2State,&BatKill,&RadKill,&usWidth,&DriveON_Rad,&ArmON,&MDON,&OpenMV);
+		  task2_run(&T2State,&BatKill,&RadKill,&usWidth,&DriveON_Rad,&ArmON,&MDON,&OpenMV);
 	  	  task = 3;
 	  	  break;
 
@@ -258,7 +258,7 @@ int main(void)
 	  case 6: //State 6
 		  //State 6:
 	  	  //Insert State 6 class here
-		  //task6_run(&T6State, &Metal_Found, &DriveON_Rad, &Follow,&Distance_Target,&Angle_Target,htim1,htim3,htim4);
+		  task6_run(&T6State, &Metal_Found, &DriveON_Rad, &Follow,&Distance_Target,&Angle_Target,htim1,htim3,htim4);
 	  	  task = 1; //Do not go back to init
 	  	  break;
 

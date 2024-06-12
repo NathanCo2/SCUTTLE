@@ -55,7 +55,7 @@ void task2_run(uint8_t* State, uint8_t* BatKill,uint8_t* RadKill,int* usWidth,ui
 
 			}
 			*State = 1; //Always return to state 1
-			//printf("%d\r\n",*usWidth);
+			printf("%d\r\n",*usWidth);
 			break;
 
 		}
