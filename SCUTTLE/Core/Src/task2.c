@@ -29,7 +29,8 @@ void task2_run(uint8_t* State, uint8_t* BatKill,uint8_t* RadKill,int* usWidth,ui
 		case 1:
 			//State 1: Check Battery
 			//Check Radio First, then Battery
-			if(abs(*usWidth-1500)<200) //If Pulse width within 200 microseconds, then kill
+			//Suposed to be 1500, max plus minus 400
+			if((abs(*usWidth-1950)>200)&(*usWidth>500)) //If Pulse width within 200 microseconds, then kill
 			{
 				*RadKill = 1;
 				//Kill all motors and metal detector
@@ -54,6 +55,7 @@ void task2_run(uint8_t* State, uint8_t* BatKill,uint8_t* RadKill,int* usWidth,ui
 
 			}
 			*State = 1; //Always return to state 1
+			//printf("%d\r\n",*usWidth);
 			break;
 
 		}

@@ -60,11 +60,11 @@ void task3_run(uint8_t* State,float* Distance_Target,float* Angle_Target,uint8_t
 			case 2:
 				//State 2: Receive Data
 
-				HAL_UART_Receive_IT(&UART3, Buffer, 9);
+				HAL_UART_Receive(&UART3, Buffer, 9,1000);
 
 				Req = 1;
 
-				//*SPI_Rec = 1;
+				*SPI_Rec = 1;
 
 				*State = 1; //Go back to flag check and wait for receive
 

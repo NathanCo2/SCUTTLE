@@ -1105,7 +1105,8 @@ static void MX_USART3_UART_Init(void)
   huart3.Init.HwFlowCtl = UART_HWCONTROL_NONE;
   huart3.Init.OverSampling = UART_OVERSAMPLING_16;
   huart3.Init.OneBitSampling = UART_ONE_BIT_SAMPLE_DISABLE;
-  huart3.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_NO_INIT;
+  huart3.AdvancedInit.AdvFeatureInit = UART_ADVFEATURE_DMADISABLEONERROR_INIT;
+  huart3.AdvancedInit.DMADisableonRxError = UART_ADVFEATURE_DMA_DISABLEONRXERROR;
   if (HAL_UART_Init(&huart3) != HAL_OK)
   {
     Error_Handler();
@@ -1210,8 +1211,8 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) //Function from https:/
 				Difference = (0xffff - IC_Val1) + IC_Val2;
 			}
 
-			float refClock = TIMCLOCK/(PRESCALAR);
-			float mFactor = 1000000/refClock;
+			int refClock = TIMCLOCK/(PRESCALAR);
+			int mFactor = 1000000/refClock;
 
 			usWidth = Difference*mFactor;
 

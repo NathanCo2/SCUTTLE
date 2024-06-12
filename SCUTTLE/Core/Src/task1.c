@@ -11,6 +11,7 @@
 
 #include "task1.h"
 
+uint16_t Bat_Res = 0; //Battery reading, should not be below 3303
 
 void task1_run(uint8_t* State, ADC_HandleTypeDef Analog2,uint8_t* Kill) {
     // Task 1 implementation
@@ -23,7 +24,7 @@ void task1_run(uint8_t* State, ADC_HandleTypeDef Analog2,uint8_t* Kill) {
 			HAL_ADC_Start(&Analog2);
 			//Analog2.Init.EOCSelection = DISABLE; //Apparently important
 			//Set Variables
-			uint16_t Bat_Res = 0; //Battery reading, should not be below 3303
+
 			*State = 1;
 
 			break;
@@ -31,13 +32,12 @@ void task1_run(uint8_t* State, ADC_HandleTypeDef Analog2,uint8_t* Kill) {
 		case 1:
 			//State 1: Check Battery
 			//Read ADC, make sure good for conversion first
-			if (HAL_ADC_PollForConversion(&Analog2, 10000) == HAL_OK)
-			        {
-			            Bat_Res = HAL_ADC_GetValue(&Analog2);
-			            Bat_Res = HAL_ADC_GetValue(&Analog2); //Have to do it twice i think
-			            HAL_ADC_Start(&Analog2);
-			        }
-			if (Bat_Res <3303) {
+
+			Bat_Res = HAL_ADC_GetValue(&Analog2);
+			Bat_Res = HAL_ADC_GetValue(&Analog2); //Have to do it twice i think
+			HAL_ADC_Start(&Analog2);
+
+			if (Bat_Res<3303) {
 				//If battery too low, turn everything off, they should be on by default
 				*Kill = 1; //Kill if battery too low
 

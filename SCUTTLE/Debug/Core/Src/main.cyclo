@@ -16,9 +16,9 @@
 ../Core/Src/main.c:1008:13:MX_TIM15_Init	4
 ../Core/Src/main.c:1057:13:MX_TIM17_Init	2
 ../Core/Src/main.c:1089:13:MX_USART3_UART_Init	2
-../Core/Src/main.c:1124:13:MX_GPIO_Init	1
-../Core/Src/main.c:1173:6:HAL_UART_RxCpltCallback	1
-../Core/Src/main.c:1180:6:HAL_SPI_RxCpltCallback	1
-../Core/Src/main.c:1189:6:HAL_TIM_IC_CaptureCallback	5
-../Core/Src/main.c:1224:5:_write	2
-../Core/Src/main.c:1237:6:Error_Handler	1
+../Core/Src/main.c:1125:13:MX_GPIO_Init	1
+../Core/Src/main.c:1174:6:HAL_UART_RxCpltCallback	1
+../Core/Src/main.c:1181:6:HAL_SPI_RxCpltCallback	1
+../Core/Src/main.c:1190:6:HAL_TIM_IC_CaptureCallback	5
+../Core/Src/main.c:1225:5:_write	2
+../Core/Src/main.c:1238:6:Error_Handler	1
