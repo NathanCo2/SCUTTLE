@@ -10,16 +10,18 @@
 #include <stdlib.h>
 
 //Initialize in-task variables
-uint8_t Buffer[9]; //Buffer received via SPI
+
 int32_t Distance_Int; //Distance received
 int32_t Angle_Int; //Angle received
 
 uint8_t Req = 0; //Requesting SPI
 uint8_t Dummy; //Dummy value used to debug
 
+uint8_t Buffer[9]; //Buffer received via UART
+
 //Task 3 state machine: OPENMV Camera
 void task3_run(uint8_t* State,float* Distance_Target,float* Angle_Target,uint8_t* SPI_Rec,
-		uint8_t* Follow,uint8_t* OpenMV,SPI_HandleTypeDef SPI_3){
+		uint8_t* Follow,uint8_t* OpenMV,UART_HandleTypeDef UART3){
 
 	while(1){
 			switch(*State){
@@ -57,8 +59,12 @@ void task3_run(uint8_t* State,float* Distance_Target,float* Angle_Target,uint8_t
 
 			case 2:
 				//State 2: Receive Data
-				HAL_SPI_Receive_IT(&SPI_3, Buffer, 4);
+
+				HAL_UART_Receive_IT(&UART3, Buffer, 9);
+
 				Req = 1;
+
+				//*SPI_Rec = 1;
 
 				*State = 1; //Go back to flag check and wait for receive
 

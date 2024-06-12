@@ -197,7 +197,7 @@ int main(void)
    uint8_t OpenMV = 1; //Camera Update On
 
 
-   uint8_t Follow = 0; //Follow mode
+   uint8_t Follow = 1; //Follow mode
 
 
 
@@ -242,7 +242,7 @@ int main(void)
 
 	  case 3: //State 3
 		  //State 3: OpenMV Camera
-	  	  //task3_run(&T3State,&Distance_Target,&Angle_Target,&SPI_Rec,&Follow,&OpenMV, hspi3);
+	  	  task3_run(&T3State,&Distance_Target,&Angle_Target,&SPI_Rec,&Follow,&OpenMV, huart3);
 		  task = 4;
 	  	  break;
 
@@ -261,7 +261,7 @@ int main(void)
 	  case 6: //State 6
 		  //State 6:
 	  	  //Insert State 6 class here
-		  task6_run(&T6State, &Metal_Found, &DriveON_Rad, &Follow,&Distance_Target,&Angle_Target,htim1,htim3,htim4);
+		  //task6_run(&T6State, &Metal_Found, &DriveON_Rad, &Follow,&Distance_Target,&Angle_Target,htim1,htim3,htim4);
 	  	  task = 1; //Do not go back to init
 	  	  break;
 
@@ -604,8 +604,8 @@ static void MX_SPI3_Init(void)
   /* SPI3 parameter configuration*/
   hspi3.Instance = SPI3;
   hspi3.Init.Mode = SPI_MODE_MASTER;
-  hspi3.Init.Direction = SPI_DIRECTION_2LINES;
-  hspi3.Init.DataSize = SPI_DATASIZE_4BIT;
+  hspi3.Init.Direction = SPI_DIRECTION_2LINES_RXONLY;
+  hspi3.Init.DataSize = SPI_DATASIZE_8BIT;
   hspi3.Init.CLKPolarity = SPI_POLARITY_LOW;
   hspi3.Init.CLKPhase = SPI_PHASE_1EDGE;
   hspi3.Init.NSS = SPI_NSS_SOFT;
@@ -688,13 +688,11 @@ static void MX_TIM1_Init(void)
     Error_Handler();
   }
   __HAL_TIM_DISABLE_OCxPRELOAD(&htim1, TIM_CHANNEL_2);
-  sConfigOC.Pulse = 29999;
   if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_3) != HAL_OK)
   {
     Error_Handler();
   }
   __HAL_TIM_DISABLE_OCxPRELOAD(&htim1, TIM_CHANNEL_3);
-  sConfigOC.Pulse = 0;
   if (HAL_TIM_PWM_ConfigChannel(&htim1, &sConfigOC, TIM_CHANNEL_4) != HAL_OK)
   {
     Error_Handler();
@@ -1172,11 +1170,17 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	SPI_Rec = 1;
+}
+
+
 //Callback function for receiving SPI data. Called when receive is done
 void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi) {
     if (hspi->Instance == SPI3) {
         // Set the data received flag if SPI3 receives data
-        SPI_Rec = 1;
+        //SPI_Rec = 1;
     }
 }
 
