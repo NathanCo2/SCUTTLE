@@ -1,15 +1,33 @@
-/*
- * task6.c
+/**
+ * @file task5.c
+ * @brief Implementation of Task 6: Drive Motor Control
  *
- *  Created on: Jun 10, 2024
- *      Author: tawel
+ * This file contains the implementation of the state machine for controlling
+ * the drive motors. This includes implementing data from the OpenMV camera to control steering rate and
+ * desired velocity. This uses closed loop PI control. The motors will stop automatically if metal is detected
+ * or if the camera cannot see the April Tag.
+ *
+ * @date Jun 8, 2024
+ * @author tawel
  */
+
 #include "task6.h"
 #include <stdlib.h>
 #include "motorcontrol.h"
 #include "encoder.h"
 
-//Task 6 state machine: Drive Motors
+/**
+ * @brief Task 6 state machine: Drive Motors
+ * @param State Pointer to the state variable.
+ * @param DriveON_MD Pointer to the variable indicating whether metal is detected.
+ * @param DriveON_Rad Pointer to the variable indicating whether radio is triggered.
+ * @param Follow Pointer to the variable indicating whether follow mode is active.
+ * @param Distance_Target Pointer to the target distance variable.
+ * @param Angle_Target Pointer to the target angle variable.
+ * @param htim1 Timer handle for motor PWM control.
+ * @param htim3 Timer handle for encoder 1.
+ * @param htim4 Timer handle for encoder 2.
+ */
 void task6_run(uint8_t* State, uint8_t* DriveON_MD,uint8_t* DriveON_Rad,uint8_t* Follow, float* Distance_Target, float* Angle_Target, TIM_HandleTypeDef htim1,TIM_HandleTypeDef htim3,TIM_HandleTypeDef htim4){
 
 	while(1){
@@ -218,7 +236,9 @@ void task6_run(uint8_t* State, uint8_t* DriveON_MD,uint8_t* DriveON_Rad,uint8_t*
 
 
 			}
+			break;
 	}
+
 
 }
 

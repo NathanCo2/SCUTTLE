@@ -1,55 +1,65 @@
-/* USER CODE BEGIN Header */
-/* USER CODE END Header */
+/**
+  ******************************************************************************
+  * @file    main.c
+  * @brief   Main program for STM32 application using finite state machine (FSM)
+  *          to manage tasks and peripherals. SCUTTLE main code.
+  * @details This file implements the main program logic using a finite state
+  *          machine (FSM) approach to coordinate various tasks and control
+  *          peripheral devices on an STM32 microcontroller.
+  ******************************************************************************
+  */
+
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
-
-/* Private includes ----------------------------------------------------------*/
-/* USER CODE BEGIN Includes */
 #include "task1.h"
 #include "task2.h"
-#include "task3.h"
 #include "task4.h"
 #include "task5.h"
 #include "task6.h"
-
 #include "Counter.h"
 #include "motor.h"
 #include "encoder.h"
 #include "motorcontrol.h"
-/* USER CODE END Includes */
-
-/* Private typedef -----------------------------------------------------------*/
-/* USER CODE BEGIN PTD */
-/* USER CODE END PTD */
-
-/* Private define ------------------------------------------------------------*/
-/* USER CODE BEGIN PD */
-/* USER CODE END PD */
-
-/* Private macro -------------------------------------------------------------*/
-/* USER CODE BEGIN PM */
-/* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-ADC_HandleTypeDef hadc1;
-ADC_HandleTypeDef hadc2;
-ADC_HandleTypeDef hadc3;
+ADC_HandleTypeDef hadc1;                /**< ADC handle for ADC1 */
+ADC_HandleTypeDef hadc2;                /**< ADC handle for ADC2 */
+ADC_HandleTypeDef hadc3;                /**< ADC handle for ADC3 */
 
-I2C_HandleTypeDef hi2c2;
+I2C_HandleTypeDef hi2c2;                /**< I2C handle for I2C2 */
 
-TIM_HandleTypeDef htim1;
-TIM_HandleTypeDef htim2;
-TIM_HandleTypeDef htim3;
-TIM_HandleTypeDef htim4;
-TIM_HandleTypeDef htim5;
-TIM_HandleTypeDef htim8;
-TIM_HandleTypeDef htim15;
-TIM_HandleTypeDef htim17;
+TIM_HandleTypeDef htim1;                /**< TIM handle for TIM1 */
+TIM_HandleTypeDef htim2;                /**< TIM handle for TIM2 */
+TIM_HandleTypeDef htim3;                /**< TIM handle for TIM3 */
+TIM_HandleTypeDef htim4;                /**< TIM handle for TIM4 */
+TIM_HandleTypeDef htim5;                /**< TIM handle for TIM5 */
+TIM_HandleTypeDef htim8;                /**< TIM handle for TIM8 */
+TIM_HandleTypeDef htim15;               /**< TIM handle for TIM15 */
+TIM_HandleTypeDef htim17;               /**< TIM handle for TIM17 */
 
-UART_HandleTypeDef huart3;
+UART_HandleTypeDef huart3;              /**< UART handle for UART3 */
 
-/* USER CODE BEGIN PV */
-/* USER CODE END PV */
+int usWidth = 0;                        /**< Width for Radio Interrupt */
+#define TIMCLOCK   80000000            /**< Timer Clock Frequency */
+#define PRESCALAR  80                 /**< Timer Prescalar */
+
+int IC_Val1 = 0;                        /**< Input Capture Value 1 */
+int IC_Val2 = 0;                        /**< Input Capture Value 2 */
+int Difference = 0;                     /**< Difference between IC values */
+int Is_First_Captured = 0;              /**< Flag for first capture */
+
+uint32_t sumval = 0;                    /**< Metal Detector Value */
+
+uint8_t SPI_Rec = 0;                    /**< Flag for SPI Data Received */
+
+uint8_t MDON = 0;                       /**< Metal Detector ON Flag */
+
+uint8_t Metal_Found = 0;                /**< Flag for metal detection */
+
+float Distance_Target = 0;              /**< Distance Setpoint */
+float Angle_Target = 0;                 /**< Angle Setpoint */
+
+uint8_t rx_buff[8];                     /**< UART Receive Buffer */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
@@ -68,202 +78,109 @@ static void MX_I2C2_Init(void);
 static void MX_TIM8_Init(void);
 static void MX_TIM15_Init(void);
 static void MX_TIM17_Init(void);
-/* USER CODE BEGIN PFP */
-/* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
-/* USER CODE BEGIN 0 */
-int usWidth = 0; //Used in Radio Interrupt Callback
-#define TIMCLOCK   80000000
-#define PRESCALAR  80
-
-int IC_Val1 = 0;
-int IC_Val2 = 0;
-int Difference = 0;
-int Is_First_Captured = 0;
-
-
-
-uint32_t sumval = 0; //Metal Detector Value
-
-
-//Make a flag specifying if SPI data from the camera has been recieved
-uint8_t SPI_Rec = 0;
-
-
-uint8_t MDON = 0; //Metal Detector Flag
-
-
-uint8_t Metal_Found = 0; //Flag if metal is detected
-
-//Initialize a distance and angle setpoint
-float Distance_Target = 0;
-float Angle_Target = 0;
-
-uint8_t rx_buff[8]; //Buffer for use with uart
-
-
-
-/* USER CODE END 0 */
 
 /**
-  * @brief  The application entry point.
+  * @brief  Main function
   * @retval int
   */
 int main(void)
 {
+  uint8_t task = 0;       /**< State variable for main loop */
+  uint8_t T1State = 0;    /**< Task 1 State */
+  uint8_t T2State = 0;    /**< Task 2 State */
+  uint8_t T4State = 0;    /**< Task 4 State */
+  uint8_t T5State = 0;    /**< Task 5 State */
+  uint8_t T6State = 0;    /**< Task 6 State */
 
-  /* USER CODE BEGIN 1 */
-  /* USER CODE END 1 */
+  uint8_t DriveON_Rad = 1; /**< Radio Drive ON */
+  uint8_t ArmON = 1;       /**< Arm Motor ON */
 
-  /* MCU Configuration--------------------------------------------------------*/
+  uint8_t Follow = 1;      /**< Follow mode */
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
+  uint8_t OpenMV = 1;      /**< OpenMV flag */
 
-  /* USER CODE BEGIN Init */
-  /* USER CODE END Init */
+  uint8_t BatKill = 0;     /**< Kill switch states */
+  uint8_t RadKill = 0;
 
-  /* Configure the system clock */
-  SystemClock_Config();
+  HAL_Init();  // Initialize HAL
 
-/* Configure the peripherals common clocks */
-  PeriphCommonClock_Config();
+  SystemClock_Config();  // Configure system clock
 
-  /* USER CODE BEGIN SysInit */
-  /* USER CODE END SysInit */
+  PeriphCommonClock_Config();  // Configure common peripherals clock
 
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();
-  MX_TIM1_Init();
-  MX_ADC1_Init();
-  MX_ADC2_Init();
-  MX_ADC3_Init();
-  MX_TIM2_Init();
-  MX_TIM3_Init();
-  MX_USART3_UART_Init();
-  MX_TIM4_Init();
-  MX_TIM5_Init();
-  MX_I2C2_Init();
-  MX_TIM8_Init();
-  MX_TIM15_Init();
-  MX_TIM17_Init();
-  /* USER CODE BEGIN 2 */
+  MX_GPIO_Init();       // Initialize GPIO
+  MX_TIM1_Init();       // Initialize TIM1
+  MX_ADC1_Init();       // Initialize ADC1
+  MX_ADC2_Init();       // Initialize ADC2
+  MX_ADC3_Init();       // Initialize ADC3
+  MX_TIM2_Init();       // Initialize TIM2
+  MX_TIM3_Init();       // Initialize TIM3
+  MX_USART3_UART_Init();// Initialize USART3
+  MX_TIM4_Init();       // Initialize TIM4
+  MX_TIM5_Init();       // Initialize TIM5
+  MX_I2C2_Init();       // Initialize I2C2
+  MX_TIM8_Init();       // Initialize TIM8
+  MX_TIM15_Init();      // Initialize TIM15
+  MX_TIM17_Init();      // Initialize TIM17
 
-  //Put timers in correct mode
-  ;
+  // Start PWM for motor 1 and motor 2 channels
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
+  HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
 
+  // Enable motors 1 (PB1) and 2 (PB2)
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1 | GPIO_PIN_2 | GPIO_PIN_12 | GPIO_PIN_13, GPIO_PIN_SET);
 
-  HAL_TIM_IC_Start_IT(&htim15, TIM_CHANNEL_1);
-  //Set ADC in correct mode
+  // Start the encoders and enable interrupts
+  HAL_TIM_Encoder_Start_IT(&htim3, TIM_CHANNEL_ALL);
+  __HAL_TIM_SET_COUNTER(&htim3, 0);
+  HAL_TIM_Encoder_Start_IT(&htim4, TIM_CHANNEL_ALL);
+  __HAL_TIM_SET_COUNTER(&htim4, 0);
+
+  // Start ADCs
   HAL_ADC_Start(&hadc1);
   HAL_ADC_Start(&hadc2);
-  //hadc1.Init.EOCSelection = DISABLE; //Apparently important
-  //hadc2.Init.EOCSelection = DISABLE; //Apparently important
   HAL_ADC_Start(&hadc3);
-  //hadc3.Init.EOCSelection = DISABLE; //Apparently important
 
+  // Start UART receive interrupt
+  HAL_UART_Receive_IT(&huart3, rx_buff, 8);
 
-	// Start PWM for motor 1 and motor 2 channels
-	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
-	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_2);
-	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_3);
-	HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_4);
-
-  	// Enable motors 1 (PB1) and 2 (PB2)
-  	HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_12|GPIO_PIN_13, GPIO_PIN_SET);
-
-	// Start the encoders and enable interrupts
-	HAL_TIM_Encoder_Start_IT(&htim3, TIM_CHANNEL_ALL);
-	__HAL_TIM_SET_COUNTER(&htim3,0);
-	HAL_TIM_Encoder_Start_IT(&htim4, TIM_CHANNEL_ALL);
-	__HAL_TIM_SET_COUNTER(&htim4,0);
-
-
-
-
-  uint8_t task = 0; //State variable for main loop
-  uint8_t T1State = 0; //Task 1 State
-  uint8_t T2State = 0; //Task 2 State
-  uint8_t T3State = 0; //Task 3 State
-  uint8_t T4State = 0; //Task 4 State
-  uint8_t T5State = 0; //Task 5 State
-  uint8_t T6State = 0; //Task 6 State
-
-  //Set motors, metal detector, and camera to ON by default. Will turn off if battery too low or killswitch active
-   uint8_t DriveON_Rad = 1; //Radio Drive ON
-   uint8_t ArmON = 1;
-
-   uint8_t OpenMV = 1; //Camera Update On
-
-
-   uint8_t Follow = 1; //Follow mode
-
-
-
-   //Set Kill switch to be off by default
-   uint8_t BatKill = 0; //If Kill is 1 then turn everything off
-   uint8_t RadKill = 0; //Radio Kill switch
-
-   HAL_UART_Receive_IT(&huart3, rx_buff, 8);
-
-
-
-  /* USER CODE END 2 */
-
-  /* Infinite loop */
-  /* USER CODE BEGIN WHILE */
   while (1) {
-	  //Run FSM
-	  switch(task){
+    switch(task) {
+      case 0: // Initialization
+        task = 1;
+        break;
 
-	  case 0: //State 0
-		  //State 0: INIT
-		  //Do not make file for this, just Initialize as necessary
-		  task = 1;
-		  break;
+      case 1: // Diagnostics
+        task1_run(&T1State, hadc2, &BatKill);
+        task = 2;
+        break;
 
-	  case 1: //State 1
-		  //State 1: Diagnostics
-		  //Check battery and shut off if necessary
-		  //task1_run(&T1State, hadc2,&BatKill);
-		  task = 2;
-		  break;
+      case 2: // Radio Control
+        task2_run(&T2State, &BatKill, &RadKill, &usWidth, &DriveON_Rad, &ArmON, &MDON, &OpenMV);
+        task = 4;
+        break;
 
-	  case 2: //State 2
-		  //State 2: Radio
-		  //Check killswitches and radio, act accordingly
-		  task2_run(&T2State,&BatKill,&RadKill,&usWidth,&DriveON_Rad,&ArmON,&MDON,&OpenMV);
-	  	  task = 3;
-	  	  break;
+      case 4: // Metal Detector
+        task4_run(&T4State, &MDON, &sumval, htim17, &Metal_Found, hadc1, hadc2, hadc3);
+        task = 5;
+        break;
 
-	  case 3: //State 3
-		  //State 3: OpenMV Camera
-	  	  //task3_run(&T3State,&Distance_Target,&Angle_Target,&SPI_Rec,&Follow,&OpenMV, huart3);
-		  task = 4;
-	  	  break;
+      case 5: // Arm Motor
+        task5_run(&T5State, &ArmON, &Metal_Found, htim17, &sumval);
+        task = 6;
+        break;
 
-	  case 4: //State 4
-		  //State 4: Metal Detector
-	  	  //task4_run(&T4State,&MDON,&sumval,htim17,&Metal_Found, hadc1, hadc2, hadc3);
-	  	  task = 5;
-	  	  break;
-
-	  case 5: //State 5
-		  //State 5: Arm Motor
-	  	  //task5_run(&T5State,&ArmON,&Metal_Found,htim17,&sumval);
-	  	  task = 6;
-	  	  break;
-
-	  case 6: //State 6
-		  //State 6:
-	  	  //Insert State 6 class here
-		  task6_run(&T6State, &Metal_Found, &DriveON_Rad, &Follow,&Distance_Target,&Angle_Target,htim1,htim3,htim4);
-	  	  task = 1; //Do not go back to init
-	  	  break;
-
-	  }
+      case 6: // Drive Motors
+        task6_run(&T6State, &Metal_Found, &DriveON_Rad, &Follow, &Distance_Target, &Angle_Target, htim1, htim3, htim4);
+        task = 1; // Do not return to initialization
+        break;
+    }
   }
+
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -1136,66 +1053,77 @@ static void MX_GPIO_Init(void)
 /* USER CODE BEGIN 4 */
 
 
+/**
+  * @brief Callback function called when UART receives a complete buffer.
+  *
+  * Used to receive distance and angle data from the OPENMV camera.
+  *
+  * @param huart Pointer to UART handle that triggered the interrupt
+  * @retval None
+  */
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-	// Interpret the received bytes as float values
-	Distance_Target = *(float *)&rx_buff[0];
-	Angle_Target = *(float *)&rx_buff[4];
-	//printf("Captured");
+    // Interpret the received bytes as float values
+    Distance_Target = *(float *)&rx_buff[0];
+    Angle_Target = *(float *)&rx_buff[4];
 
-	// Clear the receive buffer
-	memset(rx_buff, 0, sizeof(rx_buff));
+    // Clear the receive buffer
+    memset(rx_buff, 0, sizeof(rx_buff));
 
-	// Restart UART reception
-	HAL_UART_Receive_IT(&huart3, rx_buff, 8);
+    // Restart UART reception
+    HAL_UART_Receive_IT(&huart3, rx_buff, 8);
 }
 
-//
-////Callback function for receiving SPI data. Called when receive is done
-//void HAL_SPI_RxCpltCallback(SPI_HandleTypeDef *hspi) {
-//    if (hspi->Instance == SPI3) {
-//        // Set the data received flag if SPI3 receives data
-//        //SPI_Rec = 1;
-//    }
-//}
-
-
-
-void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim) //Function from https://controllerstech.com/input-capture-in-stm32/
+/**
+  * @brief Callback function called when a timer captures an input signal.
+  *
+  * Used to receive signals from the remote control. If the trigger is pulled, the robot will
+  * completely stop moving.
+  *
+  * @param htim Pointer to TIM handle that triggered the interrupt
+  * @retval None
+  */
+void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
 {
-	if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)  // if the interrupt source is channel1
-	{
-		if (Is_First_Captured==0) // if the first value is not captured
-		{
-			IC_Val1 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1); // read the first value
-			Is_First_Captured = 1;  // set the first captured as true
-		}
+    if (htim->Channel == HAL_TIM_ACTIVE_CHANNEL_1)  // if the interrupt source is channel1
+    {
+        if (Is_First_Captured == 0) // if the first value is not captured
+        {
+            IC_Val1 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1); // read the first value
+            Is_First_Captured = 1;  // set the first captured as true
+        }
+        else   // if the first is already captured
+        {
+            IC_Val2 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);  // read second value
 
-		else   // if the first is already captured
-		{
-			IC_Val2 = HAL_TIM_ReadCapturedValue(htim, TIM_CHANNEL_1);  // read second value
+            if (IC_Val2 > IC_Val1)
+            {
+                Difference = IC_Val2 - IC_Val1;
+            }
+            else if (IC_Val1 > IC_Val2)
+            {
+                Difference = (0xffff - IC_Val1) + IC_Val2;
+            }
 
-			if (IC_Val2 > IC_Val1)
-			{
-				Difference = IC_Val2-IC_Val1;
-			}
+            int refClock = TIMCLOCK / (PRESCALAR);
+            int mFactor = 1000000 / refClock;
 
-			else if (IC_Val1 > IC_Val2)
-			{
-				Difference = (0xffff - IC_Val1) + IC_Val2;
-			}
+            usWidth = Difference * mFactor;
 
-			int refClock = TIMCLOCK/(PRESCALAR);
-			int mFactor = 1000000/refClock;
-
-			usWidth = Difference*mFactor;
-
-			__HAL_TIM_SET_COUNTER(htim, 0);  // reset the counter
-			Is_First_Captured = 0; // set it back to false
-		}
-	}
+            __HAL_TIM_SET_COUNTER(htim, 0);  // reset the counter
+            Is_First_Captured = 0; // set it back to false
+        }
+    }
 }
 
+/**
+  * @brief Helper function to redirect printf output.
+  * Used to help debug code by printing to SMV.
+  * @param file File descriptor (not used in this implementation)
+  * @param ptr Pointer to the data to be written
+  * @param len Length of the data to be written
+  * @retval Number of bytes written
+  */
 int _write(int file, char *ptr, int len)
 {
     for (int DataIdx = 0; DataIdx < len; DataIdx++)

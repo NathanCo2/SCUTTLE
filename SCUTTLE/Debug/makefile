@@ -60,8 +60,8 @@ all: main-build
 main-build: SCUTTLE_V0.elf secondary-outputs
 
 # Tool invocations
-SCUTTLE_V0.elf SCUTTLE_V0.map: $(OBJS) $(USER_OBJS) C:\Users\natha\OneDrive\Desktop\Scuttle\SCUTTLE\STM32L471RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "SCUTTLE_V0.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\natha\OneDrive\Desktop\Scuttle\SCUTTLE\STM32L471RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SCUTTLE_V0.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+SCUTTLE_V0.elf SCUTTLE_V0.map: $(OBJS) $(USER_OBJS) C:\Users\tawel\Documents\GitHub\SCUTTLE\SCUTTLE\SCUTTLE\STM32L471RGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "SCUTTLE_V0.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\tawel\Documents\GitHub\SCUTTLE\SCUTTLE\SCUTTLE\STM32L471RGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="SCUTTLE_V0.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
