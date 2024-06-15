@@ -1,0 +1,26 @@
+\doxysection{encoder.\+h}
+\hypertarget{encoder_8h_source}{}\label{encoder_8h_source}\index{src/Core/Inc/encoder.h@{src/Core/Inc/encoder.h}}
+\mbox{\hyperlink{encoder_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#ifndef\ INC\_ENCODER\_H\_}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ INC\_ENCODER\_H\_}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stm32l4xx__hal_8h}{stm32l4xx\_hal.h}}"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00018\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{00019\ \ \ \ \ \mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\_HandleTypeDef}}\ *\mbox{\hyperlink{structencoder__t_a5dc7d1c65997ccaed48a93a3f4ffc486}{htim}};\ }
+\DoxyCodeLine{00020\ \ \ \ \ int16\_t\ \mbox{\hyperlink{structencoder__t_a619d92b9edfc1c7038c7372124a6ed6d}{velocity}};}
+\DoxyCodeLine{00021\ \ \ \ \ int32\_t\ \mbox{\hyperlink{structencoder__t_a9d74b14c29cb516ab07dd22d1a1e60cc}{position}};}
+\DoxyCodeLine{00022\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structencoder__t_acab5c8851e808367266212ca0c8292ba}{last\_counter\_value}};}
+\DoxyCodeLine{00023\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structencoder__t_aa67ddb257fc5b412aa83548ea91a419f}{last\_tick}};}
+\DoxyCodeLine{00024\ \}\ \mbox{\hyperlink{structencoder__t}{encoder\_t}};\ \textcolor{comment}{//\ encoder\ instance}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{comment}{//\ Function\ prototypes\ for\ encoder}}
+\DoxyCodeLine{00027\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{encoder_8h_a2e7719f440aed0f42fc61ae0b4b95619}{read\_encoder}}(\mbox{\hyperlink{structencoder__t}{encoder\_t}}\ *encoder);}
+\DoxyCodeLine{00028\ }
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ INC\_ENCODER\_H\_\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

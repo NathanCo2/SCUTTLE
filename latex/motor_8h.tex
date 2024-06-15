@@ -1,0 +1,55 @@
+\doxysection{src/\+Core/\+Inc/motor.h File Reference}
+\hypertarget{motor_8h}{}\label{motor_8h}\index{src/Core/Inc/motor.h@{src/Core/Inc/motor.h}}
+
+
+Motor Driver Header File.  
+
+
+{\ttfamily \#include "{}stm32l4xx\+\_\+hal.\+h"{}}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structmotor__t}{motor\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Motor object data structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{motor_8h_a6dffd26d4e31650242b906056cc1b7b8}{set\+\_\+duty}} (\mbox{\hyperlink{structmotor__t}{motor\+\_\+t}} \texorpdfstring{$\ast$}{*}p\+\_\+mot, float level)
+\begin{DoxyCompactList}\small\item\em Set the duty cycle of the motor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Motor Driver Header File. 
+
+This header file contains the declarations for the motor driver functions and the \doxylink{structmotor__t}{motor\+\_\+t} structure. \begin{DoxyDate}{Date}
+Created on\+: Apr 29, 2024 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Nathan Chapman 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{motor_8h_a6dffd26d4e31650242b906056cc1b7b8}\index{motor.h@{motor.h}!set\_duty@{set\_duty}}
+\index{set\_duty@{set\_duty}!motor.h@{motor.h}}
+\doxysubsubsection{\texorpdfstring{set\_duty()}{set\_duty()}}
+{\footnotesize\ttfamily \label{motor_8h_a6dffd26d4e31650242b906056cc1b7b8} 
+void set\+\_\+duty (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structmotor__t}{motor\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{p\+\_\+mot}{, }\item[{float}]{level}{}\end{DoxyParamCaption})}
+
+
+
+Set the duty cycle of the motor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em p\+\_\+mot} & Pointer to the motor object structure. \\
+\hline
+\mbox{\texttt{ in}}  & {\em level} & Desired duty cycle percentage (-\/100 to 100).\\
+\hline
+\end{DoxyParams}
+This function constrains the level to the valid range and sets the PWM duty cycle by updating the compare register pointer directly. Constrain level to valid range
+
+Initialize pulse width variables
+
+Set the PWM duty cycle by updating the compare register

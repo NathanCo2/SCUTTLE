@@ -1,0 +1,379 @@
+\doxysection{src/\+Core/\+Src/main.c File Reference}
+\hypertarget{main_8c}{}\label{main_8c}\index{src/Core/Src/main.c@{src/Core/Src/main.c}}
+
+
+Main program for STM32 application using finite state machine (FSM) to manage tasks and peripherals. SCUTTLE main code.  
+
+
+{\ttfamily \#include "{}main.\+h"{}}\newline
+{\ttfamily \#include "{}task1.\+h"{}}\newline
+{\ttfamily \#include "{}task2.\+h"{}}\newline
+{\ttfamily \#include "{}task4.\+h"{}}\newline
+{\ttfamily \#include "{}task5.\+h"{}}\newline
+{\ttfamily \#include "{}task6.\+h"{}}\newline
+{\ttfamily \#include "{}Counter.\+h"{}}\newline
+{\ttfamily \#include "{}motor.\+h"{}}\newline
+{\ttfamily \#include "{}encoder.\+h"{}}\newline
+{\ttfamily \#include "{}motorcontrol.\+h"{}}\newline
+\doxysubsubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{main_8c_aa7e8765166068719381b53c8412d3ad6}{TIMCLOCK}}~80000000
+\item 
+\#define \mbox{\hyperlink{main_8c_a68b1b44e3ac5c4e2e90ef1e7e7e7ec88}{PRESCALAR}}~80
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{main_8c_a70af21c671abfcc773614a9a4f63d920}{System\+Clock\+\_\+\+Config}} (void)
+\begin{DoxyCompactList}\small\item\em System Clock Configuration. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a336c5acb34a801b2984e602b97ed7b73}{Periph\+Common\+Clock\+\_\+\+Config}} (void)
+\begin{DoxyCompactList}\small\item\em Peripherals Common Clock Configuration. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{main_8c_a840291bc02cba5474a4cb46a9b9566fe}{main}} (void)
+\begin{DoxyCompactList}\small\item\em Main function. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group___u_a_r_t___exported___functions___group2_gae494a9643f29b87d6d81e5264e60e57b}{HAL\+\_\+\+UART\+\_\+\+Rx\+Cplt\+Callback}} (\mbox{\hyperlink{group___u_a_r_t___exported___types_ga5de4a49eb132735325e706f406c69d6e}{UART\+\_\+\+Handle\+Type\+Def}} \texorpdfstring{$\ast$}{*}huart)
+\begin{DoxyCompactList}\small\item\em Callback function called when UART receives a complete buffer. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{group___t_i_m___exported___functions___group9_ga77a2401a35ddd9bd0b8fc28331b81381}{HAL\+\_\+\+TIM\+\_\+\+IC\+\_\+\+Capture\+Callback}} (\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} \texorpdfstring{$\ast$}{*}htim)
+\begin{DoxyCompactList}\small\item\em Callback function called when a timer captures an input signal. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{main_8c_aa025a12d45f60c7d0eae249e61f0c7f9}{\+\_\+write}} (int file, char \texorpdfstring{$\ast$}{*}ptr, int len)
+\begin{DoxyCompactList}\small\item\em Helper function to redirect printf output. Used to help debug code by printing to SMV. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{main_8c_a1730ffe1e560465665eb47d9264826f9}{Error\+\_\+\+Handler}} (void)
+\begin{DoxyCompactList}\small\item\em This function is executed in case of error occurrence. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}} \mbox{\hyperlink{main_8c_a22b804736f5648d52f639b2647d4ed13}{hadc1}}
+\item 
+\mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}} \mbox{\hyperlink{main_8c_acd9221f1aa19aebfe0b744947f2daf49}{hadc2}}
+\item 
+\mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}} \mbox{\hyperlink{main_8c_a984624bcf28d1b2fb7e4e18349f65d5c}{hadc3}}
+\item 
+\mbox{\hyperlink{group___i2_c__handle___structure__definition_ga31b88eb31a4622a50e34f02a1c3d516b}{I2\+C\+\_\+\+Handle\+Type\+Def}} \mbox{\hyperlink{main_8c_ac379bcc152d860f08b1279fd3e232295}{hi2c2}}
+\item 
+\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} \mbox{\hyperlink{main_8c_a25fc663547539bc49fecc0011bd76ab5}{htim1}}
+\item 
+\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} \mbox{\hyperlink{main_8c_a2c80fd5510e2990a59a5c90d745c716c}{htim2}}
+\item 
+\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} \mbox{\hyperlink{main_8c_aac3d2c59ee0e3bbae1b99529a154eb62}{htim3}}
+\item 
+\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} \mbox{\hyperlink{main_8c_a85788cec5a97ee377e4ee2e74f026484}{htim4}}
+\item 
+\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} \mbox{\hyperlink{main_8c_acefaeaaa3856ddddae7083b2d220fe4b}{htim5}}
+\item 
+\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} \mbox{\hyperlink{main_8c_a5faa27108379f799afb6984010bf0384}{htim8}}
+\item 
+\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} \mbox{\hyperlink{main_8c_a859a9bb217bb4010bb2bffb6881478c0}{htim15}}
+\item 
+\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} \mbox{\hyperlink{main_8c_a51c6d0c070f8c00f33ee08b4f1eb6e90}{htim17}}
+\item 
+\mbox{\hyperlink{group___u_a_r_t___exported___types_ga5de4a49eb132735325e706f406c69d6e}{UART\+\_\+\+Handle\+Type\+Def}} \mbox{\hyperlink{main_8c_ab7c63c1b0f65db92b6a4ea19edf957e1}{huart3}}
+\item 
+int \mbox{\hyperlink{main_8c_ac120cccadd82fb6539392e2382034bc5}{us\+Width}} = 0
+\item 
+int \mbox{\hyperlink{main_8c_acc816a40421b4f9c6e5a7b094746397e}{IC\+\_\+\+Val1}} = 0
+\item 
+int \mbox{\hyperlink{main_8c_a81e99d37d1d03fa9a93e2ed473a43c8a}{IC\+\_\+\+Val2}} = 0
+\item 
+int \mbox{\hyperlink{main_8c_adc0b37d600e2c6f03e4a7699287ced66}{Difference}} = 0
+\item 
+int \mbox{\hyperlink{main_8c_a5d7fd7789fda6c42c591954c2bb70588}{Is\+\_\+\+First\+\_\+\+Captured}} = 0
+\item 
+uint32\+\_\+t \mbox{\hyperlink{main_8c_a1ccc2e6addda333d9269ca68059aaaea}{sumval}} = 0
+\item 
+uint8\+\_\+t \mbox{\hyperlink{main_8c_a388bff61f3e2048b3860f230bcfd3830}{SPI\+\_\+\+Rec}} = 0
+\item 
+uint8\+\_\+t \mbox{\hyperlink{main_8c_a25deb8e1618f786bc16b2d959b980839}{MDON}} = 0
+\item 
+uint8\+\_\+t \mbox{\hyperlink{main_8c_a6bc2ffdcd82ea08dbc034eacbde34801}{Metal\+\_\+\+Found}} = 0
+\item 
+float \mbox{\hyperlink{main_8c_a420cc0573d053ec37a2d5a7f237dc02d}{Distance\+\_\+\+Target}} = 0
+\item 
+float \mbox{\hyperlink{main_8c_a1f857e499dbe8541cdd4531ab2163911}{Angle\+\_\+\+Target}} = 0
+\item 
+uint8\+\_\+t \mbox{\hyperlink{main_8c_ad39a41b75246b097b7d1925b4cf5b648}{rx\+\_\+buff}} \mbox{[}8\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Main program for STM32 application using finite state machine (FSM) to manage tasks and peripherals. SCUTTLE main code. 
+
+This file implements the main program logic using a finite state machine (FSM) approach to coordinate various tasks and control peripheral devices on an STM32 microcontroller. 
+
+\doxysubsection{Macro Definition Documentation}
+\Hypertarget{main_8c_a68b1b44e3ac5c4e2e90ef1e7e7e7ec88}\index{main.c@{main.c}!PRESCALAR@{PRESCALAR}}
+\index{PRESCALAR@{PRESCALAR}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{PRESCALAR}{PRESCALAR}}
+{\footnotesize\ttfamily \label{main_8c_a68b1b44e3ac5c4e2e90ef1e7e7e7ec88} 
+\#define PRESCALAR~80}
+
+Timer Prescalar \Hypertarget{main_8c_aa7e8765166068719381b53c8412d3ad6}\index{main.c@{main.c}!TIMCLOCK@{TIMCLOCK}}
+\index{TIMCLOCK@{TIMCLOCK}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{TIMCLOCK}{TIMCLOCK}}
+{\footnotesize\ttfamily \label{main_8c_aa7e8765166068719381b53c8412d3ad6} 
+\#define TIMCLOCK~80000000}
+
+Timer Clock Frequency 
+
+\doxysubsection{Function Documentation}
+\Hypertarget{main_8c_aa025a12d45f60c7d0eae249e61f0c7f9}\index{main.c@{main.c}!\_write@{\_write}}
+\index{\_write@{\_write}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{\_write()}{\_write()}}
+{\footnotesize\ttfamily \label{main_8c_aa025a12d45f60c7d0eae249e61f0c7f9} 
+int \+\_\+write (\begin{DoxyParamCaption}\item[{int}]{file}{, }\item[{char \texorpdfstring{$\ast$}{*}}]{ptr}{, }\item[{int}]{len}{}\end{DoxyParamCaption})}
+
+
+
+Helper function to redirect printf output. Used to help debug code by printing to SMV. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em file} & File descriptor (not used in this implementation) \\
+\hline
+{\em ptr} & Pointer to the data to be written \\
+\hline
+{\em len} & Length of the data to be written \\
+\hline
+\end{DoxyParams}
+
+\begin{DoxyRetVals}{Return values}
+{\em Number} & of bytes written \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a1730ffe1e560465665eb47d9264826f9}\index{main.c@{main.c}!Error\_Handler@{Error\_Handler}}
+\index{Error\_Handler@{Error\_Handler}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{Error\_Handler()}{Error\_Handler()}}
+{\footnotesize\ttfamily \label{main_8c_a1730ffe1e560465665eb47d9264826f9} 
+void Error\+\_\+\+Handler (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+This function is executed in case of error occurrence. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+\Hypertarget{main_8c_a840291bc02cba5474a4cb46a9b9566fe}\index{main.c@{main.c}!main@{main}}
+\index{main@{main}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily \label{main_8c_a840291bc02cba5474a4cb46a9b9566fe} 
+int main (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Main function. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em int} & \\
+\hline
+\end{DoxyRetVals}
+\texorpdfstring{$<$}{<} State variable for main loop
+
+\texorpdfstring{$<$}{<} Task 1 State
+
+\texorpdfstring{$<$}{<} Task 2 State
+
+\texorpdfstring{$<$}{<} Task 4 State
+
+\texorpdfstring{$<$}{<} Task 5 State
+
+\texorpdfstring{$<$}{<} Task 6 State
+
+\texorpdfstring{$<$}{<} Radio Drive ON
+
+\texorpdfstring{$<$}{<} Arm Motor ON
+
+\texorpdfstring{$<$}{<} Follow mode
+
+\texorpdfstring{$<$}{<} Open\+MV flag
+
+\texorpdfstring{$<$}{<} Kill switch states\Hypertarget{main_8c_a336c5acb34a801b2984e602b97ed7b73}\index{main.c@{main.c}!PeriphCommonClock\_Config@{PeriphCommonClock\_Config}}
+\index{PeriphCommonClock\_Config@{PeriphCommonClock\_Config}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{PeriphCommonClock\_Config()}{PeriphCommonClock\_Config()}}
+{\footnotesize\ttfamily \label{main_8c_a336c5acb34a801b2984e602b97ed7b73} 
+void Periph\+Common\+Clock\+\_\+\+Config (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+Peripherals Common Clock Configuration. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+Initializes the peripherals clock\Hypertarget{main_8c_a70af21c671abfcc773614a9a4f63d920}\index{main.c@{main.c}!SystemClock\_Config@{SystemClock\_Config}}
+\index{SystemClock\_Config@{SystemClock\_Config}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{SystemClock\_Config()}{SystemClock\_Config()}}
+{\footnotesize\ttfamily \label{main_8c_a70af21c671abfcc773614a9a4f63d920} 
+void System\+Clock\+\_\+\+Config (\begin{DoxyParamCaption}\item[{void}]{}{}\end{DoxyParamCaption})}
+
+
+
+System Clock Configuration. 
+
+
+\begin{DoxyRetVals}{Return values}
+{\em None} & \\
+\hline
+\end{DoxyRetVals}
+Configure the main internal regulator output voltage
+
+Initializes the RCC Oscillators according to the specified parameters in the \doxylink{struct_r_c_c___osc_init_type_def}{RCC\+\_\+\+Osc\+Init\+Type\+Def} structure.
+
+Initializes the CPU, AHB and APB buses clocks
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{main_8c_a1f857e499dbe8541cdd4531ab2163911}\index{main.c@{main.c}!Angle\_Target@{Angle\_Target}}
+\index{Angle\_Target@{Angle\_Target}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{Angle\_Target}{Angle\_Target}}
+{\footnotesize\ttfamily \label{main_8c_a1f857e499dbe8541cdd4531ab2163911} 
+float Angle\+\_\+\+Target = 0}
+
+Angle Setpoint \Hypertarget{main_8c_adc0b37d600e2c6f03e4a7699287ced66}\index{main.c@{main.c}!Difference@{Difference}}
+\index{Difference@{Difference}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{Difference}{Difference}}
+{\footnotesize\ttfamily \label{main_8c_adc0b37d600e2c6f03e4a7699287ced66} 
+int Difference = 0}
+
+Difference between IC values \Hypertarget{main_8c_a420cc0573d053ec37a2d5a7f237dc02d}\index{main.c@{main.c}!Distance\_Target@{Distance\_Target}}
+\index{Distance\_Target@{Distance\_Target}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{Distance\_Target}{Distance\_Target}}
+{\footnotesize\ttfamily \label{main_8c_a420cc0573d053ec37a2d5a7f237dc02d} 
+float Distance\+\_\+\+Target = 0}
+
+Distance Setpoint \Hypertarget{main_8c_a22b804736f5648d52f639b2647d4ed13}\index{main.c@{main.c}!hadc1@{hadc1}}
+\index{hadc1@{hadc1}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{hadc1}{hadc1}}
+{\footnotesize\ttfamily \label{main_8c_a22b804736f5648d52f639b2647d4ed13} 
+\mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}} hadc1}
+
+ADC handle for ADC1 \Hypertarget{main_8c_acd9221f1aa19aebfe0b744947f2daf49}\index{main.c@{main.c}!hadc2@{hadc2}}
+\index{hadc2@{hadc2}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{hadc2}{hadc2}}
+{\footnotesize\ttfamily \label{main_8c_acd9221f1aa19aebfe0b744947f2daf49} 
+\mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}} hadc2}
+
+ADC handle for ADC2 \Hypertarget{main_8c_a984624bcf28d1b2fb7e4e18349f65d5c}\index{main.c@{main.c}!hadc3@{hadc3}}
+\index{hadc3@{hadc3}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{hadc3}{hadc3}}
+{\footnotesize\ttfamily \label{main_8c_a984624bcf28d1b2fb7e4e18349f65d5c} 
+\mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}} hadc3}
+
+ADC handle for ADC3 \Hypertarget{main_8c_ac379bcc152d860f08b1279fd3e232295}\index{main.c@{main.c}!hi2c2@{hi2c2}}
+\index{hi2c2@{hi2c2}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{hi2c2}{hi2c2}}
+{\footnotesize\ttfamily \label{main_8c_ac379bcc152d860f08b1279fd3e232295} 
+\mbox{\hyperlink{group___i2_c__handle___structure__definition_ga31b88eb31a4622a50e34f02a1c3d516b}{I2\+C\+\_\+\+Handle\+Type\+Def}} hi2c2}
+
+I2C handle for I2\+C2 \Hypertarget{main_8c_a25fc663547539bc49fecc0011bd76ab5}\index{main.c@{main.c}!htim1@{htim1}}
+\index{htim1@{htim1}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{htim1}{htim1}}
+{\footnotesize\ttfamily \label{main_8c_a25fc663547539bc49fecc0011bd76ab5} 
+\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} htim1}
+
+TIM handle for TIM1 \Hypertarget{main_8c_a859a9bb217bb4010bb2bffb6881478c0}\index{main.c@{main.c}!htim15@{htim15}}
+\index{htim15@{htim15}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{htim15}{htim15}}
+{\footnotesize\ttfamily \label{main_8c_a859a9bb217bb4010bb2bffb6881478c0} 
+\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} htim15}
+
+TIM handle for TIM15 \Hypertarget{main_8c_a51c6d0c070f8c00f33ee08b4f1eb6e90}\index{main.c@{main.c}!htim17@{htim17}}
+\index{htim17@{htim17}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{htim17}{htim17}}
+{\footnotesize\ttfamily \label{main_8c_a51c6d0c070f8c00f33ee08b4f1eb6e90} 
+\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} htim17}
+
+TIM handle for TIM17 \Hypertarget{main_8c_a2c80fd5510e2990a59a5c90d745c716c}\index{main.c@{main.c}!htim2@{htim2}}
+\index{htim2@{htim2}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{htim2}{htim2}}
+{\footnotesize\ttfamily \label{main_8c_a2c80fd5510e2990a59a5c90d745c716c} 
+\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} htim2}
+
+TIM handle for TIM2 \Hypertarget{main_8c_aac3d2c59ee0e3bbae1b99529a154eb62}\index{main.c@{main.c}!htim3@{htim3}}
+\index{htim3@{htim3}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{htim3}{htim3}}
+{\footnotesize\ttfamily \label{main_8c_aac3d2c59ee0e3bbae1b99529a154eb62} 
+\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} htim3}
+
+TIM handle for TIM3 \Hypertarget{main_8c_a85788cec5a97ee377e4ee2e74f026484}\index{main.c@{main.c}!htim4@{htim4}}
+\index{htim4@{htim4}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{htim4}{htim4}}
+{\footnotesize\ttfamily \label{main_8c_a85788cec5a97ee377e4ee2e74f026484} 
+\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} htim4}
+
+TIM handle for TIM4 \Hypertarget{main_8c_acefaeaaa3856ddddae7083b2d220fe4b}\index{main.c@{main.c}!htim5@{htim5}}
+\index{htim5@{htim5}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{htim5}{htim5}}
+{\footnotesize\ttfamily \label{main_8c_acefaeaaa3856ddddae7083b2d220fe4b} 
+\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} htim5}
+
+TIM handle for TIM5 \Hypertarget{main_8c_a5faa27108379f799afb6984010bf0384}\index{main.c@{main.c}!htim8@{htim8}}
+\index{htim8@{htim8}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{htim8}{htim8}}
+{\footnotesize\ttfamily \label{main_8c_a5faa27108379f799afb6984010bf0384} 
+\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} htim8}
+
+TIM handle for TIM8 \Hypertarget{main_8c_ab7c63c1b0f65db92b6a4ea19edf957e1}\index{main.c@{main.c}!huart3@{huart3}}
+\index{huart3@{huart3}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{huart3}{huart3}}
+{\footnotesize\ttfamily \label{main_8c_ab7c63c1b0f65db92b6a4ea19edf957e1} 
+\mbox{\hyperlink{group___u_a_r_t___exported___types_ga5de4a49eb132735325e706f406c69d6e}{UART\+\_\+\+Handle\+Type\+Def}} huart3}
+
+UART handle for UART3 \Hypertarget{main_8c_acc816a40421b4f9c6e5a7b094746397e}\index{main.c@{main.c}!IC\_Val1@{IC\_Val1}}
+\index{IC\_Val1@{IC\_Val1}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{IC\_Val1}{IC\_Val1}}
+{\footnotesize\ttfamily \label{main_8c_acc816a40421b4f9c6e5a7b094746397e} 
+int IC\+\_\+\+Val1 = 0}
+
+Input Capture Value 1 \Hypertarget{main_8c_a81e99d37d1d03fa9a93e2ed473a43c8a}\index{main.c@{main.c}!IC\_Val2@{IC\_Val2}}
+\index{IC\_Val2@{IC\_Val2}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{IC\_Val2}{IC\_Val2}}
+{\footnotesize\ttfamily \label{main_8c_a81e99d37d1d03fa9a93e2ed473a43c8a} 
+int IC\+\_\+\+Val2 = 0}
+
+Input Capture Value 2 \Hypertarget{main_8c_a5d7fd7789fda6c42c591954c2bb70588}\index{main.c@{main.c}!Is\_First\_Captured@{Is\_First\_Captured}}
+\index{Is\_First\_Captured@{Is\_First\_Captured}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{Is\_First\_Captured}{Is\_First\_Captured}}
+{\footnotesize\ttfamily \label{main_8c_a5d7fd7789fda6c42c591954c2bb70588} 
+int Is\+\_\+\+First\+\_\+\+Captured = 0}
+
+Flag for first capture \Hypertarget{main_8c_a25deb8e1618f786bc16b2d959b980839}\index{main.c@{main.c}!MDON@{MDON}}
+\index{MDON@{MDON}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{MDON}{MDON}}
+{\footnotesize\ttfamily \label{main_8c_a25deb8e1618f786bc16b2d959b980839} 
+uint8\+\_\+t MDON = 0}
+
+Metal Detector ON Flag \Hypertarget{main_8c_a6bc2ffdcd82ea08dbc034eacbde34801}\index{main.c@{main.c}!Metal\_Found@{Metal\_Found}}
+\index{Metal\_Found@{Metal\_Found}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{Metal\_Found}{Metal\_Found}}
+{\footnotesize\ttfamily \label{main_8c_a6bc2ffdcd82ea08dbc034eacbde34801} 
+uint8\+\_\+t Metal\+\_\+\+Found = 0}
+
+Flag for metal detection \Hypertarget{main_8c_ad39a41b75246b097b7d1925b4cf5b648}\index{main.c@{main.c}!rx\_buff@{rx\_buff}}
+\index{rx\_buff@{rx\_buff}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{rx\_buff}{rx\_buff}}
+{\footnotesize\ttfamily \label{main_8c_ad39a41b75246b097b7d1925b4cf5b648} 
+uint8\+\_\+t rx\+\_\+buff\mbox{[}8\mbox{]}}
+
+UART Receive Buffer \Hypertarget{main_8c_a388bff61f3e2048b3860f230bcfd3830}\index{main.c@{main.c}!SPI\_Rec@{SPI\_Rec}}
+\index{SPI\_Rec@{SPI\_Rec}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{SPI\_Rec}{SPI\_Rec}}
+{\footnotesize\ttfamily \label{main_8c_a388bff61f3e2048b3860f230bcfd3830} 
+uint8\+\_\+t SPI\+\_\+\+Rec = 0}
+
+Flag for SPI Data Received \Hypertarget{main_8c_a1ccc2e6addda333d9269ca68059aaaea}\index{main.c@{main.c}!sumval@{sumval}}
+\index{sumval@{sumval}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{sumval}{sumval}}
+{\footnotesize\ttfamily \label{main_8c_a1ccc2e6addda333d9269ca68059aaaea} 
+uint32\+\_\+t sumval = 0}
+
+Metal Detector Value \Hypertarget{main_8c_ac120cccadd82fb6539392e2382034bc5}\index{main.c@{main.c}!usWidth@{usWidth}}
+\index{usWidth@{usWidth}!main.c@{main.c}}
+\doxysubsubsection{\texorpdfstring{usWidth}{usWidth}}
+{\footnotesize\ttfamily \label{main_8c_ac120cccadd82fb6539392e2382034bc5} 
+int us\+Width = 0}
+
+Width for Radio Interrupt 

@@ -1,0 +1,47 @@
+\doxysection{src/\+Core/\+Src/motorcontrol.c File Reference}
+\hypertarget{motorcontrol_8c}{}\label{motorcontrol_8c}\index{src/Core/Src/motorcontrol.c@{src/Core/Src/motorcontrol.c}}
+
+
+Motor Controller.  
+
+
+{\ttfamily \#include "{}motorcontrol.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{motorcontrol_8c_a1abe75e4ac1b46a700858f52da28016d}{run\+\_\+control}} (\mbox{\hyperlink{structcontroller__t}{controller\+\_\+t}} \texorpdfstring{$\ast$}{*}controller, \mbox{\hyperlink{structmotor__t}{motor\+\_\+t}} \texorpdfstring{$\ast$}{*}motor, \mbox{\hyperlink{structencoder__t}{encoder\+\_\+t}} \texorpdfstring{$\ast$}{*}encoder)
+\begin{DoxyCompactList}\small\item\em Read encoder value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Motor Controller. 
+
+Requires working encoder and motor driver. Implements PID control to drive motor \begin{DoxyDate}{Date}
+Created on\+: June 5, 2024 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Nathan Chapman 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{motorcontrol_8c_a1abe75e4ac1b46a700858f52da28016d}\index{motorcontrol.c@{motorcontrol.c}!run\_control@{run\_control}}
+\index{run\_control@{run\_control}!motorcontrol.c@{motorcontrol.c}}
+\doxysubsubsection{\texorpdfstring{run\_control()}{run\_control()}}
+{\footnotesize\ttfamily \label{motorcontrol_8c_a1abe75e4ac1b46a700858f52da28016d} 
+void run\+\_\+control (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structcontroller__t}{controller\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{controller}{, }\item[{\mbox{\hyperlink{structmotor__t}{motor\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{motor}{, }\item[{\mbox{\hyperlink{structencoder__t}{encoder\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{encoder}{}\end{DoxyParamCaption})}
+
+
+
+Read encoder value. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em controller} & A pointer to a structure (\doxylink{structcontroller__t}{controller\+\_\+t}) containing controller gains and relevant information \\
+\hline
+\mbox{\texttt{ in}}  & {\em motor} & A pointer to a structure (\doxylink{structmotor__t}{motor\+\_\+t}) containing motor data \\
+\hline
+\mbox{\texttt{ in}}  & {\em encoder} & A pointer to a structure (\doxylink{structencoder__t}{encoder\+\_\+t}) containing encoder-\/related data such as position, velocity, and the last counter value.\\
+\hline
+\end{DoxyParams}
+This function runs the motor controller loop that alters motor duty cycle to reach a position or velocity setpoint 

@@ -1,0 +1,177 @@
+\doxysection{src/\+Core/\+Src/task5.c File Reference}
+\hypertarget{task5_8c}{}\label{task5_8c}\index{src/Core/Src/task5.c@{src/Core/Src/task5.c}}
+
+
+Implementation of Task 5\+: Arm Motor Control.  
+
+
+{\ttfamily \#include "{}task5.\+h"{}}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include "{}Counter.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{task5_8c_ad60fde44074584df97b70bcf261d09cc}{task5\+\_\+run}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}State, uint8\+\_\+t \texorpdfstring{$\ast$}{*}Arm\+ON, uint8\+\_\+t \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{main_8c_a6bc2ffdcd82ea08dbc034eacbde34801}{Metal\+\_\+\+Found}}, \mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} Timer, uint32\+\_\+t \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{main_8c_a1ccc2e6addda333d9269ca68059aaaea}{sumval}})
+\begin{DoxyCompactList}\small\item\em Run task 5 FSM, controlling the arm motor based on metal detection and operational state. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+float \mbox{\hyperlink{task5_8c_a630f1eeed416e3137a95eedfade5e10f}{Arm\+\_\+\+Encoder\+\_\+\+CPR}} = 979.\+2
+\item 
+int8\+\_\+t \mbox{\hyperlink{task5_8c_a23a31f31ed1135914a06e01beb812aa0}{Sweep\+Deg}} = 60
+\item 
+float \mbox{\hyperlink{task5_8c_af63e486565bc815458b5a2563efe948b}{Arm\+\_\+\+Pos\+\_\+\+Target}}
+\item 
+float \mbox{\hyperlink{task5_8c_ad454b832ef86d6116aecf6dd3c4c93d1}{Arm\+\_\+\+Deg\+\_\+\+Target}}
+\item 
+float \mbox{\hyperlink{task5_8c_ad09e5dec3752e4b23d3a9aaa3b8ced9a}{Deg\+\_\+inc}}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{task5_8c_a9d23f0d7aaa206c6af821ae87c63cb19}{Time\+\_\+\+Start}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{task5_8c_a4bb3de0989064d1768112893f5448069}{Timer\+Started}} = 0
+\item 
+uint8\+\_\+t \mbox{\hyperlink{task5_8c_ab5a448c312dee725559da2ad1fc1d9ee}{S3\+\_\+\+First}} = 0
+\item 
+uint8\+\_\+t \mbox{\hyperlink{task5_8c_a842fe98bec340e480860d0c46903f16d}{Arm\+Dir}} = 1
+\item 
+float \mbox{\hyperlink{task5_8c_af2b8a0691585930eaa0035ba2a85d421}{Time\+Diff}}
+\item 
+uint32\+\_\+t \mbox{\hyperlink{task5_8c_ab9b9190f033bda9823ce3857ce63a221}{sumval\+\_\+old}} = 0
+\item 
+uint32\+\_\+t \mbox{\hyperlink{task5_8c_a114db00dde726edfa5ab6e2cd9c700b0}{Metal\+\_\+\+Delta}}
+\item 
+float \mbox{\hyperlink{task5_8c_a424ba95ef49d23966f514baed780717f}{K\+\_\+arm}} = 1
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of Task 5\+: Arm Motor Control. 
+
+Implementation of Task 6\+: Drive Motor Control.
+
+NOTE\+: THIS FILE IS NOT YET FULLY IMPLEMENTED. SEE CAPITALIZED COMMENTS FOR CODE STILL NEEDED. This file contains the implementation of the state machine for controlling the Arm Motor. It includes functions to manage the Arm\textquotesingle{}s movement based on metal detection and passive sweeping.
+
+\begin{DoxyDate}{Date}
+Jun 8, 2024 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+tawel
+\end{DoxyAuthor}
+This file contains the implementation of the state machine for controlling the drive motors. This includes implementing data from the Open\+MV camera to control steering rate and desired velocity. This uses closed loop PI control. The motors will stop automatically if metal is detected or if the camera cannot see the April Tag.
+
+\begin{DoxyDate}{Date}
+Jun 8, 2024 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+tawel 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{task5_8c_ad60fde44074584df97b70bcf261d09cc}\index{task5.c@{task5.c}!task5\_run@{task5\_run}}
+\index{task5\_run@{task5\_run}!task5.c@{task5.c}}
+\doxysubsubsection{\texorpdfstring{task5\_run()}{task5\_run()}}
+{\footnotesize\ttfamily \label{task5_8c_ad60fde44074584df97b70bcf261d09cc} 
+void task5\+\_\+run (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{State}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{Arm\+ON}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{Metal\+\_\+\+Found}{, }\item[{\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}}}]{Timer}{, }\item[{uint32\+\_\+t \texorpdfstring{$\ast$}{*}}]{sumval}{}\end{DoxyParamCaption})}
+
+
+
+Run task 5 FSM, controlling the arm motor based on metal detection and operational state. 
+
+Run task 5, controlling the arm motor based on metal detection and operational state.
+
+
+\begin{DoxyParams}{Parameters}
+{\em State} & Pointer to the state variable. \\
+\hline
+{\em Arm\+ON} & Pointer to the variable indicating whether the arm motor is enabled. \\
+\hline
+{\em Metal\+\_\+\+Found} & Pointer to the variable indicating whether metal is detected. \\
+\hline
+{\em Timer} & Timer handle for timing operations. \\
+\hline
+{\em sumval} & Pointer to the variable storing the sum value from metal detection. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{task5_8c_ad454b832ef86d6116aecf6dd3c4c93d1}\index{task5.c@{task5.c}!Arm\_Deg\_Target@{Arm\_Deg\_Target}}
+\index{Arm\_Deg\_Target@{Arm\_Deg\_Target}!task5.c@{task5.c}}
+\doxysubsubsection{\texorpdfstring{Arm\_Deg\_Target}{Arm\_Deg\_Target}}
+{\footnotesize\ttfamily \label{task5_8c_ad454b832ef86d6116aecf6dd3c4c93d1} 
+float Arm\+\_\+\+Deg\+\_\+\+Target}
+
+Target position of the Arm Motor in degrees \Hypertarget{task5_8c_a630f1eeed416e3137a95eedfade5e10f}\index{task5.c@{task5.c}!Arm\_Encoder\_CPR@{Arm\_Encoder\_CPR}}
+\index{Arm\_Encoder\_CPR@{Arm\_Encoder\_CPR}!task5.c@{task5.c}}
+\doxysubsubsection{\texorpdfstring{Arm\_Encoder\_CPR}{Arm\_Encoder\_CPR}}
+{\footnotesize\ttfamily \label{task5_8c_a630f1eeed416e3137a95eedfade5e10f} 
+float Arm\+\_\+\+Encoder\+\_\+\+CPR = 979.\+2}
+
+Number of encoder ticks per revolution of the Arm Motor \Hypertarget{task5_8c_af63e486565bc815458b5a2563efe948b}\index{task5.c@{task5.c}!Arm\_Pos\_Target@{Arm\_Pos\_Target}}
+\index{Arm\_Pos\_Target@{Arm\_Pos\_Target}!task5.c@{task5.c}}
+\doxysubsubsection{\texorpdfstring{Arm\_Pos\_Target}{Arm\_Pos\_Target}}
+{\footnotesize\ttfamily \label{task5_8c_af63e486565bc815458b5a2563efe948b} 
+float Arm\+\_\+\+Pos\+\_\+\+Target}
+
+Target position of the Arm Motor in encoder ticks \Hypertarget{task5_8c_a842fe98bec340e480860d0c46903f16d}\index{task5.c@{task5.c}!ArmDir@{ArmDir}}
+\index{ArmDir@{ArmDir}!task5.c@{task5.c}}
+\doxysubsubsection{\texorpdfstring{ArmDir}{ArmDir}}
+{\footnotesize\ttfamily \label{task5_8c_a842fe98bec340e480860d0c46903f16d} 
+uint8\+\_\+t Arm\+Dir = 1}
+
+Direction of Arm movement \Hypertarget{task5_8c_ad09e5dec3752e4b23d3a9aaa3b8ced9a}\index{task5.c@{task5.c}!Deg\_inc@{Deg\_inc}}
+\index{Deg\_inc@{Deg\_inc}!task5.c@{task5.c}}
+\doxysubsubsection{\texorpdfstring{Deg\_inc}{Deg\_inc}}
+{\footnotesize\ttfamily \label{task5_8c_ad09e5dec3752e4b23d3a9aaa3b8ced9a} 
+float Deg\+\_\+inc}
+
+Increment of degrees for Arm movement \Hypertarget{task5_8c_a424ba95ef49d23966f514baed780717f}\index{task5.c@{task5.c}!K\_arm@{K\_arm}}
+\index{K\_arm@{K\_arm}!task5.c@{task5.c}}
+\doxysubsubsection{\texorpdfstring{K\_arm}{K\_arm}}
+{\footnotesize\ttfamily \label{task5_8c_a424ba95ef49d23966f514baed780717f} 
+float K\+\_\+arm = 1}
+
+Arm control gain value \Hypertarget{task5_8c_a114db00dde726edfa5ab6e2cd9c700b0}\index{task5.c@{task5.c}!Metal\_Delta@{Metal\_Delta}}
+\index{Metal\_Delta@{Metal\_Delta}!task5.c@{task5.c}}
+\doxysubsubsection{\texorpdfstring{Metal\_Delta}{Metal\_Delta}}
+{\footnotesize\ttfamily \label{task5_8c_a114db00dde726edfa5ab6e2cd9c700b0} 
+uint32\+\_\+t Metal\+\_\+\+Delta}
+
+Difference between old and new metal detector reading \Hypertarget{task5_8c_ab5a448c312dee725559da2ad1fc1d9ee}\index{task5.c@{task5.c}!S3\_First@{S3\_First}}
+\index{S3\_First@{S3\_First}!task5.c@{task5.c}}
+\doxysubsubsection{\texorpdfstring{S3\_First}{S3\_First}}
+{\footnotesize\ttfamily \label{task5_8c_ab5a448c312dee725559da2ad1fc1d9ee} 
+uint8\+\_\+t S3\+\_\+\+First = 0}
+
+Flag to determine if it is the first time through state 3 \Hypertarget{task5_8c_ab9b9190f033bda9823ce3857ce63a221}\index{task5.c@{task5.c}!sumval\_old@{sumval\_old}}
+\index{sumval\_old@{sumval\_old}!task5.c@{task5.c}}
+\doxysubsubsection{\texorpdfstring{sumval\_old}{sumval\_old}}
+{\footnotesize\ttfamily \label{task5_8c_ab9b9190f033bda9823ce3857ce63a221} 
+uint32\+\_\+t sumval\+\_\+old = 0}
+
+Old sumval measurement for metal detection \Hypertarget{task5_8c_a23a31f31ed1135914a06e01beb812aa0}\index{task5.c@{task5.c}!SweepDeg@{SweepDeg}}
+\index{SweepDeg@{SweepDeg}!task5.c@{task5.c}}
+\doxysubsubsection{\texorpdfstring{SweepDeg}{SweepDeg}}
+{\footnotesize\ttfamily \label{task5_8c_a23a31f31ed1135914a06e01beb812aa0} 
+int8\+\_\+t Sweep\+Deg = 60}
+
+Number of degrees for sweep each side \Hypertarget{task5_8c_a9d23f0d7aaa206c6af821ae87c63cb19}\index{task5.c@{task5.c}!Time\_Start@{Time\_Start}}
+\index{Time\_Start@{Time\_Start}!task5.c@{task5.c}}
+\doxysubsubsection{\texorpdfstring{Time\_Start}{Time\_Start}}
+{\footnotesize\ttfamily \label{task5_8c_a9d23f0d7aaa206c6af821ae87c63cb19} 
+uint16\+\_\+t Time\+\_\+\+Start}
+
+Used to find deltaT for timing \Hypertarget{task5_8c_af2b8a0691585930eaa0035ba2a85d421}\index{task5.c@{task5.c}!TimeDiff@{TimeDiff}}
+\index{TimeDiff@{TimeDiff}!task5.c@{task5.c}}
+\doxysubsubsection{\texorpdfstring{TimeDiff}{TimeDiff}}
+{\footnotesize\ttfamily \label{task5_8c_af2b8a0691585930eaa0035ba2a85d421} 
+float Time\+Diff}
+
+Time difference variable \Hypertarget{task5_8c_a4bb3de0989064d1768112893f5448069}\index{task5.c@{task5.c}!TimerStarted@{TimerStarted}}
+\index{TimerStarted@{TimerStarted}!task5.c@{task5.c}}
+\doxysubsubsection{\texorpdfstring{TimerStarted}{TimerStarted}}
+{\footnotesize\ttfamily \label{task5_8c_a4bb3de0989064d1768112893f5448069} 
+uint8\+\_\+t Timer\+Started = 0}
+
+Flag to determine if the timer has started 

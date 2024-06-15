@@ -1,0 +1,24 @@
+\doxysection{motor.\+h}
+\hypertarget{motor_8h_source}{}\label{motor_8h_source}\index{src/Core/Inc/motor.h@{src/Core/Inc/motor.h}}
+\mbox{\hyperlink{motor_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ }
+\DoxyCodeLine{00010\ \textcolor{preprocessor}{\#ifndef\ INC\_MOTOR\_H\_}}
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#define\ INC\_MOTOR\_H\_}}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{stm32l4xx__hal_8h}{stm32l4xx\_hal.h}}"{}}}
+\DoxyCodeLine{00014\ \textcolor{preprocessor}{\#include\ <stdint.h>}}
+\DoxyCodeLine{00015\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct\ }\{}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{volatile}\ uint32\_t*\ \mbox{\hyperlink{structmotor__t_a4937eb062e42feb1294e63d4d4d2abf3}{chA}};\ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{volatile}\ uint32\_t*\ \mbox{\hyperlink{structmotor__t_a13f40d3ce4a7d20eb13eabd838b50e5f}{chB}};\ }
+\DoxyCodeLine{00020\ \ \ \ \ uint32\_t\ \mbox{\hyperlink{structmotor__t_a49500eef6a2354eeee4adc005bf9cef6}{Period}};\ \ \ \ \ \ \ \ \ }
+\DoxyCodeLine{00021\ \}\ \mbox{\hyperlink{structmotor__t}{motor\_t}};}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{comment}{//\ Function\ prototypes\ for\ motor\ control}}
+\DoxyCodeLine{00024\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{motor_8h_a6dffd26d4e31650242b906056cc1b7b8}{set\_duty}}(\mbox{\hyperlink{structmotor__t}{motor\_t}}*\ p\_mot,\ \textcolor{keywordtype}{float}\ level);}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ }
+\DoxyCodeLine{00027\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ INC\_MOTOR\_H\_\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}

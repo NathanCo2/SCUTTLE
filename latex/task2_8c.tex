@@ -1,0 +1,59 @@
+\doxysection{src/\+Core/\+Src/task2.c File Reference}
+\hypertarget{task2_8c}{}\label{task2_8c}\index{src/Core/Src/task2.c@{src/Core/Src/task2.c}}
+
+
+Task 2\+: Radio Killswitch.  
+
+
+{\ttfamily \#include "{}task2.\+h"{}}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{task2_8c_a1a0202c1a1c48c14625be2d44121101f}{task2\+\_\+run}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}State, uint8\+\_\+t \texorpdfstring{$\ast$}{*}Bat\+Kill, uint8\+\_\+t \texorpdfstring{$\ast$}{*}Rad\+Kill, int \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{main_8c_ac120cccadd82fb6539392e2382034bc5}{us\+Width}}, uint8\+\_\+t \texorpdfstring{$\ast$}{*}Drive\+ON, uint8\+\_\+t \texorpdfstring{$\ast$}{*}Arm\+ON, uint8\+\_\+t \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{main_8c_a25deb8e1618f786bc16b2d959b980839}{MDON}}, uint8\+\_\+t \texorpdfstring{$\ast$}{*}OPENMV)
+\begin{DoxyCompactList}\small\item\em Run task 2 FSM, which includes checking the radio killswitch and activating the metal detector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Task 2\+: Radio Killswitch. 
+
+Checks radio killswitch and battery killswitch and update run flags accordingly. \begin{DoxyDate}{Date}
+June 3, 2024 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+tawel 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{task2_8c_a1a0202c1a1c48c14625be2d44121101f}\index{task2.c@{task2.c}!task2\_run@{task2\_run}}
+\index{task2\_run@{task2\_run}!task2.c@{task2.c}}
+\doxysubsubsection{\texorpdfstring{task2\_run()}{task2\_run()}}
+{\footnotesize\ttfamily \label{task2_8c_a1a0202c1a1c48c14625be2d44121101f} 
+void task2\+\_\+run (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{State}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{Bat\+Kill}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{Rad\+Kill}{, }\item[{int \texorpdfstring{$\ast$}{*}}]{us\+Width}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{Drive\+ON}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{Arm\+ON}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{MDON}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{OPENMV}{}\end{DoxyParamCaption})}
+
+
+
+Run task 2 FSM, which includes checking the radio killswitch and activating the metal detector. 
+
+Run task 2, which includes checking the radio killswitch and activating the metal detector.
+
+
+\begin{DoxyParams}{Parameters}
+{\em State} & Pointer to the state variable. \\
+\hline
+{\em Bat\+Kill} & Pointer to the battery kill switch flag. \\
+\hline
+{\em Rad\+Kill} & Pointer to the radio kill switch flag. \\
+\hline
+{\em us\+Width} & Pointer to the pulse width flag. \\
+\hline
+{\em Drive\+ON} & Pointer to the drive system status flag. \\
+\hline
+{\em Arm\+ON} & Pointer to the arm system status flag. \\
+\hline
+{\em MDON} & Pointer to the metal detector on/off flag. \\
+\hline
+{\em OPENMV} & Pointer to the Open\+MV camera status flag. \\
+\hline
+\end{DoxyParams}

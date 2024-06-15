@@ -1,0 +1,59 @@
+\doxysection{src/\+Core/\+Inc/task3.h File Reference}
+\hypertarget{task3_8h}{}\label{task3_8h}\index{src/Core/Inc/task3.h@{src/Core/Inc/task3.h}}
+
+
+Header file for Task 3\+: OPENMV Camera Interface.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include "{}stm32l4xx\+\_\+hal.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{task3_8h_aec54975ad344d6debdf6609298b99e89}{task3\+\_\+run}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}State, float \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{main_8c_a420cc0573d053ec37a2d5a7f237dc02d}{Distance\+\_\+\+Target}}, float \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{main_8c_a1f857e499dbe8541cdd4531ab2163911}{Angle\+\_\+\+Target}}, uint8\+\_\+t \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{main_8c_a388bff61f3e2048b3860f230bcfd3830}{SPI\+\_\+\+Rec}}, uint8\+\_\+t \texorpdfstring{$\ast$}{*}Follow, uint8\+\_\+t \texorpdfstring{$\ast$}{*}Open\+MV, \mbox{\hyperlink{group___u_a_r_t___exported___types_ga5de4a49eb132735325e706f406c69d6e}{UART\+\_\+\+Handle\+Type\+Def}} UART3)
+\begin{DoxyCompactList}\small\item\em Runs the state machine for the OPENMV Camera interface. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for Task 3\+: OPENMV Camera Interface. 
+
+This file contains the function prototype for the state machine implementing communication with an OPENMV camera via UART.
+
+\begin{DoxyDate}{Date}
+Jun 5, 2024 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+tawel 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{task3_8h_aec54975ad344d6debdf6609298b99e89}\index{task3.h@{task3.h}!task3\_run@{task3\_run}}
+\index{task3\_run@{task3\_run}!task3.h@{task3.h}}
+\doxysubsubsection{\texorpdfstring{task3\_run()}{task3\_run()}}
+{\footnotesize\ttfamily \label{task3_8h_aec54975ad344d6debdf6609298b99e89} 
+void task3\+\_\+run (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{State}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{Distance\+\_\+\+Target}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{Angle\+\_\+\+Target}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{SPI\+\_\+\+Rec}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{Follow}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{Open\+MV}{, }\item[{\mbox{\hyperlink{group___u_a_r_t___exported___types_ga5de4a49eb132735325e706f406c69d6e}{UART\+\_\+\+Handle\+Type\+Def}}}]{UART3}{}\end{DoxyParamCaption})}
+
+
+
+Runs the state machine for the OPENMV Camera interface. 
+
+This function implements the state machine for interfacing with an OPENMV camera via UART. It manages the process of requesting, receiving, and processing distance and angle data from the camera.
+
+
+\begin{DoxyParams}{Parameters}
+{\em State} & Pointer to the state variable of the state machine. \\
+\hline
+{\em Distance\+\_\+\+Target} & Pointer to the variable where the target distance will be stored. \\
+\hline
+{\em Angle\+\_\+\+Target} & Pointer to the variable where the target angle will be stored. \\
+\hline
+{\em SPI\+\_\+\+Rec} & Pointer to the SPI receive flag variable. \\
+\hline
+{\em Follow} & Pointer to the follow mode flag variable. \\
+\hline
+{\em Open\+MV} & Pointer to the OPENMV mode flag variable. \\
+\hline
+{\em UART3} & UART handle for communication with the OPENMV camera. \\
+\hline
+\end{DoxyParams}

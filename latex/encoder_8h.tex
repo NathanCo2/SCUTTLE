@@ -1,0 +1,51 @@
+\doxysection{src/\+Core/\+Inc/encoder.h File Reference}
+\hypertarget{encoder_8h}{}\label{encoder_8h}\index{src/Core/Inc/encoder.h@{src/Core/Inc/encoder.h}}
+
+
+encoder Header File  
+
+
+{\ttfamily \#include "{}stm32l4xx\+\_\+hal.\+h"{}}\newline
+{\ttfamily \#include $<$stdint.\+h$>$}\newline
+\doxysubsubsection*{Data Structures}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{structencoder__t}{encoder\+\_\+t}}
+\begin{DoxyCompactList}\small\item\em Encoder object data structure. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{encoder_8h_a2e7719f440aed0f42fc61ae0b4b95619}{read\+\_\+encoder}} (\mbox{\hyperlink{structencoder__t}{encoder\+\_\+t}} \texorpdfstring{$\ast$}{*}encoder)
+\begin{DoxyCompactList}\small\item\em Read encoder value. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+encoder Header File 
+
+This header file contains the declarations for the encoder driver functions and the \doxylink{structencoder__t}{encoder\+\_\+t} structure. Resource\+: \href{https://www.steppeschool.com/pages/blog/stm32-timer-encoder-mode}{\texttt{ https\+://www.\+steppeschool.\+com/pages/blog/stm32-\/timer-\/encoder-\/mode}} \begin{DoxyDate}{Date}
+Created on\+: June 3, 2024 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Nathan Chapman 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{encoder_8h_a2e7719f440aed0f42fc61ae0b4b95619}\index{encoder.h@{encoder.h}!read\_encoder@{read\_encoder}}
+\index{read\_encoder@{read\_encoder}!encoder.h@{encoder.h}}
+\doxysubsubsection{\texorpdfstring{read\_encoder()}{read\_encoder()}}
+{\footnotesize\ttfamily \label{encoder_8h_a2e7719f440aed0f42fc61ae0b4b95619} 
+void read\+\_\+encoder (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structencoder__t}{encoder\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{encoder}{}\end{DoxyParamCaption})}
+
+
+
+Read encoder value. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em encoder} & A pointer to a structure (\doxylink{structencoder__t}{encoder\+\_\+t}) containing encoder-\/related data such as position, velocity, and the last counter value. \\
+\hline
+\mbox{\texttt{ in}}  & {\em htim} & A pointer to the timer handle used to read the counter value.\\
+\hline
+\end{DoxyParams}
+This function reads a timer setup in encoder mode and finds position and velocity, accounting for overflow and direction change. 

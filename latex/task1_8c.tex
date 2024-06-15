@@ -1,0 +1,63 @@
+\doxysection{src/\+Core/\+Src/task1.c File Reference}
+\hypertarget{task1_8c}{}\label{task1_8c}\index{src/Core/Src/task1.c@{src/Core/Src/task1.c}}
+
+
+Task 1\+: Diagnostics Test.  
+
+
+{\ttfamily \#include "{}task1.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{task1_8c_aba5513384e4ff79754ed8da4ba5f909d}{task1\+\_\+run}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}State, \mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}} Analog2, uint8\+\_\+t \texorpdfstring{$\ast$}{*}Kill)
+\begin{DoxyCompactList}\small\item\em Run task 1 FSM, which includes diagnostics and battery level check. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{task1_8c_ac24ac673d3633d8d183b17f6b8ffa402}{Bat\+\_\+\+Res}} = 0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Task 1\+: Diagnostics Test. 
+
+Runs a diagnostic test, including battery level check to ensure battery does not get to dangerous level. \begin{DoxyDate}{Date}
+June 3, 2024 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+tawel 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{task1_8c_aba5513384e4ff79754ed8da4ba5f909d}\index{task1.c@{task1.c}!task1\_run@{task1\_run}}
+\index{task1\_run@{task1\_run}!task1.c@{task1.c}}
+\doxysubsubsection{\texorpdfstring{task1\_run()}{task1\_run()}}
+{\footnotesize\ttfamily \label{task1_8c_aba5513384e4ff79754ed8da4ba5f909d} 
+void task1\+\_\+run (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{State}{, }\item[{\mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}}}]{Analog2}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{Kill}{}\end{DoxyParamCaption})}
+
+
+
+Run task 1 FSM, which includes diagnostics and battery level check. 
+
+Run task 1, which includes diagnostics and battery level check.
+
+
+\begin{DoxyParams}{Parameters}
+{\em State} & Pointer to the state variable. \\
+\hline
+{\em Analog2} & ADC handle for battery level check. \\
+\hline
+{\em Kill} & Pointer to the kill switch variable. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{task1_8c_ac24ac673d3633d8d183b17f6b8ffa402}\index{task1.c@{task1.c}!Bat\_Res@{Bat\_Res}}
+\index{Bat\_Res@{Bat\_Res}!task1.c@{task1.c}}
+\doxysubsubsection{\texorpdfstring{Bat\_Res}{Bat\_Res}}
+{\footnotesize\ttfamily \label{task1_8c_ac24ac673d3633d8d183b17f6b8ffa402} 
+uint16\+\_\+t Bat\+\_\+\+Res = 0}
+
+Battery reading, should not be below 3303 

@@ -1,0 +1,77 @@
+\doxysection{src/\+Core/\+Src/\+Counter.c File Reference}
+\hypertarget{_counter_8c}{}\label{_counter_8c}\index{src/Core/Src/Counter.c@{src/Core/Src/Counter.c}}
+
+
+Implementation file for counter operations.  
+
+
+{\ttfamily \#include "{}Counter.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{_counter_8c_a29e5057eaf1ffcbb62fc01a8af8724bf}{Delay\+\_\+us}} (\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} Timer, uint16\+\_\+t us)
+\begin{DoxyCompactList}\small\item\em Delay function to wait for a specified number of microseconds. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{_counter_8c_ab7e2e67873c3e4c5ae08727048345fcb}{Elapsed\+Time}}
+\item 
+float \mbox{\hyperlink{_counter_8c_a934ca3439b52a3eb09d790b02291fd4b}{T\+\_\+ms}}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{_counter_8c_a9f636e7425dedd862bb94d6510c8c0d5}{End\+Time}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation file for counter operations. 
+
+\begin{DoxyDate}{Date}
+June 8, 2024 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+tawel 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{_counter_8c_a29e5057eaf1ffcbb62fc01a8af8724bf}\index{Counter.c@{Counter.c}!Delay\_us@{Delay\_us}}
+\index{Delay\_us@{Delay\_us}!Counter.c@{Counter.c}}
+\doxysubsubsection{\texorpdfstring{Delay\_us()}{Delay\_us()}}
+{\footnotesize\ttfamily \label{_counter_8c_a29e5057eaf1ffcbb62fc01a8af8724bf} 
+void Delay\+\_\+us (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}}}]{Timer}{, }\item[{uint16\+\_\+t}]{us}{}\end{DoxyParamCaption})}
+
+
+
+Delay function to wait for a specified number of microseconds. 
+
+Delay function prototype to wait for a specified number of microseconds.
+
+
+\begin{DoxyParams}{Parameters}
+{\em Timer} & Timer handle for the timer used for delay. \\
+\hline
+{\em us} & Microseconds to delay. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{_counter_8c_ab7e2e67873c3e4c5ae08727048345fcb}\index{Counter.c@{Counter.c}!ElapsedTime@{ElapsedTime}}
+\index{ElapsedTime@{ElapsedTime}!Counter.c@{Counter.c}}
+\doxysubsubsection{\texorpdfstring{ElapsedTime}{ElapsedTime}}
+{\footnotesize\ttfamily \label{_counter_8c_ab7e2e67873c3e4c5ae08727048345fcb} 
+uint16\+\_\+t Elapsed\+Time}
+
+Elapsed time variable \Hypertarget{_counter_8c_a9f636e7425dedd862bb94d6510c8c0d5}\index{Counter.c@{Counter.c}!EndTime@{EndTime}}
+\index{EndTime@{EndTime}!Counter.c@{Counter.c}}
+\doxysubsubsection{\texorpdfstring{EndTime}{EndTime}}
+{\footnotesize\ttfamily \label{_counter_8c_a9f636e7425dedd862bb94d6510c8c0d5} 
+uint16\+\_\+t End\+Time}
+
+End time variable \Hypertarget{_counter_8c_a934ca3439b52a3eb09d790b02291fd4b}\index{Counter.c@{Counter.c}!T\_ms@{T\_ms}}
+\index{T\_ms@{T\_ms}!Counter.c@{Counter.c}}
+\doxysubsubsection{\texorpdfstring{T\_ms}{T\_ms}}
+{\footnotesize\ttfamily \label{_counter_8c_a934ca3439b52a3eb09d790b02291fd4b} 
+float T\+\_\+ms}
+
+Time in milliseconds 

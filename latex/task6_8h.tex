@@ -1,0 +1,82 @@
+\doxysection{src/\+Core/\+Inc/task6.h File Reference}
+\hypertarget{task6_8h}{}\label{task6_8h}\index{src/Core/Inc/task6.h@{src/Core/Inc/task6.h}}
+
+
+Header file for Task 6\+: Drive Motors.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include "{}stm32l4xx\+\_\+hal.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{task6_8h_afa8b66c98b0bc3e8ca6f8d9f72237fbe}{task6\+\_\+run}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}State, uint8\+\_\+t \texorpdfstring{$\ast$}{*}Drive\+ON\+\_\+\+MD, uint8\+\_\+t \texorpdfstring{$\ast$}{*}Drive\+ON\+\_\+\+Rad, uint8\+\_\+t \texorpdfstring{$\ast$}{*}Follow, float \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{main_8c_a420cc0573d053ec37a2d5a7f237dc02d}{Distance\+\_\+\+Target}}, float \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{main_8c_a1f857e499dbe8541cdd4531ab2163911}{Angle\+\_\+\+Target}}, \mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} \mbox{\hyperlink{main_8c_a25fc663547539bc49fecc0011bd76ab5}{htim1}}, \mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} \mbox{\hyperlink{main_8c_aac3d2c59ee0e3bbae1b99529a154eb62}{htim3}}, \mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} \mbox{\hyperlink{main_8c_a85788cec5a97ee377e4ee2e74f026484}{htim4}})
+\begin{DoxyCompactList}\small\item\em Function to run Task 6 state machine\+: Drive Motors. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for Task 6\+: Drive Motors. 
+
+\begin{DoxyDate}{Date}
+June 10, 2024 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+tawel 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{task6_8h_afa8b66c98b0bc3e8ca6f8d9f72237fbe}\index{task6.h@{task6.h}!task6\_run@{task6\_run}}
+\index{task6\_run@{task6\_run}!task6.h@{task6.h}}
+\doxysubsubsection{\texorpdfstring{task6\_run()}{task6\_run()}}
+{\footnotesize\ttfamily \label{task6_8h_afa8b66c98b0bc3e8ca6f8d9f72237fbe} 
+void task6\+\_\+run (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{State}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{Drive\+ON\+\_\+\+MD}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{Drive\+ON\+\_\+\+Rad}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{Follow}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{Distance\+\_\+\+Target}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{Angle\+\_\+\+Target}{, }\item[{\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}}}]{htim1}{, }\item[{\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}}}]{htim3}{, }\item[{\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}}}]{htim4}{}\end{DoxyParamCaption})}
+
+
+
+Function to run Task 6 state machine\+: Drive Motors. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em State} & Pointer to the state variable. \\
+\hline
+{\em Drive\+ON\+\_\+\+MD} & Pointer to the variable indicating whether metal is detected. \\
+\hline
+{\em Drive\+ON\+\_\+\+Rad} & Pointer to the variable indicating whether radio is triggered. \\
+\hline
+{\em Follow} & Pointer to the variable indicating whether follow mode is active. \\
+\hline
+{\em Distance\+\_\+\+Target} & Pointer to the target distance variable. \\
+\hline
+{\em Angle\+\_\+\+Target} & Pointer to the target angle variable. \\
+\hline
+{\em htim1} & Timer handle for motor PWM control. \\
+\hline
+{\em htim3} & Timer handle for encoder 1. \\
+\hline
+{\em htim4} & Timer handle for encoder 2.\\
+\hline
+\end{DoxyParams}
+Function to run Task 6 state machine\+: Drive Motors.
+
+
+\begin{DoxyParams}{Parameters}
+{\em State} & Pointer to the state variable. \\
+\hline
+{\em Drive\+ON\+\_\+\+MD} & Pointer to the variable indicating whether metal is detected. \\
+\hline
+{\em Drive\+ON\+\_\+\+Rad} & Pointer to the variable indicating whether radio is triggered. \\
+\hline
+{\em Follow} & Pointer to the variable indicating whether follow mode is active. \\
+\hline
+{\em Distance\+\_\+\+Target} & Pointer to the target distance variable. \\
+\hline
+{\em Angle\+\_\+\+Target} & Pointer to the target angle variable. \\
+\hline
+{\em htim1} & Timer handle for motor PWM control. \\
+\hline
+{\em htim3} & Timer handle for encoder 1. \\
+\hline
+{\em htim4} & Timer handle for encoder 2. \\
+\hline
+\end{DoxyParams}

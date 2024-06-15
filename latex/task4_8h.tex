@@ -1,0 +1,57 @@
+\doxysection{src/\+Core/\+Inc/task4.h File Reference}
+\hypertarget{task4_8h}{}\label{task4_8h}\index{src/Core/Inc/task4.h@{src/Core/Inc/task4.h}}
+
+
+Header file for Task 4\+: Metal Detector functionality.  
+
+
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include "{}stm32l4xx\+\_\+hal.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{task4_8h_a9ee1914aa0340c48f8db9a74a1e10a80}{task4\+\_\+run}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}State, uint8\+\_\+t \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{main_8c_a25deb8e1618f786bc16b2d959b980839}{MDON}}, uint32\+\_\+t \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{main_8c_a1ccc2e6addda333d9269ca68059aaaea}{sumval}}, \mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} Timer, uint8\+\_\+t \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{main_8c_a6bc2ffdcd82ea08dbc034eacbde34801}{Metal\+\_\+\+Found}}, \mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}} Analog1, \mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}} Analog2, \mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}} Analog3)
+\begin{DoxyCompactList}\small\item\em Task 4 state machine\+: Metal Detector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Header file for Task 4\+: Metal Detector functionality. 
+
+\begin{DoxyDate}{Date}
+June 8, 2024 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+tawel 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{task4_8h_a9ee1914aa0340c48f8db9a74a1e10a80}\index{task4.h@{task4.h}!task4\_run@{task4\_run}}
+\index{task4\_run@{task4\_run}!task4.h@{task4.h}}
+\doxysubsubsection{\texorpdfstring{task4\_run()}{task4\_run()}}
+{\footnotesize\ttfamily \label{task4_8h_a9ee1914aa0340c48f8db9a74a1e10a80} 
+void task4\+\_\+run (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{State}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{MDON}{, }\item[{uint32\+\_\+t \texorpdfstring{$\ast$}{*}}]{sumval}{, }\item[{\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}}}]{Timer}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{Metal\+\_\+\+Found}{, }\item[{\mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}}}]{Analog1}{, }\item[{\mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}}}]{Analog2}{, }\item[{\mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}}}]{Analog3}{}\end{DoxyParamCaption})}
+
+
+
+Task 4 state machine\+: Metal Detector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em State} & Pointer to the state variable. \\
+\hline
+{\em MDON} & Pointer to the Metal Detector ON status flag. \\
+\hline
+{\em sumval} & Pointer to the summed ADC values, which functions as measure of certainty of metal detected. \\
+\hline
+{\em Timer} & Timer handle for delay functions. (Now Deprecated) \\
+\hline
+{\em Metal\+\_\+\+Found} & Pointer to the metal found status flag. \\
+\hline
+{\em Analog1} & ADC handle for the first ADC channel. \\
+\hline
+{\em Analog2} & ADC handle for the second ADC channel. \\
+\hline
+{\em Analog3} & ADC handle for the third ADC channel. \\
+\hline
+\end{DoxyParams}

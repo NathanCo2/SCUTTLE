@@ -1,0 +1,210 @@
+\doxysection{Open\+MVFollower Namespace Reference}
+\hypertarget{namespace_open_m_v_follower}{}\label{namespace_open_m_v_follower}\index{OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespace_open_m_v_follower_a117adaa3abf6606c21be7958e5256014}{degrees}} (radians)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{namespace_open_m_v_follower_a70c092a6aebace0b1ea406e14da78a40}{time}}
+\item 
+\mbox{\hyperlink{namespace_open_m_v_follower_af761a67e9d7ce9e23381088b6f2ae893}{clock}} = time.\+clock()
+\item 
+\mbox{\hyperlink{namespace_open_m_v_follower_a03cf0160b98d46b83971f7da99ee6075}{led1}} = LED("{}LED\+\_\+\+GREEN"{})
+\item 
+\mbox{\hyperlink{namespace_open_m_v_follower_ab5e4193d2dd4ab31d44b7a52615003b4}{led2}} = LED("{}LED\+\_\+\+RED"{})
+\item 
+\mbox{\hyperlink{namespace_open_m_v_follower_a169d0b4cc1e83e6cfd48bb4d8fb324fd}{uart}} = UART(3, 115200)
+\item 
+float \mbox{\hyperlink{namespace_open_m_v_follower_a3139244bfb778557108cda2114f91f3f}{distance}} = 0.\+0
+\item 
+float \mbox{\hyperlink{namespace_open_m_v_follower_a45937af38b4f2f3950e1922a75ff7ab1}{angle}} = 0.\+0
+\item 
+float \mbox{\hyperlink{namespace_open_m_v_follower_a00188fdb08f5c20644aa34a7c753c1da}{old\+\_\+distance}} = 0.\+0
+\item 
+float \mbox{\hyperlink{namespace_open_m_v_follower_a97ef457b34e406652f17c1fc02df5e2a}{old\+\_\+angle}} = 0.\+0
+\item 
+float \mbox{\hyperlink{namespace_open_m_v_follower_a692dc35eb08801061d9ca716fe905820}{panic}} = 0.\+0
+\item 
+\mbox{\hyperlink{namespace_open_m_v_follower_adc20f60f83744ed68f986f15e04b18c9}{last\+\_\+detection\+\_\+time}} = time.\+ticks\+\_\+ms()
+\item 
+tuple \mbox{\hyperlink{namespace_open_m_v_follower_a0df39d1289601c6721a88396cf3f6d2a}{f\+\_\+x}} = (2.\+8 / 3.\+984) \texorpdfstring{$\ast$}{*} 160
+\item 
+tuple \mbox{\hyperlink{namespace_open_m_v_follower_a008a45958ea8a7bdb8e4f8e217bc22df}{f\+\_\+y}} = (2.\+8 / 2.\+952) \texorpdfstring{$\ast$}{*} 120
+\item 
+int \mbox{\hyperlink{namespace_open_m_v_follower_ad6742b13ec71650d0852e2e4a06d2aee}{c\+\_\+x}} = 160 \texorpdfstring{$\ast$}{*} 0.\+5
+\item 
+int \mbox{\hyperlink{namespace_open_m_v_follower_aa6dcaaa458e7a67c07e2c27ff99a12e2}{c\+\_\+y}} = 120 \texorpdfstring{$\ast$}{*} 0.\+5
+\item 
+\mbox{\hyperlink{namespace_open_m_v_follower_a86d0d51ceb4bc3bd26707520f257a5a4}{img}} = sensor.\+snapshot()
+\item 
+\mbox{\hyperlink{namespace_open_m_v_follower_a4d7aaeb6bef611f19dc8ffbaf4d6669d}{detected\+\_\+tags}} = img.\+find\+\_\+apriltags(families=image.\+TAG16\+H5, fx=\mbox{\hyperlink{namespace_open_m_v_follower_a0df39d1289601c6721a88396cf3f6d2a}{f\+\_\+x}}, fy=\mbox{\hyperlink{namespace_open_m_v_follower_a008a45958ea8a7bdb8e4f8e217bc22df}{f\+\_\+y}}, cx=\mbox{\hyperlink{namespace_open_m_v_follower_ad6742b13ec71650d0852e2e4a06d2aee}{c\+\_\+x}}, cy=\mbox{\hyperlink{namespace_open_m_v_follower_aa6dcaaa458e7a67c07e2c27ff99a12e2}{c\+\_\+y}})
+\item 
+\mbox{\hyperlink{namespace_open_m_v_follower_a5135668386ab64a05b794e9bb383f359}{current\+\_\+time}} = time.\+ticks\+\_\+ms()
+\item 
+\mbox{\hyperlink{namespace_open_m_v_follower_ad3b5ba13b18e035d44cefc07b4616781}{time\+\_\+since\+\_\+last\+\_\+detection}} = time.\+ticks\+\_\+diff(\mbox{\hyperlink{namespace_open_m_v_follower_a5135668386ab64a05b794e9bb383f359}{current\+\_\+time}}, \mbox{\hyperlink{namespace_open_m_v_follower_adc20f60f83744ed68f986f15e04b18c9}{last\+\_\+detection\+\_\+time}})
+\item 
+\mbox{\hyperlink{namespace_open_m_v_follower_a680ed5d3fdf874dd4c8685cb51c3f1a6}{buf}} = struct.\+pack(\textquotesingle{}ff\textquotesingle{}, \mbox{\hyperlink{namespace_open_m_v_follower_a692dc35eb08801061d9ca716fe905820}{panic}}, \mbox{\hyperlink{namespace_open_m_v_follower_a692dc35eb08801061d9ca716fe905820}{panic}})
+\item 
+\mbox{\hyperlink{namespace_open_m_v_follower_a37dbdc30935031c05304482e1be89d8f}{color}}
+\item 
+tuple \mbox{\hyperlink{namespace_open_m_v_follower_aed95a8d4576df1a0c6ad3cadd94aaca5}{print\+\_\+args}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{namespace_open_m_v_follower_a117adaa3abf6606c21be7958e5256014}\index{OpenMVFollower@{OpenMVFollower}!degrees@{degrees}}
+\index{degrees@{degrees}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{degrees()}{degrees()}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_a117adaa3abf6606c21be7958e5256014} 
+degrees (\begin{DoxyParamCaption}\item[{}]{radians}{}\end{DoxyParamCaption})}
+
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{namespace_open_m_v_follower_a45937af38b4f2f3950e1922a75ff7ab1}\index{OpenMVFollower@{OpenMVFollower}!angle@{angle}}
+\index{angle@{angle}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{angle}{angle}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_a45937af38b4f2f3950e1922a75ff7ab1} 
+angle = 0.\+0}
+
+\Hypertarget{namespace_open_m_v_follower_a680ed5d3fdf874dd4c8685cb51c3f1a6}\index{OpenMVFollower@{OpenMVFollower}!buf@{buf}}
+\index{buf@{buf}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{buf}{buf}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_a680ed5d3fdf874dd4c8685cb51c3f1a6} 
+buf = struct.\+pack(\textquotesingle{}ff\textquotesingle{}, \mbox{\hyperlink{namespace_open_m_v_follower_a692dc35eb08801061d9ca716fe905820}{panic}}, \mbox{\hyperlink{namespace_open_m_v_follower_a692dc35eb08801061d9ca716fe905820}{panic}})}
+
+\Hypertarget{namespace_open_m_v_follower_ad6742b13ec71650d0852e2e4a06d2aee}\index{OpenMVFollower@{OpenMVFollower}!c\_x@{c\_x}}
+\index{c\_x@{c\_x}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{c\_x}{c\_x}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_ad6742b13ec71650d0852e2e4a06d2aee} 
+int c\+\_\+x = 160 \texorpdfstring{$\ast$}{*} 0.\+5}
+
+\Hypertarget{namespace_open_m_v_follower_aa6dcaaa458e7a67c07e2c27ff99a12e2}\index{OpenMVFollower@{OpenMVFollower}!c\_y@{c\_y}}
+\index{c\_y@{c\_y}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{c\_y}{c\_y}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_aa6dcaaa458e7a67c07e2c27ff99a12e2} 
+int c\+\_\+y = 120 \texorpdfstring{$\ast$}{*} 0.\+5}
+
+\Hypertarget{namespace_open_m_v_follower_af761a67e9d7ce9e23381088b6f2ae893}\index{OpenMVFollower@{OpenMVFollower}!clock@{clock}}
+\index{clock@{clock}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{clock}{clock}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_af761a67e9d7ce9e23381088b6f2ae893} 
+clock = time.\+clock()}
+
+\Hypertarget{namespace_open_m_v_follower_a37dbdc30935031c05304482e1be89d8f}\index{OpenMVFollower@{OpenMVFollower}!color@{color}}
+\index{color@{color}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{color}{color}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_a37dbdc30935031c05304482e1be89d8f} 
+color}
+
+\Hypertarget{namespace_open_m_v_follower_a5135668386ab64a05b794e9bb383f359}\index{OpenMVFollower@{OpenMVFollower}!current\_time@{current\_time}}
+\index{current\_time@{current\_time}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{current\_time}{current\_time}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_a5135668386ab64a05b794e9bb383f359} 
+current\+\_\+time = time.\+ticks\+\_\+ms()}
+
+\Hypertarget{namespace_open_m_v_follower_a4d7aaeb6bef611f19dc8ffbaf4d6669d}\index{OpenMVFollower@{OpenMVFollower}!detected\_tags@{detected\_tags}}
+\index{detected\_tags@{detected\_tags}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{detected\_tags}{detected\_tags}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_a4d7aaeb6bef611f19dc8ffbaf4d6669d} 
+detected\+\_\+tags = img.\+find\+\_\+apriltags(families=image.\+TAG16\+H5, fx=\mbox{\hyperlink{namespace_open_m_v_follower_a0df39d1289601c6721a88396cf3f6d2a}{f\+\_\+x}}, fy=\mbox{\hyperlink{namespace_open_m_v_follower_a008a45958ea8a7bdb8e4f8e217bc22df}{f\+\_\+y}}, cx=\mbox{\hyperlink{namespace_open_m_v_follower_ad6742b13ec71650d0852e2e4a06d2aee}{c\+\_\+x}}, cy=\mbox{\hyperlink{namespace_open_m_v_follower_aa6dcaaa458e7a67c07e2c27ff99a12e2}{c\+\_\+y}})}
+
+\Hypertarget{namespace_open_m_v_follower_a3139244bfb778557108cda2114f91f3f}\index{OpenMVFollower@{OpenMVFollower}!distance@{distance}}
+\index{distance@{distance}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{distance}{distance}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_a3139244bfb778557108cda2114f91f3f} 
+distance = 0.\+0}
+
+\Hypertarget{namespace_open_m_v_follower_a0df39d1289601c6721a88396cf3f6d2a}\index{OpenMVFollower@{OpenMVFollower}!f\_x@{f\_x}}
+\index{f\_x@{f\_x}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{f\_x}{f\_x}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_a0df39d1289601c6721a88396cf3f6d2a} 
+tuple f\+\_\+x = (2.\+8 / 3.\+984) \texorpdfstring{$\ast$}{*} 160}
+
+\Hypertarget{namespace_open_m_v_follower_a008a45958ea8a7bdb8e4f8e217bc22df}\index{OpenMVFollower@{OpenMVFollower}!f\_y@{f\_y}}
+\index{f\_y@{f\_y}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{f\_y}{f\_y}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_a008a45958ea8a7bdb8e4f8e217bc22df} 
+tuple f\+\_\+y = (2.\+8 / 2.\+952) \texorpdfstring{$\ast$}{*} 120}
+
+\Hypertarget{namespace_open_m_v_follower_a86d0d51ceb4bc3bd26707520f257a5a4}\index{OpenMVFollower@{OpenMVFollower}!img@{img}}
+\index{img@{img}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{img}{img}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_a86d0d51ceb4bc3bd26707520f257a5a4} 
+img = sensor.\+snapshot()}
+
+\Hypertarget{namespace_open_m_v_follower_adc20f60f83744ed68f986f15e04b18c9}\index{OpenMVFollower@{OpenMVFollower}!last\_detection\_time@{last\_detection\_time}}
+\index{last\_detection\_time@{last\_detection\_time}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{last\_detection\_time}{last\_detection\_time}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_adc20f60f83744ed68f986f15e04b18c9} 
+last\+\_\+detection\+\_\+time = time.\+ticks\+\_\+ms()}
+
+\Hypertarget{namespace_open_m_v_follower_a03cf0160b98d46b83971f7da99ee6075}\index{OpenMVFollower@{OpenMVFollower}!led1@{led1}}
+\index{led1@{led1}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{led1}{led1}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_a03cf0160b98d46b83971f7da99ee6075} 
+led1 = LED("{}LED\+\_\+\+GREEN"{})}
+
+\Hypertarget{namespace_open_m_v_follower_ab5e4193d2dd4ab31d44b7a52615003b4}\index{OpenMVFollower@{OpenMVFollower}!led2@{led2}}
+\index{led2@{led2}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{led2}{led2}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_ab5e4193d2dd4ab31d44b7a52615003b4} 
+led2 = LED("{}LED\+\_\+\+RED"{})}
+
+\Hypertarget{namespace_open_m_v_follower_a97ef457b34e406652f17c1fc02df5e2a}\index{OpenMVFollower@{OpenMVFollower}!old\_angle@{old\_angle}}
+\index{old\_angle@{old\_angle}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{old\_angle}{old\_angle}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_a97ef457b34e406652f17c1fc02df5e2a} 
+float old\+\_\+angle = 0.\+0}
+
+\Hypertarget{namespace_open_m_v_follower_a00188fdb08f5c20644aa34a7c753c1da}\index{OpenMVFollower@{OpenMVFollower}!old\_distance@{old\_distance}}
+\index{old\_distance@{old\_distance}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{old\_distance}{old\_distance}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_a00188fdb08f5c20644aa34a7c753c1da} 
+float old\+\_\+distance = 0.\+0}
+
+\Hypertarget{namespace_open_m_v_follower_a692dc35eb08801061d9ca716fe905820}\index{OpenMVFollower@{OpenMVFollower}!panic@{panic}}
+\index{panic@{panic}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{panic}{panic}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_a692dc35eb08801061d9ca716fe905820} 
+float panic = 0.\+0}
+
+\Hypertarget{namespace_open_m_v_follower_aed95a8d4576df1a0c6ad3cadd94aaca5}\index{OpenMVFollower@{OpenMVFollower}!print\_args@{print\_args}}
+\index{print\_args@{print\_args}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{print\_args}{print\_args}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_aed95a8d4576df1a0c6ad3cadd94aaca5} 
+tuple print\+\_\+args}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ =\ \ (}
+\DoxyCodeLine{00002\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tag.x\_translation(),}
+\DoxyCodeLine{00003\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tag.y\_translation(),}
+\DoxyCodeLine{00004\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ tag.z\_translation(),}
+\DoxyCodeLine{00005\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ degrees(tag.x\_rotation()),}
+\DoxyCodeLine{00006\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ degrees(tag.y\_rotation()),}
+\DoxyCodeLine{00007\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ degrees(tag.z\_rotation()),}
+\DoxyCodeLine{00008\ \ \ \ \ \ \ \ \ \ \ \ \ )}
+
+\end{DoxyCode}
+\Hypertarget{namespace_open_m_v_follower_a70c092a6aebace0b1ea406e14da78a40}\index{OpenMVFollower@{OpenMVFollower}!time@{time}}
+\index{time@{time}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{time}{time}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_a70c092a6aebace0b1ea406e14da78a40} 
+time}
+
+\Hypertarget{namespace_open_m_v_follower_ad3b5ba13b18e035d44cefc07b4616781}\index{OpenMVFollower@{OpenMVFollower}!time\_since\_last\_detection@{time\_since\_last\_detection}}
+\index{time\_since\_last\_detection@{time\_since\_last\_detection}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{time\_since\_last\_detection}{time\_since\_last\_detection}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_ad3b5ba13b18e035d44cefc07b4616781} 
+time\+\_\+since\+\_\+last\+\_\+detection = time.\+ticks\+\_\+diff(\mbox{\hyperlink{namespace_open_m_v_follower_a5135668386ab64a05b794e9bb383f359}{current\+\_\+time}}, \mbox{\hyperlink{namespace_open_m_v_follower_adc20f60f83744ed68f986f15e04b18c9}{last\+\_\+detection\+\_\+time}})}
+
+\Hypertarget{namespace_open_m_v_follower_a169d0b4cc1e83e6cfd48bb4d8fb324fd}\index{OpenMVFollower@{OpenMVFollower}!uart@{uart}}
+\index{uart@{uart}!OpenMVFollower@{OpenMVFollower}}
+\doxysubsubsection{\texorpdfstring{uart}{uart}}
+{\footnotesize\ttfamily \label{namespace_open_m_v_follower_a169d0b4cc1e83e6cfd48bb4d8fb324fd} 
+uart = UART(3, 115200)}
+

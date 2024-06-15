@@ -1,0 +1,144 @@
+\doxysection{src/\+Core/\+Src/task4.c File Reference}
+\hypertarget{task4_8c}{}\label{task4_8c}\index{src/Core/Src/task4.c@{src/Core/Src/task4.c}}
+
+
+Task 4\+: Metal Detector.  
+
+
+{\ttfamily \#include "{}task4.\+h"{}}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include "{}Counter.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{task4_8c_a9ee1914aa0340c48f8db9a74a1e10a80}{task4\+\_\+run}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}State, uint8\+\_\+t \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{main_8c_a25deb8e1618f786bc16b2d959b980839}{MDON}}, uint32\+\_\+t \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{main_8c_a1ccc2e6addda333d9269ca68059aaaea}{sumval}}, \mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}} Timer, uint8\+\_\+t \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{main_8c_a6bc2ffdcd82ea08dbc034eacbde34801}{Metal\+\_\+\+Found}}, \mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}} Analog1, \mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}} Analog2, \mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}} Analog3)
+\begin{DoxyCompactList}\small\item\em Task 4 state machine\+: Metal Detector. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+uint16\+\_\+t \mbox{\hyperlink{task4_8c_abfd71761a6b1360dabc57c127d2c1c9d}{base}} = 0
+\begin{DoxyCompactList}\small\item\em Adjustable base value to compare to metal detector measurement. \end{DoxyCompactList}\item 
+uint8\+\_\+t \mbox{\hyperlink{task4_8c_abcab2d4ced5d4c6571db3ff33e235289}{Countdown\+\_\+\+Start}} = 0
+\begin{DoxyCompactList}\small\item\em Signifies time before next metal detection. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{task4_8c_a273183ccb480aebdfef8a714dcf6332d}{Countdown\+\_\+\+Time}}
+\begin{DoxyCompactList}\small\item\em Countdown time for metal detection. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{task4_8c_aa3e8526bc4900549ce098f9cabbff074}{val}} \mbox{[}9\mbox{]}
+\begin{DoxyCompactList}\small\item\em Array to store ADC values. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{task4_8c_aa5481714541dff99ddd9e3f7bfec32c3}{impuls}} = 120
+\begin{DoxyCompactList}\small\item\em Impulse microsecond delay, fixed value. \end{DoxyCompactList}\item 
+uint16\+\_\+t \mbox{\hyperlink{task4_8c_a474e1a6d040f85996d17d923800459cf}{Delay\+\_\+\+MD}}
+\begin{DoxyCompactList}\small\item\em Adjustable delay for Metal Detector. \end{DoxyCompactList}\item 
+int \mbox{\hyperlink{task4_8c_acb559820d9ca11295b4500f179ef6392}{i}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Task 4\+: Metal Detector. 
+
+This file contains the implementation for the metal detector. Quick pulses are sent and the resulting analog voltage reading is measured and compared to an adjustable base value. The delay between pulses is also adjustable. \begin{DoxyDate}{Date}
+June 8, 2024 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+tawel 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{task4_8c_a9ee1914aa0340c48f8db9a74a1e10a80}\index{task4.c@{task4.c}!task4\_run@{task4\_run}}
+\index{task4\_run@{task4\_run}!task4.c@{task4.c}}
+\doxysubsubsection{\texorpdfstring{task4\_run()}{task4\_run()}}
+{\footnotesize\ttfamily \label{task4_8c_a9ee1914aa0340c48f8db9a74a1e10a80} 
+void task4\+\_\+run (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{State}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{MDON}{, }\item[{uint32\+\_\+t \texorpdfstring{$\ast$}{*}}]{sumval}{, }\item[{\mbox{\hyperlink{struct_t_i_m___handle_type_def}{TIM\+\_\+\+Handle\+Type\+Def}}}]{Timer}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{Metal\+\_\+\+Found}{, }\item[{\mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}}}]{Analog1}{, }\item[{\mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}}}]{Analog2}{, }\item[{\mbox{\hyperlink{struct_a_d_c___handle_type_def}{ADC\+\_\+\+Handle\+Type\+Def}}}]{Analog3}{}\end{DoxyParamCaption})}
+
+
+
+Task 4 state machine\+: Metal Detector. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em State} & Pointer to the state variable. \\
+\hline
+{\em MDON} & Pointer to the Metal Detector ON status flag. \\
+\hline
+{\em sumval} & Pointer to the summed ADC values, which functions as measure of certainty of metal detected. \\
+\hline
+{\em Timer} & Timer handle for delay functions. (Now Deprecated) \\
+\hline
+{\em Metal\+\_\+\+Found} & Pointer to the metal found status flag. \\
+\hline
+{\em Analog1} & ADC handle for the first ADC channel. \\
+\hline
+{\em Analog2} & ADC handle for the second ADC channel. \\
+\hline
+{\em Analog3} & ADC handle for the third ADC channel. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{task4_8c_abfd71761a6b1360dabc57c127d2c1c9d}\index{task4.c@{task4.c}!base@{base}}
+\index{base@{base}!task4.c@{task4.c}}
+\doxysubsubsection{\texorpdfstring{base}{base}}
+{\footnotesize\ttfamily \label{task4_8c_abfd71761a6b1360dabc57c127d2c1c9d} 
+uint16\+\_\+t base = 0}
+
+
+
+Adjustable base value to compare to metal detector measurement. 
+
+\Hypertarget{task4_8c_abcab2d4ced5d4c6571db3ff33e235289}\index{task4.c@{task4.c}!Countdown\_Start@{Countdown\_Start}}
+\index{Countdown\_Start@{Countdown\_Start}!task4.c@{task4.c}}
+\doxysubsubsection{\texorpdfstring{Countdown\_Start}{Countdown\_Start}}
+{\footnotesize\ttfamily \label{task4_8c_abcab2d4ced5d4c6571db3ff33e235289} 
+uint8\+\_\+t Countdown\+\_\+\+Start = 0}
+
+
+
+Signifies time before next metal detection. 
+
+\Hypertarget{task4_8c_a273183ccb480aebdfef8a714dcf6332d}\index{task4.c@{task4.c}!Countdown\_Time@{Countdown\_Time}}
+\index{Countdown\_Time@{Countdown\_Time}!task4.c@{task4.c}}
+\doxysubsubsection{\texorpdfstring{Countdown\_Time}{Countdown\_Time}}
+{\footnotesize\ttfamily \label{task4_8c_a273183ccb480aebdfef8a714dcf6332d} 
+uint16\+\_\+t Countdown\+\_\+\+Time}
+
+
+
+Countdown time for metal detection. 
+
+\Hypertarget{task4_8c_a474e1a6d040f85996d17d923800459cf}\index{task4.c@{task4.c}!Delay\_MD@{Delay\_MD}}
+\index{Delay\_MD@{Delay\_MD}!task4.c@{task4.c}}
+\doxysubsubsection{\texorpdfstring{Delay\_MD}{Delay\_MD}}
+{\footnotesize\ttfamily \label{task4_8c_a474e1a6d040f85996d17d923800459cf} 
+uint16\+\_\+t Delay\+\_\+\+MD}
+
+
+
+Adjustable delay for Metal Detector. 
+
+\Hypertarget{task4_8c_acb559820d9ca11295b4500f179ef6392}\index{task4.c@{task4.c}!i@{i}}
+\index{i@{i}!task4.c@{task4.c}}
+\doxysubsubsection{\texorpdfstring{i}{i}}
+{\footnotesize\ttfamily \label{task4_8c_acb559820d9ca11295b4500f179ef6392} 
+int i}
+
+\Hypertarget{task4_8c_aa5481714541dff99ddd9e3f7bfec32c3}\index{task4.c@{task4.c}!impuls@{impuls}}
+\index{impuls@{impuls}!task4.c@{task4.c}}
+\doxysubsubsection{\texorpdfstring{impuls}{impuls}}
+{\footnotesize\ttfamily \label{task4_8c_aa5481714541dff99ddd9e3f7bfec32c3} 
+uint16\+\_\+t impuls = 120}
+
+
+
+Impulse microsecond delay, fixed value. 
+
+\Hypertarget{task4_8c_aa3e8526bc4900549ce098f9cabbff074}\index{task4.c@{task4.c}!val@{val}}
+\index{val@{val}!task4.c@{task4.c}}
+\doxysubsubsection{\texorpdfstring{val}{val}}
+{\footnotesize\ttfamily \label{task4_8c_aa3e8526bc4900549ce098f9cabbff074} 
+uint16\+\_\+t val\mbox{[}9\mbox{]}}
+
+
+
+Array to store ADC values. 
+

@@ -1,0 +1,106 @@
+\doxysection{src/\+Core/\+Src/task3.c File Reference}
+\hypertarget{task3_8c}{}\label{task3_8c}\index{src/Core/Src/task3.c@{src/Core/Src/task3.c}}
+
+
+Implementation of Task 3\+: OPENMV Camera Interface.  
+
+
+{\ttfamily \#include "{}task3.\+h"{}}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{task3_8c_aec54975ad344d6debdf6609298b99e89}{task3\+\_\+run}} (uint8\+\_\+t \texorpdfstring{$\ast$}{*}State, float \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{main_8c_a420cc0573d053ec37a2d5a7f237dc02d}{Distance\+\_\+\+Target}}, float \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{main_8c_a1f857e499dbe8541cdd4531ab2163911}{Angle\+\_\+\+Target}}, uint8\+\_\+t \texorpdfstring{$\ast$}{*}\mbox{\hyperlink{main_8c_a388bff61f3e2048b3860f230bcfd3830}{SPI\+\_\+\+Rec}}, uint8\+\_\+t \texorpdfstring{$\ast$}{*}Follow, uint8\+\_\+t \texorpdfstring{$\ast$}{*}Open\+MV, \mbox{\hyperlink{group___u_a_r_t___exported___types_ga5de4a49eb132735325e706f406c69d6e}{UART\+\_\+\+Handle\+Type\+Def}} UART3)
+\begin{DoxyCompactList}\small\item\em Runs the state machine for the OPENMV Camera interface. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int32\+\_\+t \mbox{\hyperlink{task3_8c_a5289753eb50ee3ea7446842015f62aa3}{Distance\+\_\+\+Int}}
+\item 
+int32\+\_\+t \mbox{\hyperlink{task3_8c_ad62177770aa547f5e0a1ce4e06c1cfe5}{Angle\+\_\+\+Int}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{task3_8c_a27d1a599af7dd62321d992edb4c6c169}{Req}} = 0
+\item 
+uint8\+\_\+t \mbox{\hyperlink{task3_8c_a763e48e059d99b10646ca16a7e177df8}{Dummy}}
+\item 
+uint8\+\_\+t \mbox{\hyperlink{task3_8c_ab20bdc12809518a111fff736e35e87b7}{Buffer}} \mbox{[}9\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Implementation of Task 3\+: OPENMV Camera Interface. 
+
+NOTE\+: THIS CODE IS INCLUDED FOR COMPLETENESS, BUT IS NOT USED IN THE IMPLEMENTATION OF THIS PROJECT This file contains the implementation of the state machine for interfacing with the OPENMV camera. It includes functions to request, receive, and process distance and angle data from the camera via UART.
+
+\begin{DoxyDate}{Date}
+Jun 5, 2024 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+tawel 
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{task3_8c_aec54975ad344d6debdf6609298b99e89}\index{task3.c@{task3.c}!task3\_run@{task3\_run}}
+\index{task3\_run@{task3\_run}!task3.c@{task3.c}}
+\doxysubsubsection{\texorpdfstring{task3\_run()}{task3\_run()}}
+{\footnotesize\ttfamily \label{task3_8c_aec54975ad344d6debdf6609298b99e89} 
+void task3\+\_\+run (\begin{DoxyParamCaption}\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{State}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{Distance\+\_\+\+Target}{, }\item[{float \texorpdfstring{$\ast$}{*}}]{Angle\+\_\+\+Target}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{SPI\+\_\+\+Rec}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{Follow}{, }\item[{uint8\+\_\+t \texorpdfstring{$\ast$}{*}}]{Open\+MV}{, }\item[{\mbox{\hyperlink{group___u_a_r_t___exported___types_ga5de4a49eb132735325e706f406c69d6e}{UART\+\_\+\+Handle\+Type\+Def}}}]{UART3}{}\end{DoxyParamCaption})}
+
+
+
+Runs the state machine for the OPENMV Camera interface. 
+
+This function implements the state machine for interfacing with an OPENMV camera via UART. It manages the process of requesting, receiving, and processing distance and angle data from the camera.
+
+
+\begin{DoxyParams}{Parameters}
+{\em State} & Pointer to the state variable of the state machine. \\
+\hline
+{\em Distance\+\_\+\+Target} & Pointer to the variable where the target distance will be stored. \\
+\hline
+{\em Angle\+\_\+\+Target} & Pointer to the variable where the target angle will be stored. \\
+\hline
+{\em SPI\+\_\+\+Rec} & Pointer to the SPI receive flag variable. \\
+\hline
+{\em Follow} & Pointer to the follow mode flag variable. \\
+\hline
+{\em Open\+MV} & Pointer to the OPENMV mode flag variable. \\
+\hline
+{\em UART3} & UART handle for communication with the OPENMV camera. \\
+\hline
+\end{DoxyParams}
+
+
+\doxysubsection{Variable Documentation}
+\Hypertarget{task3_8c_ad62177770aa547f5e0a1ce4e06c1cfe5}\index{task3.c@{task3.c}!Angle\_Int@{Angle\_Int}}
+\index{Angle\_Int@{Angle\_Int}!task3.c@{task3.c}}
+\doxysubsubsection{\texorpdfstring{Angle\_Int}{Angle\_Int}}
+{\footnotesize\ttfamily \label{task3_8c_ad62177770aa547f5e0a1ce4e06c1cfe5} 
+int32\+\_\+t Angle\+\_\+\+Int}
+
+Angle received from OPENMV \Hypertarget{task3_8c_ab20bdc12809518a111fff736e35e87b7}\index{task3.c@{task3.c}!Buffer@{Buffer}}
+\index{Buffer@{Buffer}!task3.c@{task3.c}}
+\doxysubsubsection{\texorpdfstring{Buffer}{Buffer}}
+{\footnotesize\ttfamily \label{task3_8c_ab20bdc12809518a111fff736e35e87b7} 
+uint8\+\_\+t Buffer\mbox{[}9\mbox{]}}
+
+Buffer to store data received via UART \Hypertarget{task3_8c_a5289753eb50ee3ea7446842015f62aa3}\index{task3.c@{task3.c}!Distance\_Int@{Distance\_Int}}
+\index{Distance\_Int@{Distance\_Int}!task3.c@{task3.c}}
+\doxysubsubsection{\texorpdfstring{Distance\_Int}{Distance\_Int}}
+{\footnotesize\ttfamily \label{task3_8c_a5289753eb50ee3ea7446842015f62aa3} 
+int32\+\_\+t Distance\+\_\+\+Int}
+
+Distance received from OPENMV \Hypertarget{task3_8c_a763e48e059d99b10646ca16a7e177df8}\index{task3.c@{task3.c}!Dummy@{Dummy}}
+\index{Dummy@{Dummy}!task3.c@{task3.c}}
+\doxysubsubsection{\texorpdfstring{Dummy}{Dummy}}
+{\footnotesize\ttfamily \label{task3_8c_a763e48e059d99b10646ca16a7e177df8} 
+uint8\+\_\+t Dummy}
+
+Dummy value used for debugging \Hypertarget{task3_8c_a27d1a599af7dd62321d992edb4c6c169}\index{task3.c@{task3.c}!Req@{Req}}
+\index{Req@{Req}!task3.c@{task3.c}}
+\doxysubsubsection{\texorpdfstring{Req}{Req}}
+{\footnotesize\ttfamily \label{task3_8c_a27d1a599af7dd62321d992edb4c6c169} 
+uint8\+\_\+t Req = 0}
+
+Flag indicating if SPI request is pending 

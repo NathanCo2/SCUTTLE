@@ -1,0 +1,49 @@
+\doxysection{src/\+Core/\+Src/motor.c File Reference}
+\hypertarget{motor_8c}{}\label{motor_8c}\index{src/Core/Src/motor.c@{src/Core/Src/motor.c}}
+
+
+Motor Driver.  
+
+
+{\ttfamily \#include "{}motor.\+h"{}}\newline
+\doxysubsubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{motor_8c_a6dffd26d4e31650242b906056cc1b7b8}{set\+\_\+duty}} (\mbox{\hyperlink{structmotor__t}{motor\+\_\+t}} \texorpdfstring{$\ast$}{*}p\+\_\+mot, float level)
+\begin{DoxyCompactList}\small\item\em Set the duty cycle of the motor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Motor Driver. 
+
+This code allows one to enable/disable and set the duty cycle of a motor \begin{DoxyDate}{Date}
+Created on\+: Apr 29, 2024 
+\end{DoxyDate}
+\begin{DoxyAuthor}{Author}
+Nathan Chapman  
+\end{DoxyAuthor}
+
+
+\doxysubsection{Function Documentation}
+\Hypertarget{motor_8c_a6dffd26d4e31650242b906056cc1b7b8}\index{motor.c@{motor.c}!set\_duty@{set\_duty}}
+\index{set\_duty@{set\_duty}!motor.c@{motor.c}}
+\doxysubsubsection{\texorpdfstring{set\_duty()}{set\_duty()}}
+{\footnotesize\ttfamily \label{motor_8c_a6dffd26d4e31650242b906056cc1b7b8} 
+void set\+\_\+duty (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{structmotor__t}{motor\+\_\+t}} \texorpdfstring{$\ast$}{*}}]{p\+\_\+mot}{, }\item[{float}]{level}{}\end{DoxyParamCaption})}
+
+
+
+Set the duty cycle of the motor. 
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em p\+\_\+mot} & Pointer to the motor object structure. \\
+\hline
+\mbox{\texttt{ in}}  & {\em level} & Desired duty cycle percentage (-\/100 to 100).\\
+\hline
+\end{DoxyParams}
+This function constrains the level to the valid range and sets the PWM duty cycle by updating the compare register pointer directly. Constrain level to valid range
+
+Initialize pulse width variables
+
+Set the PWM duty cycle by updating the compare register

@@ -1,0 +1,31 @@
+\doxysection{motorcontrol.\+h}
+\hypertarget{motorcontrol_8h_source}{}\label{motorcontrol_8h_source}\index{src/Core/Inc/motorcontrol.h@{src/Core/Inc/motorcontrol.h}}
+\mbox{\hyperlink{motorcontrol_8h}{Go to the documentation of this file.}}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{comment}{/*}}
+\DoxyCodeLine{00002\ \textcolor{comment}{\ *\ motorcontrol.h}}
+\DoxyCodeLine{00003\ \textcolor{comment}{\ *}}
+\DoxyCodeLine{00004\ \textcolor{comment}{\ *\ \ Created\ on:\ Jun\ 5,\ 2024}}
+\DoxyCodeLine{00005\ \textcolor{comment}{\ *\ \ \ \ \ \ Author:\ natha}}
+\DoxyCodeLine{00006\ \textcolor{comment}{\ */}}
+\DoxyCodeLine{00007\ }
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#ifndef\ INC\_MOTORCONTROL\_H\_}}
+\DoxyCodeLine{00009\ \textcolor{preprocessor}{\#define\ INC\_MOTORCONTROL\_H\_}}
+\DoxyCodeLine{00010\ }
+\DoxyCodeLine{00011\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{motor_8h}{motor.h}}"{}}}
+\DoxyCodeLine{00012\ \textcolor{preprocessor}{\#include\ "{}\mbox{\hyperlink{encoder_8h}{encoder.h}}"{}}}
+\DoxyCodeLine{00013\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{typedef}\ \textcolor{keyword}{struct}\{}
+\DoxyCodeLine{00016\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structcontroller__t_ae2b9268c6714c84ce1382d2f04a9f568}{Pgain\_velocity}};}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keywordtype}{float}\ \mbox{\hyperlink{structcontroller__t_a14521e49b882dc04a84316b6d48ae122}{Igain\_velocity}};}
+\DoxyCodeLine{00018\ \ \ \ \ int32\_t\ \mbox{\hyperlink{structcontroller__t_a2ef80a14a9f0d8c7dd6a51a4cd20fbcd}{velocity\_setpoint}};}
+\DoxyCodeLine{00019\ \ \ \ \ int32\_t\ \mbox{\hyperlink{structcontroller__t_a2a0421337ee09c779db9d943792c994c}{esum}};}
+\DoxyCodeLine{00020\ }
+\DoxyCodeLine{00021\ \}\mbox{\hyperlink{structcontroller__t}{controller\_t}};\ \textcolor{comment}{//controller\ instance}}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \textcolor{comment}{//\ Function\ prototypes}}
+\DoxyCodeLine{00024\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{motorcontrol_8h_a1abe75e4ac1b46a700858f52da28016d}{run\_control}}(\mbox{\hyperlink{structcontroller__t}{controller\_t}}\ *controller,\ \mbox{\hyperlink{structmotor__t}{motor\_t}}\ *motor,\ \mbox{\hyperlink{structencoder__t}{encoder\_t}}\ *encoder);}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \textcolor{preprocessor}{\#endif\ }\textcolor{comment}{/*\ INC\_MOTORCONTROL\_H\_\ */}\textcolor{preprocessor}{}}
+
+\end{DoxyCode}
