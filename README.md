@@ -4,14 +4,19 @@ Mechanical Design
 
 The mechanical design of the robot involves two main functionalities: driving and metal detecting. The robot must be able to traverse sandy terrain at walking speed. To achieve this, we chose to create a two-sides drivetrain with four wheels to achieve differential steering. One drive motor is implemented on each side. To drive, both motors spin forward or back. To turn, the motors are driven at different speeds, and the robot “skid-steers” by slipping to either side. To turn about a point, one motor can be driven forward and the other backwards. “Skid steering” is not very easy to model kinematically, but this is unnecessary due to the speed of the robot. Closed loop control is implemented to control the speed and orientation of the robot without the need for precise mechanical modeling. These motors were sourced from Pololu, with built in 48 CPR encoders. We originally chose 20.4:1 gearboxes but found that the motors did not have enough torque to reliably steer at low speeds. Instead, we implemented 227:1 gearboxes which we had from a previous project. These gearboxes allowed for responsive turning, but were slightly too slow for walking speed. For future implementations of this project, we recommend using a gearbox between 75:1 and 100:1 for a desirable torque to max speed ratio. Figure 1 shows the implementation of these motors. 
 
+![CAD](https://github.com/NathanCo2/SCUTTLE/assets/156120309/8293d7f6-936b-42b2-82cb-87f5ec497a08)
 
 Figure 1. The mechanical design of the robot, as shown in Solidworks. This includes a view of the board in green, the battery in gray, and the two drive motors in the back. 
+
 We designed 5.5 inch diameter paddle wheels to help with traversing sand while keeping the drive base high enough above the ground to climb small hills and traverse small obstacles in the sand. The wheels are 3D printed out of PLA to minimize weight.  The back wheels are directly driven by the motors, and a pulley system is implemented on each side of the drivetrain to drive the front wheels. This allows for a four wheel drive system that can better traverse difficult terrain. The pulleys are 3D printed out of carbon-fiber ASA. The axles are hex shafts with set screws to connect the motors. A good view of the entire drive system is shown in Figure 2. 
+
+![Screenshot 2024-07-07 113830](https://github.com/NathanCo2/SCUTTLE/assets/156120309/a55c9a72-98a6-46c5-95db-a67f2527206c)
 
 Figure 2. The top view of the mechanical design of the robot. 
 
 The main structure of the robot is entirely made of 3D printed carbon fiber ASA. This is mainly because we had material leftover from our senior project. The structure is divided into three pieces, with the middle piece being the main load bearing structure. This part contains slots for hex bearings that support the drivetrain. A view of this piece mid-assembly is shown in Figure 3. The structure also contains a slot for the 5200mAh battery to be velcroed into place and standoffs to bolt on our PCB. The front and back pieces were designed to be mainly cosmetic, and were shaped to look like a pirate ship to fit the theme of treasure hunting. The front piece provides mounting for the metal detector arm, while the back is purely cosmetic and mounts a cosmetic back mast. 
 
+![Screenshot 2024-07-07 113844](https://github.com/NathanCo2/SCUTTLE/assets/156120309/528e7ec6-37f3-47f5-abdc-b57646a9b88a)
 
 Figure 3. The base mid-assembly, showing the hex shafts, pulleys, and belt. 
 
@@ -19,30 +24,37 @@ The front mast contains functionality for both vision tracking and metal detecti
 
 A 3D printed adapter interfaces between the arm hex shaft and a PVC pipe, allowing the PVC pipe to rotate when the arm motor is driven. This PVC pipe then interfaces with a flat plate that contains our metal detector coils. The coils use magnet wire wound into 60 coils each, at a diameter of 15 cm. Figure 3 shows one of these coils mid-assembly. 
 
+![image5 (1)](https://github.com/NathanCo2/SCUTTLE/assets/156120309/8ec07e5f-9132-48b7-a6c9-5df179045964)
 
-Figure 3. One of the metal detector coils.
+Figure 4. One of the metal detector coils.
 Once the coils were completed, they were wrapped in electrical tape for insulation. One of the coils was then wrapped in aluminum foil for further screening, and again wrapped in electrical tape. Figure 4 shows one of the completed coils. These coils were then zip tied to the bottom of the flat plate and overlapped. Electrical connections were soldered on and the wires were sent through the arm and interfaced with our PCB. 
 
+![image3 (1)](https://github.com/NathanCo2/SCUTTLE/assets/156120309/db3d8523-f8f8-4504-9170-a934cc522a7f)
 
-Figure 4. A completed metal detector coil. 
+Figure 5. A completed metal detector coil. 
 
 Mechanically, the robot functioned perfectly, as it was able to drive and turn, while the arm was able to rotate about 150 degrees. The camera could see a person from about 12 feet away, and the electronics were neatly implemented and protected from the bulk of the elements. A picture showing the final implementation is shown in Figure 5. 
 
+![image1 (1)](https://github.com/NathanCo2/SCUTTLE/assets/156120309/0f2ae84a-9099-4d14-bceb-46ba02316ed7)
 
-Figure 5. A picture of the final SCUTTLE assembly. A clear plastic cover was integrated to protect the electronics. 
+Figure 6. A picture of the final SCUTTLE assembly. A clear plastic cover was integrated to protect the electronics. 
  
 
 Electrical Design 
 
 The electrical design involved four main functions: Microcontroller implementation, voltage regulation, metal detector circuitry, and motor driver circuitry. This was almost entirely implemented on a custom built PCB. This PCB was designed in Fusion 360, using schematic and footprint files downloaded from the internet for each component. Figures 6 and 7 show the schematic and PCB layout for our design. The main sensors on this project included the metal detector circuit, OpenMV camera, and encoders on each motor. 
 
-Figure 6. The full electrical schematic for our PCB. 
+![image4 (1)](https://github.com/NathanCo2/SCUTTLE/assets/156120309/be1c9d7f-e40d-406a-ba59-2f9f72e8b8b3)
+
+Figure 7. The full electrical schematic for our PCB. 
 
 We chose an STM32L471RGT6 microcontroller, as it has just enough timer and communication pins to implement 4 motors, 4 encoders, and the necessary ADC for our metal detector. Electrically, we connected the necessary amount of filtering capacitors, and provided 3.3V power to the board. We implemented a reset switch, along with an external 25 Mhz crystal oscillator. We also routed unused pins to external headers.
 
 To implement voltage regulation, we used a switching regulator to step down from 12V to 5V. This allows us to power our robot using an 11.1V 3S1P 5200mAh battery. An XT connector was soldered to the board to interface with this battery. The 5V was necessary to power our encoders, OpenMV camera, and the detection part of our metal detector circuitry (though we forgot to put the metal detector 5V connection in our schematic and needed to bodge wire it). We had a lot of trouble implementing our switching regulator, and ended up needing to replace the component to get it to work correctly. We used a breakout board for our 5V line for much of our debugging, but was able to solder on a working switching regulator the night before the demo. We used a linear regulator to step down from 5V to 3.3V. This was necessary to power our microcontroller. 
 
-Figure 7. The electrical full PCB layout of SCUTTLE. 
+![image6 (1)](https://github.com/NathanCo2/SCUTTLE/assets/156120309/4661e060-5728-4bed-9081-8ef6797d3a16)
+
+Figure 8. The electrical full PCB layout of SCUTTLE. 
 
 Two L6226QTR motor driver chips were implemented based on the datasheet. These motor drivers allowed us to use the microcontroller to spin two motors on each chip based on PWM inputs. We chose to implement the ability to drive four motors for redundancy and so that more motors could be implemented on the board for future projects. We misread the datasheet and mixed up the functionality of some of the motor outputs, but fortunately this mistake was easily fixed by switching some of the motor wires without modifying the board. This would need to be changed on a future iteration of this project. Four 6 pin headers were implemented to connect our motor leads and each encoder. 
 
